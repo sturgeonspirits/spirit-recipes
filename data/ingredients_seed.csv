@@ -40,12 +40,37 @@ cans_blu_vodka_seltzer,Blueberry,36,oz,no,
 cans_blu_vodka_seltzer,Lemon,54,oz,no,
 cans_blu_vodka_seltzer,Water,1590,oz,no,
 cans_blu_vodka_seltzer,Potassium Sorbate,10,tsp,no,
-cans_brandy_sour_old_fashioned,Ingredients not yet documented in this system,,,no,
-cans_apple_smash_spritz,Ingredients not yet documented in this system,,,no,
-cans_margarita,Ingredients not yet documented in this system,,,no,
-cans_cold_brew_martini,Ingredients not yet documented in this system,,,no,
-cans_lavender_gin_tonic,Ingredients not yet documented in this system,,,no,
-cans_lemon_seltzer,Ingredients not yet documented in this system,,,no,
+cans_brandy_sour_old_fashioned,Apple Brandy,34.85,cups,yes,40
+cans_brandy_sour_old_fashioned,Simple Syrup,9.96,cups,no,
+cans_brandy_sour_old_fashioned,Lemon Juice,9.96,cups,no,
+cans_brandy_sour_old_fashioned,Lime Juice,4.98,cups,no,
+cans_brandy_sour_old_fashioned,OJ,4.98,cups,no,
+cans_brandy_sour_old_fashioned,Grenadine,4.98,cups,no,
+cans_brandy_sour_old_fashioned,Water,9.69,cups,no,
+cans_brandy_sour_old_fashioned,Bitters,0.6,cups,no,
+cans_apple_smash_spritz,Apple Brandy,16.0,cups,yes,40
+cans_apple_smash_spritz,Apple Pie Liqueur,16.0,cups,no,
+cans_apple_smash_spritz,Caramel Syrup,5.33,cups,no,
+cans_apple_smash_spritz,Water,42.67,cups,no,
+cans_margarita,Osh-Gave Agave Spirit,28.22,cups,yes,40
+cans_margarita,Triple Sec,9.41,cups,yes,20
+cans_margarita,Lime Juice,9.41,cups,no,
+cans_margarita,Lemon Juice,14.11,cups,no,
+cans_margarita,Simple Syrup,4.7,cups,no,
+cans_margarita,Water,14.15,cups,no,
+cans_cold_brew_martini,Cold Brew Vodka,65.0,cups,yes,40
+cans_cold_brew_martini,Simple Syrup,15.0,cups,no,
+cans_lavender_gin_tonic,Lavender Gin,19.35,cups,yes,40
+cans_lavender_gin_tonic,Tonic Syrup,2.58,cups,no,
+cans_lavender_gin_tonic,Water,58.07,cups,no,
+cans_lemon_seltzer,Vodka,9.99,cups,yes,40
+cans_lemon_seltzer,Lemon Juice,3.33,cups,no,
+cans_lemon_seltzer,Simple Syrup,1.67,cups,no,
+cans_lemon_seltzer,Water,65.01,cups,no,
+cans_blueberry_lemon_seltzer,Vodka,9.99,cups,yes,40
+cans_blueberry_lemon_seltzer,Lemon Juice,3.33,cups,no,
+cans_blueberry_lemon_seltzer,Blueberry Syrup,3.33,cups,no,
+cans_blueberry_lemon_seltzer,Water,63.35,cups,no,
 distilled_spirit,Ingredients not yet documented in this system,,,no,
 agave_osh_gave,Agave Spirits,,,no,
 agave_cucumber,Ingredients not yet documented in this system,,,no,

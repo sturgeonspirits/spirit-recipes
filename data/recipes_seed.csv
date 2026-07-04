@@ -14,12 +14,13 @@ cans_blackberry_hard_seltzer,Blackberry Hard Seltzer (Cans),Cans,,,,,1604752,App
 cans_raspberry_lemonade,Raspberry Lemonade (Cans),Cans,,,,,1604750,Approved,05/03/2024,05/08/2024,,,,no,
 cans_nitro_espresso_martini,Nitro Espresso Martini (Cans),Cans,,,,,1605845,Approved,05/07/2024,05/10/2024,,,,no,
 cans_blu_vodka_seltzer,Blu Vodka Seltzer (Cans),Cans,1920,oz,,,,,,,,,,yes,15-gallon batch.
-cans_brandy_sour_old_fashioned,Brandy Sour Old Fashioned (Cans),Cans,,,,,1654478,Approved,04/24/2025,04/24/2025,,,,no,
-cans_apple_smash_spritz,Apple Smash Spritz (Cans),Cans,,,,,1654488,Approved,04/24/2025,04/24/2025,,,,no,
-cans_margarita,Margarita (Cans),Cans,,,,,1655278,Approved,05/03/2025,05/06/2025,,,,no,
-cans_cold_brew_martini,Cold Brew Martini (Cans),Cans,,,,,,,,,,,,no,
-cans_lavender_gin_tonic,Lavender Gin & Tonic (Cans),Cans,,,,,1627108,Approved,07/11/2024,07/15/2024,,,,no,
-cans_lemon_seltzer,Lemon Seltzer (Cans),Cans,,,,,1658355,Approved,06/09/2025,06/12/2025,,,,no,
+cans_brandy_sour_old_fashioned,Brandy Sour Old Fashioned (Cans),Cans,80,cups,12.5,,1654478,Approved,04/24/2025,04/24/2025,,,,yes,5-gallon batch.
+cans_apple_smash_spritz,Apple Smash Spritz (Cans),Cans,80,cups,15.0,,1654488,Approved,04/24/2025,04/24/2025,,,,yes,5-gallon batch.
+cans_margarita,Margarita (Cans),Cans,80,cups,13.0,,1655278,Approved,05/03/2025,05/06/2025,,,,yes,5-gallon batch.
+cans_cold_brew_martini,Cold Brew Martini (Cans),Cans,80,cups,20.0,,,,,,,,,yes,5-gallon batch.
+cans_lavender_gin_tonic,Lavender Gin & Tonic (Cans),Cans,80,cups,15.0,,1627108,Approved,07/11/2024,07/15/2024,,,,yes,5-gallon batch.
+cans_lemon_seltzer,Lemon Seltzer (Cans),Cans,80,cups,5.0,,1658355,Approved,06/09/2025,06/12/2025,,,,yes,5-gallon batch.
+cans_blueberry_lemon_seltzer,Blueberry Lemon Seltzer (Cans),Cans,80,cups,5.0,,,,,,,,,yes,5-gallon batch.
 distilled_spirit,Distilled Spirit,Distilled Spirit,,,,,,,,,,,,no,
 agave_osh_gave,Osh • Gave (Agave),Agave,,,40.0,23AGA1,,,,,23193001000731,APPROVED,07/14/2023,no,Statement of composition: Agave Spirits
 agave_cucumber,Cucumber (Agave),Agave,,,,,,,,,,,,no,

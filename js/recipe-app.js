@@ -22,6 +22,7 @@
   }
   recipe.ingredients = (recipe.ingredients || []).map(i => ({
     ...i,
+    name: i.name || i.ingredient_name || "",
     is_alcohol: i.is_alcohol === true || i.is_alcohol === "yes" || i.is_alcohol === "TRUE"
   }));
 
