@@ -1,0 +1,7575 @@
+[
+  {
+    "recipe_id": "bitters_orange_thielen_style_bitters",
+    "name": "Orange- Thielen Style Bitters (Bitters)",
+    "category": "Bitters",
+    "batch_size": 500,
+    "batch_unit": "mL",
+    "abv_percent": 93.0,
+    "label_serial_internal": 230006.0,
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "yes",
+    "notes": "Statement of composition: cloves, orange peels, allspice, coriander, cardamon | 93% alcohol base.",
+    "ingredients": [
+      {
+        "name": "Alcohol (93%)",
+        "amount": 500,
+        "unit": "mL",
+        "is_alcohol": true,
+        "abv_percent": 93
+      },
+      {
+        "name": "Oranges (peeled, dehydrated)",
+        "amount": 4,
+        "unit": "each",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Allspice",
+        "amount": 1,
+        "unit": "tbsp",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Cloves",
+        "amount": 1,
+        "unit": "tbsp",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Coriander",
+        "amount": 1,
+        "unit": "tbsp",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Cardamom",
+        "amount": 1,
+        "unit": "tbsp",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "bitters_grapefruit",
+    "name": "Grapefruit (Bitters)",
+    "category": "Bitters",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": 93.0,
+    "label_serial_internal": "23GFB1",
+    "ttb_formula_number": "1667219",
+    "ttb_formula_status": "Approved",
+    "ttb_formula_submitted": "09/26/2025",
+    "ttb_formula_approved": "11/13/2025",
+    "ttb_label_cola_id": 23264001000853,
+    "ttb_label_status": "APPROVED",
+    "ttb_label_date": "09/27/2023",
+    "has_detailed_recipe": "no",
+    "notes": "Statement of composition: Grapefruit Bitters",
+    "ingredients": [
+      {
+        "name": "Grapefruit Bitters",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "bitters_lemon",
+    "name": "Lemon (Bitters)",
+    "category": "Bitters",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "bitters_oak",
+    "name": "Oak (Bitters)",
+    "category": "Bitters",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "bitters_rhubarb",
+    "name": "Rhubarb (Bitters)",
+    "category": "Bitters",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "bitters_walnut",
+    "name": "Walnut (Bitters)",
+    "category": "Bitters",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "cans_fat_golfer",
+    "name": "Fat Golfer (Cans)",
+    "category": "Cans",
+    "batch_size": 3062.87,
+    "batch_unit": "mL",
+    "abv_percent": 5.0,
+    "label_serial_internal": "23STL1",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": 23264001000423,
+    "ttb_label_status": "APPROVED",
+    "ttb_label_date": "10/02/2023",
+    "has_detailed_recipe": "yes",
+    "notes": "Statement of composition: Sweet Tea Flavored Vodka with Natural Flavor | Test batch 1; steep tea twice.",
+    "ingredients": [
+      {
+        "name": "Sweet Tea",
+        "amount": 7,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Lemonade",
+        "amount": 5.25,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "GNS",
+        "amount": 164.7,
+        "unit": "mL",
+        "is_alcohol": true,
+        "abv_percent": 93
+      }
+    ]
+  },
+  {
+    "recipe_id": "cans_mango_collins",
+    "name": "Mango Collins (Cans)",
+    "category": "Cans",
+    "batch_size": 80,
+    "batch_unit": "cups",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "1612960",
+    "ttb_formula_status": "Approved",
+    "ttb_formula_submitted": "05/23/2024",
+    "ttb_formula_approved": "05/23/2024",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "yes",
+    "notes": "5-gallon batch.",
+    "ingredients": [
+      {
+        "name": "Vodka",
+        "amount": 10,
+        "unit": "cups",
+        "is_alcohol": true,
+        "abv_percent": 40
+      },
+      {
+        "name": "Simple Syrup",
+        "amount": 3.36,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Mango Extract",
+        "amount": 0.48,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Lemon Juice",
+        "amount": 2.24,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Water",
+        "amount": 63.92,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "cans_grape_popcicle",
+    "name": "Grape Popcicle (Cans)",
+    "category": "Cans",
+    "batch_size": 80,
+    "batch_unit": "cups",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "yes",
+    "notes": "5-gallon batch.",
+    "ingredients": [
+      {
+        "name": "Cranberry Vodka",
+        "amount": 11.43,
+        "unit": "cups",
+        "is_alcohol": true,
+        "abv_percent": 35
+      },
+      {
+        "name": "Simple Syrup",
+        "amount": 3.36,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Grape Extract",
+        "amount": 0.96,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Lemon Juice",
+        "amount": 2.24,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Water",
+        "amount": 62.01,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "cans_fresh_kosh",
+    "name": "Fresh-Kosh (Cans)",
+    "category": "Cans",
+    "batch_size": 80,
+    "batch_unit": "cups",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "yes",
+    "notes": "5-gallon batch, grapefruit-lime gin base.",
+    "ingredients": [
+      {
+        "name": "Gin",
+        "amount": 10,
+        "unit": "cups",
+        "is_alcohol": true,
+        "abv_percent": 40
+      },
+      {
+        "name": "Grapefruit-Lime Mix",
+        "amount": 0.96,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Simple Syrup",
+        "amount": 3.36,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Water",
+        "amount": 65.68,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "cans_cherry_limeade",
+    "name": "Cherry Limeade (Cans)",
+    "category": "Cans",
+    "batch_size": 80,
+    "batch_unit": "cups",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "1612958",
+    "ttb_formula_status": "Approved",
+    "ttb_formula_submitted": "05/23/2024",
+    "ttb_formula_approved": "05/23/2024",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "yes",
+    "notes": "5-gallon batch.",
+    "ingredients": [
+      {
+        "name": "Cherry Vodka",
+        "amount": 11.43,
+        "unit": "cups",
+        "is_alcohol": true,
+        "abv_percent": 35
+      },
+      {
+        "name": "Simple Syrup",
+        "amount": 3.36,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Cherry Extract",
+        "amount": 0.96,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Lime Juice",
+        "amount": 2.24,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Water",
+        "amount": 62.01,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "cans_blackberry_hard_seltzer",
+    "name": "Blackberry Hard Seltzer (Cans)",
+    "category": "Cans",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "1604752",
+    "ttb_formula_status": "Approved",
+    "ttb_formula_submitted": "05/03/2024",
+    "ttb_formula_approved": "05/09/2024",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "cans_raspberry_lemonade",
+    "name": "Raspberry Lemonade (Cans)",
+    "category": "Cans",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "1604750",
+    "ttb_formula_status": "Approved",
+    "ttb_formula_submitted": "05/03/2024",
+    "ttb_formula_approved": "05/08/2024",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "cans_nitro_espresso_martini",
+    "name": "Nitro Espresso Martini (Cans)",
+    "category": "Cans",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "1605845",
+    "ttb_formula_status": "Approved",
+    "ttb_formula_submitted": "05/07/2024",
+    "ttb_formula_approved": "05/10/2024",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "cans_blu_vodka_seltzer",
+    "name": "Blu Vodka Seltzer (Cans)",
+    "category": "Cans",
+    "batch_size": 1920,
+    "batch_unit": "oz",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "yes",
+    "notes": "15-gallon batch.",
+    "ingredients": [
+      {
+        "name": "Vodka",
+        "amount": 240,
+        "unit": "oz",
+        "is_alcohol": true,
+        "abv_percent": 40
+      },
+      {
+        "name": "Blueberry",
+        "amount": 36,
+        "unit": "oz",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Lemon",
+        "amount": 54,
+        "unit": "oz",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Water",
+        "amount": 1590,
+        "unit": "oz",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Potassium Sorbate",
+        "amount": 10,
+        "unit": "tsp",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "cans_brandy_sour_old_fashioned",
+    "name": "Brandy Sour Old Fashioned (Cans)",
+    "category": "Cans",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "1654478",
+    "ttb_formula_status": "Approved",
+    "ttb_formula_submitted": "04/24/2025",
+    "ttb_formula_approved": "04/24/2025",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "cans_apple_smash_spritz",
+    "name": "Apple Smash Spritz (Cans)",
+    "category": "Cans",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "1654488",
+    "ttb_formula_status": "Approved",
+    "ttb_formula_submitted": "04/24/2025",
+    "ttb_formula_approved": "04/24/2025",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "cans_margarita",
+    "name": "Margarita (Cans)",
+    "category": "Cans",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "1655278",
+    "ttb_formula_status": "Approved",
+    "ttb_formula_submitted": "05/03/2025",
+    "ttb_formula_approved": "05/06/2025",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "cans_cold_brew_martini",
+    "name": "Cold Brew Martini (Cans)",
+    "category": "Cans",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "cans_lavender_gin_tonic",
+    "name": "Lavender Gin & Tonic (Cans)",
+    "category": "Cans",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "1627108",
+    "ttb_formula_status": "Approved",
+    "ttb_formula_submitted": "07/11/2024",
+    "ttb_formula_approved": "07/15/2024",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "cans_lemon_seltzer",
+    "name": "Lemon Seltzer (Cans)",
+    "category": "Cans",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "1658355",
+    "ttb_formula_status": "Approved",
+    "ttb_formula_submitted": "06/09/2025",
+    "ttb_formula_approved": "06/12/2025",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "distilled_spirit",
+    "name": "Distilled Spirit",
+    "category": "Distilled Spirit",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "agave_osh_gave",
+    "name": "Osh \u2022 Gave (Agave)",
+    "category": "Agave",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": 40.0,
+    "label_serial_internal": "23AGA1",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": 23193001000731,
+    "ttb_label_status": "APPROVED",
+    "ttb_label_date": "07/14/2023",
+    "has_detailed_recipe": "no",
+    "notes": "Statement of composition: Agave Spirits",
+    "ingredients": [
+      {
+        "name": "Agave Spirits",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "agave_cucumber",
+    "name": "Cucumber (Agave)",
+    "category": "Agave",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "agave_cucumber_jalapeno",
+    "name": "Cucumber Jalapeno (Agave)",
+    "category": "Agave",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "1620664",
+    "ttb_formula_status": "Approved",
+    "ttb_formula_submitted": "06/14/2024",
+    "ttb_formula_approved": "06/18/2024",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "agave_jalapeno",
+    "name": "Jalapeno (Agave)",
+    "category": "Agave",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": 40.0,
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "Statement of composition: Jalapeno Flavored Agave Spirits",
+    "ingredients": [
+      {
+        "name": "Jalapeno Flavored Agave Spirits",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "agave_raspberry",
+    "name": "Raspberry (Agave)",
+    "category": "Agave",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "agave_habanero_lime",
+    "name": "Habanero Lime (Agave)",
+    "category": "Agave",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "1658694",
+    "ttb_formula_status": "Approved",
+    "ttb_formula_submitted": "06/12/2025",
+    "ttb_formula_approved": "06/23/2025",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "agave_resposado_aged",
+    "name": "Resposado (Aged) (Agave)",
+    "category": "Agave",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "aquavit_aquavit",
+    "name": "Aquavit (Aquavit)",
+    "category": "Aquavit",
+    "batch_size": 750,
+    "batch_unit": "mL",
+    "abv_percent": 35.0,
+    "label_serial_internal": "23AQV1",
+    "ttb_formula_number": "1557108",
+    "ttb_formula_status": "Approved",
+    "ttb_formula_submitted": "11/09/2023",
+    "ttb_formula_approved": "11/14/2023",
+    "ttb_label_cola_id": 23305001000689,
+    "ttb_label_status": "APPROVED",
+    "ttb_label_date": "11/15/2023",
+    "has_detailed_recipe": "yes",
+    "notes": "Statement of composition: Aquavit (Craft Distilled) | ",
+    "ingredients": [
+      {
+        "name": "Vodka",
+        "amount": 750,
+        "unit": "mL",
+        "is_alcohol": true,
+        "abv_percent": 40
+      },
+      {
+        "name": "Dried Dill",
+        "amount": 1,
+        "unit": "tsp",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Star Anise",
+        "amount": 2,
+        "unit": "each",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Wild Fennel Pollen",
+        "amount": 1,
+        "unit": "tsp",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Celery Seed",
+        "amount": 0.67,
+        "unit": "tsp",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Dried Lemon Peel",
+        "amount": 1,
+        "unit": "tsp",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Peeled Cucumber Slices",
+        "amount": 100,
+        "unit": "g",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "aquavit_aquavit_swedish",
+    "name": "Aquavit Swedish (Aquavit)",
+    "category": "Aquavit",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": 35.0,
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "distilled_spirit_vixen_stout",
+    "name": "Vixen Stout (Distilled Spirit)",
+    "category": "Distilled Spirit",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": 40.0,
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "Statement of composition: distilled specialty spirit",
+    "ingredients": [
+      {
+        "name": "distilled specialty spirit",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "distilled_spirit_fifth_ward_spirit",
+    "name": "Fifth Ward Spirit (Distilled Spirit)",
+    "category": "Distilled Spirit",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "distilled_spirit_rhubarb",
+    "name": "Rhubarb (Distilled Spirit)",
+    "category": "Distilled Spirit",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "brandy_apple_brandy",
+    "name": "Apple Brandy (Brandy)",
+    "category": "Brandy",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": 40.0,
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "Statement of composition: Apple Brandy",
+    "ingredients": [
+      {
+        "name": "Apple Brandy",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "brandy_ziegler_wine",
+    "name": "Ziegler Wine (Brandy)",
+    "category": "Brandy",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "gin_original",
+    "name": "Original (Gin)",
+    "category": "Gin",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": 40.0,
+    "label_serial_internal": "22GIN1",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": 22321001000759,
+    "ttb_label_status": "APPROVED",
+    "ttb_label_date": "11/25/2022",
+    "has_detailed_recipe": "no",
+    "notes": "Statement of composition: Made from 100% Grain",
+    "ingredients": [
+      {
+        "name": "Made from 100% Grain",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "gin_blood_orange",
+    "name": "Blood Orange (Gin)",
+    "category": "Gin",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": 40.0,
+    "label_serial_internal": "23ORG1",
+    "ttb_formula_number": "1539281",
+    "ttb_formula_status": "Approved",
+    "ttb_formula_submitted": "04/21/2023",
+    "ttb_formula_approved": "04/27/2023",
+    "ttb_label_cola_id": 23118001000603,
+    "ttb_label_status": "APPROVED",
+    "ttb_label_date": "05/02/2023",
+    "has_detailed_recipe": "no",
+    "notes": "Statement of composition: Blood Orange Flavored Gin",
+    "ingredients": [
+      {
+        "name": "Blood Orange Flavored Gin",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "gin_blueberry",
+    "name": "Blueberry (Gin)",
+    "category": "Gin",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": 40.0,
+    "label_serial_internal": "23BBG1",
+    "ttb_formula_number": "1551498",
+    "ttb_formula_status": "Approved",
+    "ttb_formula_submitted": "09/07/2023",
+    "ttb_formula_approved": "09/11/2023",
+    "ttb_label_cola_id": 23278001001013,
+    "ttb_label_status": "APPROVED",
+    "ttb_label_date": "10/23/2023",
+    "has_detailed_recipe": "no",
+    "notes": "Statement of composition: Gin with Blueberries",
+    "ingredients": [
+      {
+        "name": "Gin with Blueberries",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "gin_caravan",
+    "name": "Caravan (Gin)",
+    "category": "Gin",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "gin_caravan_2",
+    "name": "Caravan 2 (Gin)",
+    "category": "Gin",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "gin_cucumber_rosemary",
+    "name": "Cucumber Rosemary (Gin)",
+    "category": "Gin",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": 35.0,
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "gin_elderberry",
+    "name": "Elderberry (Gin)",
+    "category": "Gin",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "gin_grapefruit",
+    "name": "Grapefruit (Gin)",
+    "category": "Gin",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": 35.0,
+    "label_serial_internal": "",
+    "ttb_formula_number": "1667219",
+    "ttb_formula_status": "Approved",
+    "ttb_formula_submitted": "09/26/2025",
+    "ttb_formula_approved": "11/13/2025",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "gin_key_lime",
+    "name": "Key Lime (Gin)",
+    "category": "Gin",
+    "batch_size": 750,
+    "batch_unit": "mL",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "1639757",
+    "ttb_formula_status": "Approved",
+    "ttb_formula_submitted": "10/26/2024",
+    "ttb_formula_approved": "10/29/2024",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "yes",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Gin/Vodka base",
+        "amount": 750,
+        "unit": "mL",
+        "is_alcohol": true,
+        "abv_percent": 40
+      },
+      {
+        "name": "Key Limes",
+        "amount": 1,
+        "unit": "lb",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "gin_lavender",
+    "name": "Lavender (Gin)",
+    "category": "Gin",
+    "batch_size": 750,
+    "batch_unit": "mL",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "1627108",
+    "ttb_formula_status": "Approved",
+    "ttb_formula_submitted": "07/11/2024",
+    "ttb_formula_approved": "07/15/2024",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "yes",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Gin",
+        "amount": 750,
+        "unit": "mL",
+        "is_alcohol": true,
+        "abv_percent": 40
+      },
+      {
+        "name": "Lavender",
+        "amount": 0.25,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "gin_mushroom",
+    "name": "Mushroom (Gin)",
+    "category": "Gin",
+    "batch_size": 1500,
+    "batch_unit": "mL",
+    "abv_percent": 40.0,
+    "label_serial_internal": "23MSH1",
+    "ttb_formula_number": "1539935",
+    "ttb_formula_status": "Approved",
+    "ttb_formula_submitted": "04/27/2023",
+    "ttb_formula_approved": "05/05/2023",
+    "ttb_label_cola_id": 23139001000793,
+    "ttb_label_status": "APPROVED",
+    "ttb_label_date": "05/23/2023",
+    "has_detailed_recipe": "yes",
+    "notes": "Statement of composition: Gin with Mushrooms | Infuse ~3 weeks.",
+    "ingredients": [
+      {
+        "name": "Gin",
+        "amount": 1500,
+        "unit": "mL",
+        "is_alcohol": true,
+        "abv_percent": 40
+      },
+      {
+        "name": "Dried Button Mushrooms",
+        "amount": 0.33,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "gin_orange",
+    "name": "Orange (Gin)",
+    "category": "Gin",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": 35.0,
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "gin_butterfly_pea_blossom",
+    "name": "Butterfly (Pea Blossom) (Gin)",
+    "category": "Gin",
+    "batch_size": 5,
+    "batch_unit": "gal",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "yes",
+    "notes": "Steep 24 hours.",
+    "ingredients": [
+      {
+        "name": "Gin",
+        "amount": 5,
+        "unit": "gal",
+        "is_alcohol": true,
+        "abv_percent": 40
+      },
+      {
+        "name": "Butterfly Pea Blossoms",
+        "amount": 3,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "gin_plum",
+    "name": "Plum (Gin)",
+    "category": "Gin",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "Statement of composition: Gin with Plums",
+    "ingredients": [
+      {
+        "name": "Gin with Plums",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "gin_rhubarb",
+    "name": "Rhubarb (Gin)",
+    "category": "Gin",
+    "batch_size": 600,
+    "batch_unit": "mL",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "yes",
+    "notes": "Macerate rhubarb+sugar 1 day before adding gin. Steep 1-4 weeks.",
+    "ingredients": [
+      {
+        "name": "Gin",
+        "amount": 600,
+        "unit": "mL",
+        "is_alcohol": true,
+        "abv_percent": 40
+      },
+      {
+        "name": "Rhubarb Stalks",
+        "amount": 400,
+        "unit": "g",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Sugar",
+        "amount": 655,
+        "unit": "g",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "gin_rosemary_basil",
+    "name": "Rosemary Basil (Gin)",
+    "category": "Gin",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": 40.0,
+    "label_serial_internal": "23RBG1",
+    "ttb_formula_number": "1543757",
+    "ttb_formula_status": "Approved",
+    "ttb_formula_submitted": "06/09/2023",
+    "ttb_formula_approved": "06/15/2023",
+    "ttb_label_cola_id": 23252001000079,
+    "ttb_label_status": "APPROVED",
+    "ttb_label_date": "09/14/2023",
+    "has_detailed_recipe": "no",
+    "notes": "Statement of composition: Gin with Rosemary and Basil",
+    "ingredients": [
+      {
+        "name": "Gin with Rosemary and Basil",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "gin_giamatta_pepper",
+    "name": "Giamatta Pepper (Gin)",
+    "category": "Gin",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "gin_sloe",
+    "name": "Sloe (Gin)",
+    "category": "Gin",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "gin_sage",
+    "name": "Sage (Gin)",
+    "category": "Gin",
+    "batch_size": 750,
+    "batch_unit": "mL",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "yes",
+    "notes": "Ratio not fully legible in notes.",
+    "ingredients": [
+      {
+        "name": "Gin",
+        "amount": 750,
+        "unit": "mL",
+        "is_alcohol": true,
+        "abv_percent": 40
+      },
+      {
+        "name": "Sage (qty not legible)",
+        "amount": 1,
+        "unit": "each",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "gin_spitfire",
+    "name": "Spitfire (Gin)",
+    "category": "Gin",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "gin_thyme",
+    "name": "Thyme (Gin)",
+    "category": "Gin",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "liqueur_amaretto",
+    "name": "Amaretto (Liqueur)",
+    "category": "Liqueur",
+    "batch_size": 5.83,
+    "batch_unit": "cups",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "1644652",
+    "ttb_formula_status": "Approved",
+    "ttb_formula_submitted": "01/03/2025",
+    "ttb_formula_approved": "01/07/2025",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "yes",
+    "notes": "Bigger-batch multipliers in notebook - re-verify before scaling large.",
+    "ingredients": [
+      {
+        "name": "Water",
+        "amount": 1.5,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Sugar",
+        "amount": 1,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Dark Brown Sugar",
+        "amount": 0.33,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Almond Extract",
+        "amount": 2,
+        "unit": "tbsp",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Vanilla Extract",
+        "amount": 3,
+        "unit": "tbsp",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Vodka",
+        "amount": 2,
+        "unit": "cups",
+        "is_alcohol": true,
+        "abv_percent": 40
+      }
+    ]
+  },
+  {
+    "recipe_id": "liqueur_apple_pie",
+    "name": "Apple Pie (Liqueur)",
+    "category": "Liqueur",
+    "batch_size": 2,
+    "batch_unit": "qt",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "1632459",
+    "ttb_formula_status": "Approved",
+    "ttb_formula_submitted": "08/01/2024",
+    "ttb_formula_approved": "08/02/2024",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "yes",
+    "notes": "Boil cider+juice 5-10 min; cool before adding GNS.",
+    "ingredients": [
+      {
+        "name": "Apple Cider",
+        "amount": 1,
+        "unit": "qt",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Apple Juice",
+        "amount": 1,
+        "unit": "qt",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Sugar",
+        "amount": 3,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Cinnamon Sticks",
+        "amount": 8,
+        "unit": "each",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "GNS",
+        "amount": 1,
+        "unit": "qt",
+        "is_alcohol": true,
+        "abv_percent": 93
+      }
+    ]
+  },
+  {
+    "recipe_id": "liqueur_aperol",
+    "name": "Aperol (Liqueur)",
+    "category": "Liqueur",
+    "batch_size": 950,
+    "batch_unit": "mL",
+    "abv_percent": "abt 20",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "yes",
+    "notes": "Orange peel stands 48h, sugar stands 24h.",
+    "ingredients": [
+      {
+        "name": "Vodka",
+        "amount": 300,
+        "unit": "mL",
+        "is_alcohol": true,
+        "abv_percent": 40
+      },
+      {
+        "name": "Water",
+        "amount": 300,
+        "unit": "mL",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Orange Peels",
+        "amount": 3,
+        "unit": "each",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Bitter Orange Peel",
+        "amount": 3,
+        "unit": "tbsp",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Sugar",
+        "amount": 300,
+        "unit": "g",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "liqueur_blue_cura_ao",
+    "name": "Blue Cura\u00e7ao (Liqueur)",
+    "category": "Liqueur",
+    "batch_size": 2000,
+    "batch_unit": "mL",
+    "abv_percent": "abt 20",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "yes",
+    "notes": "Statement of composition: Hand Crafted | ",
+    "ingredients": [
+      {
+        "name": "Vodka",
+        "amount": 1000,
+        "unit": "mL",
+        "is_alcohol": true,
+        "abv_percent": 40
+      },
+      {
+        "name": "Gin",
+        "amount": 1000,
+        "unit": "mL",
+        "is_alcohol": true,
+        "abv_percent": 40
+      },
+      {
+        "name": "Orange Zest",
+        "amount": 12,
+        "unit": "each",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Dried Bitter Orange Peel",
+        "amount": 4,
+        "unit": "tbsp",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Cloves",
+        "amount": 32,
+        "unit": "each",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Sugar",
+        "amount": 8,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Water",
+        "amount": 6,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "liqueur_campari",
+    "name": "Campari (Liqueur)",
+    "category": "Liqueur",
+    "batch_size": 1000,
+    "batch_unit": "mL",
+    "abv_percent": "abt 20",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "yes",
+    "notes": "Steep 2 weeks; finish with sugar syrup to taste.",
+    "ingredients": [
+      {
+        "name": "Alcohol (93%)",
+        "amount": 1000,
+        "unit": "mL",
+        "is_alcohol": true,
+        "abv_percent": 93
+      },
+      {
+        "name": "Gentian Root",
+        "amount": 30,
+        "unit": "g",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Dried Lemon Peel",
+        "amount": 20,
+        "unit": "g",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Rhubarb Root",
+        "amount": 20,
+        "unit": "g",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Angelica Root",
+        "amount": 15,
+        "unit": "g",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Wormwood",
+        "amount": 10,
+        "unit": "g",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Dried Ginseng Root",
+        "amount": 10,
+        "unit": "g",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Cherry Bark",
+        "amount": 10,
+        "unit": "g",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Orange Peel",
+        "amount": 1,
+        "unit": "each",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Grapefruit Peel",
+        "amount": 1,
+        "unit": "each",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Finishing Sugar",
+        "amount": 2.5,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Finishing Water",
+        "amount": 4,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "liqueur_chocolate",
+    "name": "Chocolate (Liqueur)",
+    "category": "Liqueur",
+    "batch_size": 750,
+    "batch_unit": "mL",
+    "abv_percent": 30.0,
+    "label_serial_internal": "23CHO1",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": 23252001000076,
+    "ttb_label_status": "APPROVED",
+    "ttb_label_date": "09/21/2023",
+    "has_detailed_recipe": "yes",
+    "notes": "Statement of composition: Hand Crafted | Heat cocoa+water+sugar; cool fully before adding alcohol.",
+    "ingredients": [
+      {
+        "name": "Cocoa Powder",
+        "amount": 0.25,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Water",
+        "amount": 2,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Sugar",
+        "amount": 1,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Vodka (60%)",
+        "amount": 1,
+        "unit": "cups",
+        "is_alcohol": true,
+        "abv_percent": 60
+      }
+    ]
+  },
+  {
+    "recipe_id": "liqueur_coffee",
+    "name": "Coffee (Liqueur)",
+    "category": "Liqueur",
+    "batch_size": 6390,
+    "batch_unit": "mL",
+    "abv_percent": 35.0,
+    "label_serial_internal": "23SCL1",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": 23005001000939,
+    "ttb_label_status": "APPROVED",
+    "ttb_label_date": "01/11/2023",
+    "has_detailed_recipe": "yes",
+    "notes": "Statement of composition: Hand Crafted | Smaller/10-case batches also recorded in notebook.",
+    "ingredients": [
+      {
+        "name": "Instant Coffee",
+        "amount": 12,
+        "unit": "oz",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Sugar",
+        "amount": 10,
+        "unit": "lb",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Vanilla Syrup",
+        "amount": 0.25,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Hot Water",
+        "amount": 24,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Alcohol (60%)",
+        "amount": 27,
+        "unit": "cups",
+        "is_alcohol": true,
+        "abv_percent": 60
+      }
+    ]
+  },
+  {
+    "recipe_id": "liqueur_decaf_coffee",
+    "name": "Decaf Coffee (Liqueur)",
+    "category": "Liqueur",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "liqueur_coquito",
+    "name": "Coquito (Liqueur)",
+    "category": "Liqueur",
+    "batch_size": 3300,
+    "batch_unit": "mL",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "yes",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Alcohol (93%)",
+        "amount": 1000,
+        "unit": "mL",
+        "is_alcohol": true,
+        "abv_percent": 93
+      },
+      {
+        "name": "Evaporated Milk",
+        "amount": 12,
+        "unit": "oz",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Cream of Coconut",
+        "amount": 15,
+        "unit": "oz",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Sweetened Condensed Milk",
+        "amount": 14,
+        "unit": "oz",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Unsweetened Coconut Milk",
+        "amount": 13.5,
+        "unit": "oz",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Water",
+        "amount": 8,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "liqueur_creme_de_menthe",
+    "name": "Creme De Menthe (Liqueur)",
+    "category": "Liqueur",
+    "batch_size": 13,
+    "batch_unit": "cups",
+    "abv_percent": 25.0,
+    "label_serial_internal": "24cdm1",
+    "ttb_formula_number": "1563761",
+    "ttb_formula_status": "Approved",
+    "ttb_formula_submitted": "12/27/2023",
+    "ttb_formula_approved": "12/28/2023",
+    "ttb_label_cola_id": 24009001000613,
+    "ttb_label_status": "APPROVED",
+    "ttb_label_date": "01/10/2024",
+    "has_detailed_recipe": "yes",
+    "notes": "Statement of composition: Hand Crafted | Steep vodka on mint first.",
+    "ingredients": [
+      {
+        "name": "Mint Leaves",
+        "amount": 3,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Vodka",
+        "amount": 3,
+        "unit": "cups",
+        "is_alcohol": true,
+        "abv_percent": 40
+      },
+      {
+        "name": "Sugar",
+        "amount": 3,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Water",
+        "amount": 4,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "liqueur_elderflower",
+    "name": "Elderflower (Liqueur)",
+    "category": "Liqueur",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "liqueur_honey",
+    "name": "Honey (Liqueur)",
+    "category": "Liqueur",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "liqueur_irish_cream",
+    "name": "Irish Cream (Liqueur)",
+    "category": "Liqueur",
+    "batch_size": 750,
+    "batch_unit": "mL",
+    "abv_percent": "abt 20",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "yes",
+    "notes": "Double for a bigger batch.",
+    "ingredients": [
+      {
+        "name": "Half & Half",
+        "amount": 1,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Sweetened Condensed Milk",
+        "amount": 14,
+        "unit": "oz",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Chocolate Syrup",
+        "amount": 3,
+        "unit": "tbsp",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Instant Coffee",
+        "amount": 1.5,
+        "unit": "tsp",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Vanilla Extract",
+        "amount": 1,
+        "unit": "tsp",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Irish Whiskey",
+        "amount": 375,
+        "unit": "mL",
+        "is_alcohol": true,
+        "abv_percent": 40
+      }
+    ]
+  },
+  {
+    "recipe_id": "liqueur_limoncello",
+    "name": "Limoncello (Liqueur)",
+    "category": "Liqueur",
+    "batch_size": 750,
+    "batch_unit": "mL",
+    "abv_percent": 35.0,
+    "label_serial_internal": "24lco1",
+    "ttb_formula_number": "1558793",
+    "ttb_formula_status": "Approved",
+    "ttb_formula_submitted": "12/03/2023",
+    "ttb_formula_approved": "12/05/2023",
+    "ttb_label_cola_id": 24009001000610,
+    "ttb_label_status": "APPROVED",
+    "ttb_label_date": "01/19/2024",
+    "has_detailed_recipe": "yes",
+    "notes": "10 lemon peels soak 2 weeks.",
+    "ingredients": [
+      {
+        "name": "Vodka or GNS",
+        "amount": 750,
+        "unit": "mL",
+        "is_alcohol": true,
+        "abv_percent": 40
+      },
+      {
+        "name": "Lemon Peels",
+        "amount": 10,
+        "unit": "each",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Water",
+        "amount": 3.5,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Sugar",
+        "amount": 2.5,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "liqueur_limoncello_max",
+    "name": "Limoncello Max (Liqueur)",
+    "category": "Liqueur",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "1558793",
+    "ttb_formula_status": "Approved",
+    "ttb_formula_submitted": "12/03/2023",
+    "ttb_formula_approved": "12/05/2023",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "liqueur_maraschino",
+    "name": "Maraschino (Liqueur)",
+    "category": "Liqueur",
+    "batch_size": 1750,
+    "batch_unit": "mL",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "yes",
+    "notes": "Steep 1 month.",
+    "ingredients": [
+      {
+        "name": "Vodka",
+        "amount": 1750,
+        "unit": "mL",
+        "is_alcohol": true,
+        "abv_percent": 40
+      },
+      {
+        "name": "Dark Pitted Cherries",
+        "amount": 4,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Sugar",
+        "amount": 2,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "liqueur_melon",
+    "name": "Melon (Liqueur)",
+    "category": "Liqueur",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "abt 20",
+    "label_serial_internal": "23GML1",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": 23261001000847,
+    "ttb_label_status": "APPROVED",
+    "ttb_label_date": "09/25/2023",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "liqueur_pumpkin_spice",
+    "name": "Pumpkin Spice (Liqueur)",
+    "category": "Liqueur",
+    "batch_size": 1,
+    "batch_unit": "gal",
+    "abv_percent": 30.0,
+    "label_serial_internal": "23PKSL",
+    "ttb_formula_number": "1550384",
+    "ttb_formula_status": "Approved",
+    "ttb_formula_submitted": "08/25/2023",
+    "ttb_formula_approved": "08/27/2023",
+    "ttb_label_cola_id": 23305001000671,
+    "ttb_label_status": "APPROVED",
+    "ttb_label_date": "11/06/2023",
+    "has_detailed_recipe": "yes",
+    "notes": "Toast spices first; 8-day steep.",
+    "ingredients": [
+      {
+        "name": "Vodka base",
+        "amount": 1,
+        "unit": "gal",
+        "is_alcohol": true,
+        "abv_percent": 40
+      },
+      {
+        "name": "Pumpkin Spice Blend",
+        "amount": 1,
+        "unit": "batch",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "liqueur_rhubarb",
+    "name": "Rhubarb (Liqueur)",
+    "category": "Liqueur",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "liqueur_root_beer",
+    "name": "Root Beer (Liqueur)",
+    "category": "Liqueur",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "liqueur_strawberry_rhubarb",
+    "name": "Strawberry Rhubarb (Liqueur)",
+    "category": "Liqueur",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": 35.0,
+    "label_serial_internal": "23SRB",
+    "ttb_formula_number": "1543167",
+    "ttb_formula_status": "Approved",
+    "ttb_formula_submitted": "06/05/2023",
+    "ttb_formula_approved": "06/12/2023",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "Statement of composition: Hand Crafted",
+    "ingredients": [
+      {
+        "name": "Hand Crafted",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "liqueur_triple_sec",
+    "name": "Triple Sec (Liqueur)",
+    "category": "Liqueur",
+    "batch_size": 750,
+    "batch_unit": "mL",
+    "abv_percent": "abt 20",
+    "label_serial_internal": "",
+    "ttb_formula_number": "1648875",
+    "ttb_formula_status": "Approved",
+    "ttb_formula_submitted": "02/21/2025",
+    "ttb_formula_approved": "02/28/2025",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "yes",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Vodka",
+        "amount": 750,
+        "unit": "mL",
+        "is_alcohol": true,
+        "abv_percent": 40
+      },
+      {
+        "name": "Fresh Orange Juice",
+        "amount": 2,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Sugar",
+        "amount": 3,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Water",
+        "amount": 1,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "liqueur_violet",
+    "name": "Violet (Liqueur)",
+    "category": "Liqueur",
+    "batch_size": 7,
+    "batch_unit": "cups",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "yes",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "GNS",
+        "amount": 1,
+        "unit": "cups",
+        "is_alcohol": true,
+        "abv_percent": 93
+      },
+      {
+        "name": "Violets",
+        "amount": 2,
+        "unit": "oz",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Sugar",
+        "amount": 2,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Water",
+        "amount": 4,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "liqueur_chocolate_zucchini",
+    "name": "Chocolate Zucchini (Liqueur)",
+    "category": "Liqueur",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "1665034",
+    "ttb_formula_status": "Withdrawn",
+    "ttb_formula_submitted": "09/01/2025",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "liqueur_mocha",
+    "name": "Mocha (Liqueur)",
+    "category": "Liqueur",
+    "batch_size": 7,
+    "batch_unit": "cups",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "yes",
+    "notes": "Chocolate mix (no alcohol) + cold brew, ~4:3 ratio.",
+    "ingredients": [
+      {
+        "name": "Chocolate Mix (no alcohol)",
+        "amount": 4,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Cold Brew Concentrate",
+        "amount": 3,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "liqueur",
+    "name": "Liqueur",
+    "category": "Liqueur",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "rum_original_750ml",
+    "name": "Original 750Ml (Rum)",
+    "category": "Rum",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": 40.0,
+    "label_serial_internal": "22RUM1",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": 22321001000768,
+    "ttb_label_status": "APPROVED",
+    "ttb_label_date": "11/18/2022",
+    "has_detailed_recipe": "no",
+    "notes": "Statement of composition: Hand-Crafted",
+    "ingredients": [
+      {
+        "name": "Hand-Crafted",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "rum_banana",
+    "name": "Banana (Rum)",
+    "category": "Rum",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": 40.0,
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "Statement of composition: Rum with Banana Flavor",
+    "ingredients": [
+      {
+        "name": "Rum with Banana Flavor",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "rum_barrel_aged",
+    "name": "Barrel Aged (Rum)",
+    "category": "Rum",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": 40.0,
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "rum_chai",
+    "name": "Chai (Rum)",
+    "category": "Rum",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "rum_cherry",
+    "name": "Cherry (Rum)",
+    "category": "Rum",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": 40.0,
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "rum_coconut",
+    "name": "Coconut (Rum)",
+    "category": "Rum",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": 40.0,
+    "label_serial_internal": "",
+    "ttb_formula_number": "1588629",
+    "ttb_formula_status": "Approved",
+    "ttb_formula_submitted": "03/18/2024",
+    "ttb_formula_approved": "03/20/2024",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "rum_grape",
+    "name": "Grape (Rum)",
+    "category": "Rum",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": 40.0,
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "rum_hellcat",
+    "name": "Hellcat (Rum)",
+    "category": "Rum",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "rum_lemon",
+    "name": "Lemon (Rum)",
+    "category": "Rum",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": 40.0,
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "rum_mango",
+    "name": "Mango (Rum)",
+    "category": "Rum",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": 40.0,
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "rum_pineapple",
+    "name": "Pineapple (Rum)",
+    "category": "Rum",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": 40.0,
+    "label_serial_internal": "",
+    "ttb_formula_number": "1588630",
+    "ttb_formula_status": "Approved",
+    "ttb_formula_submitted": "03/18/2024",
+    "ttb_formula_approved": "03/20/2024",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "Statement of composition: Pineapple Flavored Rum",
+    "ingredients": [
+      {
+        "name": "Pineapple Flavored Rum",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "rum_spiced",
+    "name": "Spiced (Rum)",
+    "category": "Rum",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": 40.0,
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vermouth_dry",
+    "name": "Dry (Vermouth)",
+    "category": "Vermouth",
+    "batch_size": 4,
+    "batch_unit": "cups",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "yes",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Alcohol (93%)",
+        "amount": 4,
+        "unit": "tbsp",
+        "is_alcohol": true,
+        "abv_percent": 93
+      },
+      {
+        "name": "Sparkling Grape Juice",
+        "amount": 4,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Coriander",
+        "amount": 1,
+        "unit": "tsp",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Chamomile",
+        "amount": 0.5,
+        "unit": "tsp",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Fennel Seed",
+        "amount": 0.5,
+        "unit": "tsp",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Nigella Seed",
+        "amount": 0.5,
+        "unit": "tsp",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Sage Leaves",
+        "amount": 5,
+        "unit": "each",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Allspice Berries",
+        "amount": 2,
+        "unit": "each",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Orange Zest",
+        "amount": 0.5,
+        "unit": "each",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Lemon Zest",
+        "amount": 1,
+        "unit": "each",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Gentian Root",
+        "amount": 0.5,
+        "unit": "tsp",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vermouth_sweet",
+    "name": "Sweet (Vermouth)",
+    "category": "Vermouth",
+    "batch_size": 3.75,
+    "batch_unit": "cups",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "yes",
+    "notes": "Same aromatics as dry, swap the grape-juice component.",
+    "ingredients": [
+      {
+        "name": "Alcohol (93%)",
+        "amount": 4,
+        "unit": "tbsp",
+        "is_alcohol": true,
+        "abv_percent": 93
+      },
+      {
+        "name": "Purple Grape Juice",
+        "amount": 3,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Sherry Vinegar",
+        "amount": 0.5,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Vanilla Extract",
+        "amount": 0.25,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "(Same aromatics as Dry Vermouth)",
+        "amount": 1,
+        "unit": "each",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_river_run",
+    "name": "River Run (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": 40.0,
+    "label_serial_internal": "22RRV1",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": 22228001000123,
+    "ttb_label_status": "APPROVED",
+    "ttb_label_date": "08/30/2022",
+    "has_detailed_recipe": "no",
+    "notes": "Statement of composition: Distilled from Grain in Wisconsin",
+    "ingredients": [
+      {
+        "name": "Distilled from Grain in Wisconsin",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_bacon",
+    "name": "Bacon (Vodka)",
+    "category": "Vodka",
+    "batch_size": 1,
+    "batch_unit": "gal",
+    "abv_percent": "",
+    "label_serial_internal": "23BCV1",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": 23261001000845,
+    "ttb_label_status": "APPROVED",
+    "ttb_label_date": "09/27/2023",
+    "has_detailed_recipe": "yes",
+    "notes": "Beck's Smoked Bacon; 9 pieces/gal. Crispy bacon underperformed at scale - trying floppy bacon next.",
+    "ingredients": [
+      {
+        "name": "Vodka",
+        "amount": 1,
+        "unit": "gal",
+        "is_alcohol": true,
+        "abv_percent": 40
+      },
+      {
+        "name": "Bacon (Beck's Smoked)",
+        "amount": 9,
+        "unit": "pieces",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_barrel_aged",
+    "name": "Barrel Aged (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": 40.0,
+    "label_serial_internal": "23BAV1",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": 23067001000830,
+    "ttb_label_status": "APPROVED",
+    "ttb_label_date": "03/17/2023",
+    "has_detailed_recipe": "no",
+    "notes": "Statement of composition: Vodka Aged in an Oak Barrel",
+    "ingredients": [
+      {
+        "name": "Vodka Aged in an Oak Barrel",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_basil",
+    "name": "Basil (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "23BSV1",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": 23278001001025,
+    "ttb_label_status": "APPROVED",
+    "ttb_label_date": "10/17/2023",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_bbq_barrel_aged",
+    "name": "Bbq Barrel Aged (Vodka)",
+    "category": "Vodka",
+    "batch_size": 2.75,
+    "batch_unit": "cups",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "yes",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Vodka",
+        "amount": 2,
+        "unit": "cups",
+        "is_alcohol": true,
+        "abv_percent": 40
+      },
+      {
+        "name": "BBQ Sauce",
+        "amount": 0.75,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_bergamot",
+    "name": "Bergamot (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_black_currant",
+    "name": "Black Currant (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_black_pepper",
+    "name": "Black Pepper (Vodka)",
+    "category": "Vodka",
+    "batch_size": 750,
+    "batch_unit": "mL",
+    "abv_percent": 40.0,
+    "label_serial_internal": "23BLP1",
+    "ttb_formula_number": "1542334",
+    "ttb_formula_status": "Approved",
+    "ttb_formula_submitted": "05/25/2023",
+    "ttb_formula_approved": "06/08/2023",
+    "ttb_label_cola_id": 23143001000270,
+    "ttb_label_status": "APPROVED",
+    "ttb_label_date": "06/20/2023",
+    "has_detailed_recipe": "yes",
+    "notes": "Statement of composition: Vodka with Black Pepper | ",
+    "ingredients": [
+      {
+        "name": "Vodka",
+        "amount": 750,
+        "unit": "mL",
+        "is_alcohol": true,
+        "abv_percent": 40
+      },
+      {
+        "name": "Black Pepper (heaping)",
+        "amount": 2,
+        "unit": "tbsp",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_blackberry",
+    "name": "Blackberry (Vodka)",
+    "category": "Vodka",
+    "batch_size": 750,
+    "batch_unit": "mL",
+    "abv_percent": 35.0,
+    "label_serial_internal": "23BBV1",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": 23012001000342,
+    "ttb_label_status": "APPROVED",
+    "ttb_label_date": "01/31/2023",
+    "has_detailed_recipe": "yes",
+    "notes": "Statement of composition: Vodka with Natural Flavor | Per-bottle dose.",
+    "ingredients": [
+      {
+        "name": "Vodka",
+        "amount": 750,
+        "unit": "mL",
+        "is_alcohol": true,
+        "abv_percent": 40
+      },
+      {
+        "name": "Blackberry Flavor Concentrate",
+        "amount": 1.33,
+        "unit": "tbsp",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Simple Syrup",
+        "amount": 2,
+        "unit": "oz",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Water",
+        "amount": 100,
+        "unit": "mL",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_blue_raspberry",
+    "name": "Blue Raspberry (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": 40.0,
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_blueberry",
+    "name": "Blueberry (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": 35.0,
+    "label_serial_internal": "23BBV1",
+    "ttb_formula_number": "1551498",
+    "ttb_formula_status": "Approved",
+    "ttb_formula_submitted": "09/07/2023",
+    "ttb_formula_approved": "09/11/2023",
+    "ttb_label_cola_id": 23012001000342,
+    "ttb_label_status": "APPROVED",
+    "ttb_label_date": "01/31/2023",
+    "has_detailed_recipe": "no",
+    "notes": "Statement of composition: Vodka with Natural Flavor",
+    "ingredients": [
+      {
+        "name": "Vodka with Natural Flavor",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_bomb_pop",
+    "name": "Bomb Pop (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": 40.0,
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_cold_brew_coffee",
+    "name": "Cold Brew Coffee (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_chicken",
+    "name": "Chicken (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_beef",
+    "name": "Beef (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_cake",
+    "name": "Cake (Vodka)",
+    "category": "Vodka",
+    "batch_size": 750,
+    "batch_unit": "mL",
+    "abv_percent": 40.0,
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "yes",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Vodka",
+        "amount": 750,
+        "unit": "mL",
+        "is_alcohol": true,
+        "abv_percent": 40
+      },
+      {
+        "name": "Cake Flavoring",
+        "amount": 3,
+        "unit": "oz",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_candy_cane",
+    "name": "Candy Cane (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "1641868",
+    "ttb_formula_status": "Approved",
+    "ttb_formula_submitted": "11/20/2024",
+    "ttb_formula_approved": "11/20/2024",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_candy_corn",
+    "name": "Candy Corn (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_carolina_reaper",
+    "name": "Carolina Reaper (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": 40.0,
+    "label_serial_internal": "23CRV1",
+    "ttb_formula_number": "1557879",
+    "ttb_formula_status": "Approved",
+    "ttb_formula_submitted": "11/19/2023",
+    "ttb_formula_approved": "11/20/2023",
+    "ttb_label_cola_id": 23326001000282,
+    "ttb_label_status": "APPROVED",
+    "ttb_label_date": "11/29/2023",
+    "has_detailed_recipe": "no",
+    "notes": "Statement of composition: carolina reaper pepper flavored vodka",
+    "ingredients": [
+      {
+        "name": "carolina reaper pepper flavored vodka",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_celery",
+    "name": "Celery (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_cherry",
+    "name": "Cherry (Vodka)",
+    "category": "Vodka",
+    "batch_size": 8,
+    "batch_unit": "gal",
+    "abv_percent": 35.0,
+    "label_serial_internal": "23CFV1",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": 23088001001020,
+    "ttb_label_status": "APPROVED",
+    "ttb_label_date": "04/04/2023",
+    "has_detailed_recipe": "yes",
+    "notes": "Statement of composition: Vodka with Natural Flavor | Some batch figures illegible in original notes - verify before scaling.",
+    "ingredients": [
+      {
+        "name": "Vodka",
+        "amount": 8,
+        "unit": "gal",
+        "is_alcohol": true,
+        "abv_percent": 40
+      },
+      {
+        "name": "Cherry flavoring (qty uncertain)",
+        "amount": 1,
+        "unit": "each",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_cherry_flavoring",
+    "name": "Cherry Flavoring (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_chili_tepens",
+    "name": "Chili Tepens (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": 40.0,
+    "label_serial_internal": "23CTV1",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": 23278001001021,
+    "ttb_label_status": "APPROVED",
+    "ttb_label_date": "10/23/2023",
+    "has_detailed_recipe": "no",
+    "notes": "Statement of composition: Chili Tepins Flavored Vodka",
+    "ingredients": [
+      {
+        "name": "Chili Tepins Flavored Vodka",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_chipotle",
+    "name": "Chipotle (Vodka)",
+    "category": "Vodka",
+    "batch_size": 750,
+    "batch_unit": "mL",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "yes",
+    "notes": "Steep 12 days.",
+    "ingredients": [
+      {
+        "name": "Vodka",
+        "amount": 750,
+        "unit": "mL",
+        "is_alcohol": true,
+        "abv_percent": 40
+      },
+      {
+        "name": "Chipotle Peppers",
+        "amount": 4,
+        "unit": "each",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_chocolate_ghost",
+    "name": "Chocolate Ghost (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": 40.0,
+    "label_serial_internal": "23CGV1",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": 23326001000277,
+    "ttb_label_status": "APPROVED",
+    "ttb_label_date": "11/29/2023",
+    "has_detailed_recipe": "no",
+    "notes": "Statement of composition: chocolate ghost pepper flavored vodka",
+    "ingredients": [
+      {
+        "name": "chocolate ghost pepper flavored vodka",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_cilantro",
+    "name": "Cilantro (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_cinnamon",
+    "name": "Cinnamon (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": 40.0,
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_cinnamon_vanilla",
+    "name": "Cinnamon Vanilla (Vodka)",
+    "category": "Vodka",
+    "batch_size": 1500,
+    "batch_unit": "mL",
+    "abv_percent": 40.0,
+    "label_serial_internal": "23CVV1",
+    "ttb_formula_number": "1527884",
+    "ttb_formula_status": "Approved",
+    "ttb_formula_submitted": "12/15/2022",
+    "ttb_formula_approved": "01/22/2023",
+    "ttb_label_cola_id": 23252001000081,
+    "ttb_label_status": "APPROVED",
+    "ttb_label_date": "09/13/2023",
+    "has_detailed_recipe": "yes",
+    "notes": "Statement of composition: Vodka with Natural Flavor | Steep 1 week.",
+    "ingredients": [
+      {
+        "name": "Vodka",
+        "amount": 1500,
+        "unit": "mL",
+        "is_alcohol": true,
+        "abv_percent": 40
+      },
+      {
+        "name": "Cinnamon Sticks",
+        "amount": 5,
+        "unit": "each",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Vanilla Extract",
+        "amount": 1,
+        "unit": "tsp",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Vanilla Syrup",
+        "amount": 1,
+        "unit": "tbsp",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_cranberry",
+    "name": "Cranberry (Vodka)",
+    "category": "Vodka",
+    "batch_size": 1,
+    "batch_unit": "gal",
+    "abv_percent": 35.0,
+    "label_serial_internal": "22CRV1",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": 22355001000601,
+    "ttb_label_status": "APPROVED",
+    "ttb_label_date": "12/29/2022",
+    "has_detailed_recipe": "yes",
+    "notes": "Statement of composition: Cranberry Infused Vodka | Bulk/concentrate formula - some figures illegible.",
+    "ingredients": [
+      {
+        "name": "Vodka",
+        "amount": 1,
+        "unit": "gal",
+        "is_alcohol": true,
+        "abv_percent": 40
+      },
+      {
+        "name": "Cranberry Concentrate",
+        "amount": 5.75,
+        "unit": "kg",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_cucumber",
+    "name": "Cucumber (Vodka)",
+    "category": "Vodka",
+    "batch_size": 8,
+    "batch_unit": "oz",
+    "abv_percent": 35.0,
+    "label_serial_internal": "23CCV1",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": 23167001000757,
+    "ttb_label_status": "APPROVED",
+    "ttb_label_date": "06/21/2023",
+    "has_detailed_recipe": "yes",
+    "notes": "Statement of composition: Vodka with Natural Flavor | Fill jar to top with peeled, deseeded cucumber.",
+    "ingredients": [
+      {
+        "name": "Vodka",
+        "amount": 8,
+        "unit": "oz",
+        "is_alcohol": true,
+        "abv_percent": 40
+      },
+      {
+        "name": "Sugar",
+        "amount": 1,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Cucumber (peeled, deseeded)",
+        "amount": 1,
+        "unit": "each",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_cucumber_grapefruit",
+    "name": "Cucumber Grapefruit (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": 35.0,
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_cucumber_mint",
+    "name": "Cucumber Mint (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": 35.0,
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_cucumber_rosemary",
+    "name": "Cucumber Rosemary (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": 35.0,
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_dill",
+    "name": "Dill (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": 40.0,
+    "label_serial_internal": "23DLL1",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": 23255001000532,
+    "ttb_label_status": "APPROVED",
+    "ttb_label_date": "09/21/2023",
+    "has_detailed_recipe": "no",
+    "notes": "Statement of composition: Vodka with Natural Flavor",
+    "ingredients": [
+      {
+        "name": "Vodka with Natural Flavor",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_garlic",
+    "name": "Garlic (Vodka)",
+    "category": "Vodka",
+    "batch_size": 1,
+    "batch_unit": "gal",
+    "abv_percent": 40.0,
+    "label_serial_internal": "23GRL1",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": 23194001001078,
+    "ttb_label_status": "APPROVED",
+    "ttb_label_date": "07/20/2023",
+    "has_detailed_recipe": "yes",
+    "notes": "Statement of composition: Vodka with Natural Flavor | 22 cloves/gal.",
+    "ingredients": [
+      {
+        "name": "Vodka",
+        "amount": 1,
+        "unit": "gal",
+        "is_alcohol": true,
+        "abv_percent": 40
+      },
+      {
+        "name": "Garlic Cloves",
+        "amount": 22,
+        "unit": "each",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_ghost_pepper_yellow",
+    "name": "Ghost Pepper Yellow (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": 40.0,
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_ginger",
+    "name": "Ginger (Vodka)",
+    "category": "Vodka",
+    "batch_size": 1500,
+    "batch_unit": "mL",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "yes",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Vodka",
+        "amount": 1500,
+        "unit": "mL",
+        "is_alcohol": true,
+        "abv_percent": 40
+      },
+      {
+        "name": "Shaved Ginger",
+        "amount": 0.25,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Sliced Ginger",
+        "amount": 15,
+        "unit": "g",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_gooseberry",
+    "name": "Gooseberry (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_graham_cracker",
+    "name": "Graham Cracker (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_grape",
+    "name": "Grape (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": 40.0,
+    "label_serial_internal": "23GPV1",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": 23261001000841,
+    "ttb_label_status": "APPROVED",
+    "ttb_label_date": "09/27/2023",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_grapefruit",
+    "name": "Grapefruit (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "1667219",
+    "ttb_formula_status": "Approved",
+    "ttb_formula_submitted": "09/26/2025",
+    "ttb_formula_approved": "11/13/2025",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_habanero",
+    "name": "Habanero (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": 40.0,
+    "label_serial_internal": "23BV1",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "Statement of composition: Vodka with Habanero Peppers",
+    "ingredients": [
+      {
+        "name": "Vodka with Habanero Peppers",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_hibiscus",
+    "name": "Hibiscus (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_honey_bourbon",
+    "name": "Honey Bourbon (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "1668744",
+    "ttb_formula_status": "Approved",
+    "ttb_formula_submitted": "10/30/2025",
+    "ttb_formula_approved": "11/20/2025",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_horseradish",
+    "name": "Horseradish (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "1654491",
+    "ttb_formula_status": "Approved",
+    "ttb_formula_submitted": "04/24/2025",
+    "ttb_formula_approved": "04/24/2025",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_horseradish_honey",
+    "name": "Horseradish Honey (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_horseradish_sauce",
+    "name": "Horseradish Sauce (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_irish_whiskey",
+    "name": "Irish Whiskey (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": 40.0,
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_jalape_o",
+    "name": "Jalape\u00f1o (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": 40.0,
+    "label_serial_internal": "23JAL1",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": 23143001000285,
+    "ttb_label_status": "APPROVED",
+    "ttb_label_date": "05/24/2023",
+    "has_detailed_recipe": "no",
+    "notes": "Statement of composition: Vodka with Jalape\u00f1o Peppers",
+    "ingredients": [
+      {
+        "name": "Vodka with Jalape\u00f1o Peppers",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_jamacan_scotch_bonnet",
+    "name": "Jamacan Scotch Bonnet (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_lemon",
+    "name": "Lemon (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": 35.0,
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_mango",
+    "name": "Mango (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_lime",
+    "name": "Lime (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": 35.0,
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_mango_habanero",
+    "name": "Mango Habanero (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": 40.0,
+    "label_serial_internal": "23MHV1",
+    "ttb_formula_number": "1551764",
+    "ttb_formula_status": "Approved",
+    "ttb_formula_submitted": "09/11/2023",
+    "ttb_formula_approved": "09/13/2023",
+    "ttb_label_cola_id": 23261001000839,
+    "ttb_label_status": "APPROVED",
+    "ttb_label_date": "09/27/2023",
+    "has_detailed_recipe": "no",
+    "notes": "Statement of composition: Mango Habanero Flavored Vodka",
+    "ingredients": [
+      {
+        "name": "Mango Habanero Flavored Vodka",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_mixed_vegetable",
+    "name": "Mixed Vegetable (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_peach_flavoring",
+    "name": "Peach Flavoring (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_olive",
+    "name": "Olive (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_onion",
+    "name": "Onion (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_orange",
+    "name": "Orange (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": 35.0,
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_peach",
+    "name": "Peach (Vodka)",
+    "category": "Vodka",
+    "batch_size": 1500,
+    "batch_unit": "mL",
+    "abv_percent": 40.0,
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "yes",
+    "notes": "Fill jar to top with cut peaches.",
+    "ingredients": [
+      {
+        "name": "Vodka",
+        "amount": 1500,
+        "unit": "mL",
+        "is_alcohol": true,
+        "abv_percent": 40
+      },
+      {
+        "name": "Peaches, cut",
+        "amount": 12,
+        "unit": "oz",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_peanut_butter_cup",
+    "name": "Peanut Butter Cup (Vodka)",
+    "category": "Vodka",
+    "batch_size": 2.5,
+    "batch_unit": "cups",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "yes",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Vodka",
+        "amount": 2,
+        "unit": "cups",
+        "is_alcohol": true,
+        "abv_percent": 40
+      },
+      {
+        "name": "Peanut Butter",
+        "amount": 0.5,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_pear",
+    "name": "Pear (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": 35.0,
+    "label_serial_internal": "23PRV1",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": 23271001000225,
+    "ttb_label_status": "APPROVED",
+    "ttb_label_date": "10/10/2023",
+    "has_detailed_recipe": "no",
+    "notes": "Statement of composition: Pear Flavored Vodka",
+    "ingredients": [
+      {
+        "name": "Pear Flavored Vodka",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_peppermint",
+    "name": "Peppermint (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": 40.0,
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_pickle",
+    "name": "Pickle (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_plum",
+    "name": "Plum (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": 35.0,
+    "label_serial_internal": "23PLM2",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": 23252001000083,
+    "ttb_label_status": "APPROVED",
+    "ttb_label_date": "09/14/2023",
+    "has_detailed_recipe": "no",
+    "notes": "Statement of composition: Vodka with Natural Flavor",
+    "ingredients": [
+      {
+        "name": "Vodka with Natural Flavor",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_pomegranate",
+    "name": "Pomegranate (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_pomegranate_rosemary",
+    "name": "Pomegranate Rosemary (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_prickly_pear",
+    "name": "Prickly Pear (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_pumpkin_spice",
+    "name": "Pumpkin Spice (Vodka)",
+    "category": "Vodka",
+    "batch_size": 1,
+    "batch_unit": "gal",
+    "abv_percent": 40.0,
+    "label_serial_internal": "23PKS1",
+    "ttb_formula_number": "1550384",
+    "ttb_formula_status": "Approved",
+    "ttb_formula_submitted": "08/25/2023",
+    "ttb_formula_approved": "08/27/2023",
+    "ttb_label_cola_id": 23278001001017,
+    "ttb_label_status": "APPROVED",
+    "ttb_label_date": "10/24/2023",
+    "has_detailed_recipe": "yes",
+    "notes": "Statement of composition: Vodka with Natural Flavors | Large batch spice blend.",
+    "ingredients": [
+      {
+        "name": "Vodka",
+        "amount": 1,
+        "unit": "gal",
+        "is_alcohol": true,
+        "abv_percent": 40
+      },
+      {
+        "name": "Cloves",
+        "amount": 2.5,
+        "unit": "tsp",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Allspice",
+        "amount": 5,
+        "unit": "tsp",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "White Peppercorns",
+        "amount": 3.75,
+        "unit": "tsp",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Cinnamon Sticks",
+        "amount": 20,
+        "unit": "each",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Whole Nutmeg",
+        "amount": 5,
+        "unit": "each",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Fresh Ginger",
+        "amount": 12.5,
+        "unit": "inch",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Sugar",
+        "amount": 12.5,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Water",
+        "amount": 10,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_raspberry",
+    "name": "Raspberry (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": 35.0,
+    "label_serial_internal": "23RSB1",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": 23139001000810,
+    "ttb_label_status": "APPROVED",
+    "ttb_label_date": "06/05/2023",
+    "has_detailed_recipe": "no",
+    "notes": "Statement of composition: Vodka with Natural Flavor",
+    "ingredients": [
+      {
+        "name": "Vodka with Natural Flavor",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_red_currant",
+    "name": "Red Currant (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_red_hots",
+    "name": "Red Hots (Vodka)",
+    "category": "Vodka",
+    "batch_size": 750,
+    "batch_unit": "mL",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "yes",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Vodka",
+        "amount": 750,
+        "unit": "mL",
+        "is_alcohol": true,
+        "abv_percent": 40
+      },
+      {
+        "name": "Red Hots Candy",
+        "amount": 70,
+        "unit": "g",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_red_onion",
+    "name": "Red Onion (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_rose",
+    "name": "Rose (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": 40.0,
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_rosemary_basil",
+    "name": "Rosemary Basil (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "1543757",
+    "ttb_formula_status": "Approved",
+    "ttb_formula_submitted": "06/09/2023",
+    "ttb_formula_approved": "06/15/2023",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_st_johns_wort",
+    "name": "St. Johns Wort (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_salted_caramel",
+    "name": "Salted Caramel (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_scotch_bonnet_pepper",
+    "name": "Scotch Bonnet Pepper (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": 40.0,
+    "label_serial_internal": "23SBV1",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": 23326001000276,
+    "ttb_label_status": "REJECTED",
+    "ttb_label_date": "01/07/2024",
+    "has_detailed_recipe": "no",
+    "notes": "Statement of composition: scotch bonnet pepper flavored vodka",
+    "ingredients": [
+      {
+        "name": "scotch bonnet pepper flavored vodka",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_shrimp",
+    "name": "Shrimp (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_skittles_green",
+    "name": "Skittles Green (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": 40.0,
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_skittles_orange",
+    "name": "Skittles Orange (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": 40.0,
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_skittles_pink",
+    "name": "Skittles Pink (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": 40.0,
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_skittles_red",
+    "name": "Skittles Red (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": 40.0,
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_skittles_yellow",
+    "name": "Skittles Yellow (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": 40.0,
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_strawberry_amoretti_flavoring",
+    "name": "Strawberry -- Amoretti Flavoring (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": 35.0,
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "Statement of composition: vodka with natural flavor",
+    "ingredients": [
+      {
+        "name": "vodka with natural flavor",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_strawberry_natural",
+    "name": "Strawberry -- Natural (Vodka)",
+    "category": "Vodka",
+    "batch_size": 2,
+    "batch_unit": "cups",
+    "abv_percent": 35.0,
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "yes",
+    "notes": "1:1 strawberries to vodka.",
+    "ingredients": [
+      {
+        "name": "Strawberries",
+        "amount": 1,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Vodka",
+        "amount": 1,
+        "unit": "cups",
+        "is_alcohol": true,
+        "abv_percent": 40
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_strawberry_rhubarb",
+    "name": "Strawberry Rhubarb (Vodka)",
+    "category": "Vodka",
+    "batch_size": 1500,
+    "batch_unit": "mL",
+    "abv_percent": 35.0,
+    "label_serial_internal": "23SRB",
+    "ttb_formula_number": "1543167",
+    "ttb_formula_status": "Approved",
+    "ttb_formula_submitted": "06/05/2023",
+    "ttb_formula_approved": "06/12/2023",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "yes",
+    "notes": "Statement of composition: Vodka with Natural Flavor | Add 1 cup sugar for the liqueur variant.",
+    "ingredients": [
+      {
+        "name": "Rhubarb",
+        "amount": 1,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Strawberries",
+        "amount": 1.5,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Vodka",
+        "amount": 1500,
+        "unit": "mL",
+        "is_alcohol": true,
+        "abv_percent": 40
+      },
+      {
+        "name": "Sugar (liqueur variant)",
+        "amount": 1,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_sweet_tea",
+    "name": "Sweet Tea (Vodka)",
+    "category": "Vodka",
+    "batch_size": 4,
+    "batch_unit": "gal",
+    "abv_percent": 35.0,
+    "label_serial_internal": "23STV11",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "yes",
+    "notes": "Statement of composition: Vodka with Natural Flavor | Steep tea 2.5 hours.",
+    "ingredients": [
+      {
+        "name": "Vodka (93%)",
+        "amount": 1.72,
+        "unit": "gal",
+        "is_alcohol": true,
+        "abv_percent": 93
+      },
+      {
+        "name": "Water",
+        "amount": 2.28,
+        "unit": "gal",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Simple Sugar",
+        "amount": 5.25,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Loose Tea",
+        "amount": 1,
+        "unit": "lb",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_szechwan_pepper",
+    "name": "Szechwan Pepper (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": 40.0,
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_trinidad_scorpion_pepper",
+    "name": "Trinidad Scorpion Pepper (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "Statement of composition: Scotch Bonnet Pepper Flavored Vodka",
+    "ingredients": [
+      {
+        "name": "Scotch Bonnet Pepper Flavored Vodka",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_vanilla_bean",
+    "name": "Vanilla Bean (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": 40.0,
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_watermelon",
+    "name": "Watermelon (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": 35.0,
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_watermelon_mint",
+    "name": "Watermelon Mint (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": 35.0,
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_yellow_scorpion_pepper",
+    "name": "Yellow Scorpion Pepper (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_three_berry",
+    "name": "Three Berry (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "1655277",
+    "ttb_formula_status": "Approved",
+    "ttb_formula_submitted": "05/03/2025",
+    "ttb_formula_approved": "05/06/2025",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_nectarine",
+    "name": "Nectarine (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_apple",
+    "name": "Apple (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_blood_orange",
+    "name": "Blood Orange (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "1539281",
+    "ttb_formula_status": "Approved",
+    "ttb_formula_submitted": "04/21/2023",
+    "ttb_formula_approved": "04/27/2023",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_rhubarb",
+    "name": "Rhubarb (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_persimmon",
+    "name": "Persimmon (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_caribbean_red",
+    "name": "Caribbean Red (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_ghost_pepper",
+    "name": "Ghost Pepper (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "1669967",
+    "ttb_formula_status": "Approved",
+    "ttb_formula_submitted": "11/20/2025",
+    "ttb_formula_approved": "11/24/2025",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_thai_chili",
+    "name": "Thai Chili (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_serrano_pepper",
+    "name": "Serrano Pepper (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "1670813",
+    "ttb_formula_status": "Approved",
+    "ttb_formula_submitted": "12/02/2025",
+    "ttb_formula_approved": "12/03/2025",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "vodka_cranberry_jalapeno",
+    "name": "Cranberry Jalapeno (Vodka)",
+    "category": "Vodka",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "whiskey_b_17_bourbon",
+    "name": "B-17 Bourbon (Whiskey)",
+    "category": "Whiskey",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": 40.0,
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "whiskey_citywide",
+    "name": "Citywide (Whiskey)",
+    "category": "Whiskey",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": 40.0,
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "whiskey_corn",
+    "name": "Corn (Whiskey)",
+    "category": "Whiskey",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "whiskey_malt",
+    "name": "Malt (Whiskey)",
+    "category": "Whiskey",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "whiskey_moonshine",
+    "name": "Moonshine (Whiskey)",
+    "category": "Whiskey",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": 40.0,
+    "label_serial_internal": "",
+    "ttb_formula_number": "1624232",
+    "ttb_formula_status": "Rejected",
+    "ttb_formula_submitted": "06/25/2024",
+    "ttb_formula_approved": "06/28/2024",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "whiskey_mustang_moonshine",
+    "name": "Mustang Moonshine (Whiskey)",
+    "category": "Whiskey",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "whiskey_straight_bourbon",
+    "name": "Straight Bourbon (Whiskey)",
+    "category": "Whiskey",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "whiskey_honey_whiskey",
+    "name": "Honey Whiskey (Whiskey)",
+    "category": "Whiskey",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "whiskey_maple_whiskey",
+    "name": "Maple Whiskey (Whiskey)",
+    "category": "Whiskey",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "whiskey_cinnamon_whiskey",
+    "name": "Cinnamon Whiskey (Whiskey)",
+    "category": "Whiskey",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "whiskey_apple_pie_whiskey",
+    "name": "Apple Pie Whiskey (Whiskey)",
+    "category": "Whiskey",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "whiskey_habanero_bourbon",
+    "name": "Habanero Bourbon (Whiskey)",
+    "category": "Whiskey",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "whiskey_brown_sugar_bourbon",
+    "name": "Brown Sugar Bourbon (Whiskey)",
+    "category": "Whiskey",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "whiskey",
+    "name": "Whiskey",
+    "category": "Whiskey",
+    "batch_size": "",
+    "batch_unit": "",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "no",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Ingredients not yet documented in this system",
+        "amount": "",
+        "unit": "",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "john_daly_scaled",
+    "name": "John Daly - Scaled Batch",
+    "category": "RTD",
+    "batch_size": 21002.56,
+    "batch_unit": "mL",
+    "abv_percent": 5.0,
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "same formula as John Daly (Fat Golfer)",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "yes",
+    "notes": "3-gal tea base, scaled ~6.86x.",
+    "ingredients": [
+      {
+        "name": "Sweet Tea",
+        "amount": 48,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Lemonade",
+        "amount": 36,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "GNS",
+        "amount": 1129.17,
+        "unit": "mL",
+        "is_alcohol": true,
+        "abv_percent": 93
+      }
+    ]
+  },
+  {
+    "recipe_id": "swifty_swig",
+    "name": "Swifty Swig",
+    "category": "RTD",
+    "batch_size": 80,
+    "batch_unit": "cups",
+    "abv_percent": 5.0,
+    "label_serial_internal": "",
+    "ttb_formula_number": "1680571",
+    "ttb_formula_status": "Approved",
+    "ttb_formula_submitted": "03/27/2026",
+    "ttb_formula_approved": "04/03/2026",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "yes",
+    "notes": "5-gallon batch.",
+    "ingredients": [
+      {
+        "name": "Vodka",
+        "amount": 10,
+        "unit": "cups",
+        "is_alcohol": true,
+        "abv_percent": 40
+      },
+      {
+        "name": "Simple Syrup",
+        "amount": 3.33,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Strawberry",
+        "amount": 0.5,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Lemon Juice",
+        "amount": 2.25,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Water",
+        "amount": 63.67,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Salt",
+        "amount": 0.25,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "spiced_pear_gin",
+    "name": "Spiced Pear Gin",
+    "category": "Infused Gin",
+    "batch_size": 1,
+    "batch_unit": "gal",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "1670586",
+    "ttb_formula_status": "Approved",
+    "ttb_formula_submitted": "11/29/2025",
+    "ttb_formula_approved": "12/03/2025",
+    "ttb_label_cola_id": "26035001000170",
+    "ttb_label_status": "APPROVED",
+    "ttb_label_date": "02/09/2026",
+    "has_detailed_recipe": "yes",
+    "notes": "~53 pears per batch.",
+    "ingredients": [
+      {
+        "name": "Gin",
+        "amount": 1,
+        "unit": "gal",
+        "is_alcohol": true,
+        "abv_percent": 40
+      },
+      {
+        "name": "Pears",
+        "amount": 53,
+        "unit": "each",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Ginger",
+        "amount": 4.9,
+        "unit": "oz",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Cinnamon Sticks",
+        "amount": 15,
+        "unit": "each",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Cloves",
+        "amount": 0.25,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "ginger_syrup",
+    "name": "Ginger Syrup",
+    "category": "Syrup/Extract",
+    "batch_size": 4,
+    "batch_unit": "cups",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "yes",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Water",
+        "amount": 2,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Sugar",
+        "amount": 2,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Sliced Ginger",
+        "amount": 110,
+        "unit": "g",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "almond_extract",
+    "name": "Almond Extract",
+    "category": "Syrup/Extract",
+    "batch_size": 500,
+    "batch_unit": "mL",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "yes",
+    "notes": "Top off jar with GNS.",
+    "ingredients": [
+      {
+        "name": "Almonds",
+        "amount": 12,
+        "unit": "oz",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "GNS (93%, to top off jar)",
+        "amount": 500,
+        "unit": "mL",
+        "is_alcohol": true,
+        "abv_percent": 93
+      }
+    ]
+  },
+  {
+    "recipe_id": "vanilla_extract",
+    "name": "Vanilla Extract",
+    "category": "Syrup/Extract",
+    "batch_size": 500,
+    "batch_unit": "mL",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "yes",
+    "notes": "Top off jar with GNS.",
+    "ingredients": [
+      {
+        "name": "Vanilla Beans",
+        "amount": 7,
+        "unit": "each",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "GNS (93%, to top off jar)",
+        "amount": 500,
+        "unit": "mL",
+        "is_alcohol": true,
+        "abv_percent": 93
+      }
+    ]
+  },
+  {
+    "recipe_id": "smoked_maple_syrup",
+    "name": "Smoked Maple Syrup",
+    "category": "Syrup/Extract",
+    "batch_size": 2,
+    "batch_unit": "parts",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "yes",
+    "notes": "Mix directly in the pourer bottle.",
+    "ingredients": [
+      {
+        "name": "Dark Maple Syrup",
+        "amount": 1,
+        "unit": "parts",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Water",
+        "amount": 1,
+        "unit": "parts",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Liquid Smoke",
+        "amount": 15,
+        "unit": "drops",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "maple_whiskey_syrup",
+    "name": "Maple Whiskey Syrup",
+    "category": "Syrup/Extract",
+    "batch_size": 1500,
+    "batch_unit": "mL",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "yes",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Whiskey",
+        "amount": 1000,
+        "unit": "mL",
+        "is_alcohol": true,
+        "abv_percent": 40
+      },
+      {
+        "name": "Rich Amber Maple Syrup",
+        "amount": 250,
+        "unit": "mL",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Water",
+        "amount": 250,
+        "unit": "mL",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "pine_tip_syrup",
+    "name": "Pine Tip Syrup",
+    "category": "Syrup/Extract",
+    "batch_size": 2,
+    "batch_unit": "cups",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "yes",
+    "notes": "Seasonal - Mother's Day batch.",
+    "ingredients": [
+      {
+        "name": "Pine Tips (heaping)",
+        "amount": 0.25,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Water",
+        "amount": 1,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Sugar",
+        "amount": 1,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "strawberry_shrub",
+    "name": "Strawberry Balsamic Shrub",
+    "category": "Syrup/Extract",
+    "batch_size": 1.19,
+    "batch_unit": "cups",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "yes",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Strawberry Syrup",
+        "amount": 1,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "25-Year Balsamic Vinegar",
+        "amount": 3,
+        "unit": "tbsp",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "peach_simple_syrup",
+    "name": "Peach Simple Syrup",
+    "category": "Syrup/Extract",
+    "batch_size": 3,
+    "batch_unit": "cups",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "yes",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Water",
+        "amount": 1,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Sugar",
+        "amount": 1,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Chopped Peaches",
+        "amount": 1,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "cardamom_honey_syrup",
+    "name": "Cardamom Honey Syrup",
+    "category": "Syrup/Extract",
+    "batch_size": 187.5,
+    "batch_unit": "mL",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "yes",
+    "notes": "Shake well, rest overnight.",
+    "ingredients": [
+      {
+        "name": "Cardamom Pods, crushed",
+        "amount": 4,
+        "unit": "each",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Honey Syrup",
+        "amount": 187.5,
+        "unit": "mL",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "cinnamon_syrup",
+    "name": "Cinnamon Syrup",
+    "category": "Syrup/Extract",
+    "batch_size": 2,
+    "batch_unit": "cups",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "yes",
+    "notes": "For whiskey.",
+    "ingredients": [
+      {
+        "name": "Water",
+        "amount": 1,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Sugar",
+        "amount": 1,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Cinnamon Sticks",
+        "amount": 4,
+        "unit": "each",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "orange_spice_syrup",
+    "name": "Orange Spice Syrup",
+    "category": "Syrup/Extract",
+    "batch_size": 2,
+    "batch_unit": "cups",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "yes",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Sugar",
+        "amount": 1,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Water",
+        "amount": 1,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Orange Spice Tea Bags",
+        "amount": 4,
+        "unit": "each",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "old_fashioned_mix",
+    "name": "Old Fashioned Mix",
+    "category": "Syrup/Extract",
+    "batch_size": 2600,
+    "batch_unit": "mL",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "yes",
+    "notes": "",
+    "ingredients": [
+      {
+        "name": "Butterfly Pea Flower Tea + Gin",
+        "amount": 1500,
+        "unit": "mL",
+        "is_alcohol": true,
+        "abv_percent": 40
+      },
+      {
+        "name": "Lavender Syrup",
+        "amount": 1,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Lemon Bitters",
+        "amount": 100,
+        "unit": "mL",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  },
+  {
+    "recipe_id": "green_mix",
+    "name": "Green Mix (Bloody Mary Base)",
+    "category": "Syrup/Extract",
+    "batch_size": 3,
+    "batch_unit": "cups",
+    "abv_percent": "",
+    "label_serial_internal": "",
+    "ttb_formula_number": "",
+    "ttb_formula_status": "",
+    "ttb_formula_submitted": "",
+    "ttb_formula_approved": "",
+    "ttb_label_cola_id": "",
+    "ttb_label_status": "",
+    "ttb_label_date": "",
+    "has_detailed_recipe": "yes",
+    "notes": "Season to taste.",
+    "ingredients": [
+      {
+        "name": "Green Tomatoes",
+        "amount": 2.5,
+        "unit": "lb",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Celery Stalks",
+        "amount": 2,
+        "unit": "each",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Cilantro",
+        "amount": 1,
+        "unit": "bunch",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Water",
+        "amount": 3,
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Seasoning (cumin, Worcestershire, celery salt, pepper, hot sauce, lemon juice)",
+        "amount": 1,
+        "unit": "to taste",
+        "is_alcohol": false,
+        "abv_percent": 0
+      }
+    ]
+  }
+]

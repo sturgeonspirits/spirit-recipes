@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Recipe — Sturgeon Spirits</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="top">
+  <h1 id="recipe-title">Recipe</h1>
+  <a href="index.html">&larr; Back to all recipes</a>
+</header>
+<main>
+  <div id="demo-banner" class="demo-banner" style="display:none">
+    Local demo mode — changes here won't be saved. Connect an Apps Script URL in <code>js/config.js</code> to enable saving.
+  </div>
+
+  <div class="card">
+    <div class="grid-2">
+      <div>
+        <div class="field"><label>Category</label><span id="f-category"></span></div>
+        <div class="field"><label>Batch size</label>
+          <input type="number" id="f-batch-size" step="any"> <input type="text" id="f-batch-unit" style="width:80px">
+        </div>
+        <div class="field"><label>Notes</label>
+          <textarea id="f-notes" rows="3" style="width:100%;font-family:Arial;font-size:13px;padding:8px;border:1px solid var(--border);border-radius:6px"></textarea>
+        </div>
+      </div>
+      <div>
+        <label>Live ABV</label>
+        <div class="abv-live" id="abv-live">—</div>
+        <div id="abv-warning" class="muted"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Ingredients</h2>
+    <table id="ingredients-table">
+      <thead><tr><th>Name</th><th>Amount</th><th>Unit</th><th>Alcohol?</th><th>ABV %</th><th></th></tr></thead>
+      <tbody id="ingredients-body"></tbody>
+    </table>
+    <p><button class="secondary" id="add-ingredient">+ Add ingredient</button></p>
+  </div>
+
+  <div class="card">
+    <h2>Scale this batch</h2>
+    <div class="controls">
+      <div>
+        <label>New batch size</label>
+        <input type="number" id="scale-size" step="any" style="width:120px">
+        <input type="text" id="scale-unit" style="width:80px" placeholder="cups, mL, gal...">
+        <button id="scale-apply">Apply scale</button>
+      </div>
+      <div>
+        <label>...or solve for a target ABV (adjusts alcohol + Water, keeps batch size fixed)</label>
+        <input type="number" id="target-abv" step="any" style="width:100px" placeholder="e.g. 5.0">
+        <button id="target-apply">Solve for target ABV</button>
+      </div>
+    </div>
+    <p class="muted">Scaling only updates what's shown below — press Save to write it back to the sheet.</p>
+  </div>
+
+  <div class="card">
+    <h2>TTB Tracking</h2>
+    <div class="grid-2">
+      <div>
+        <div class="field"><label>TTB Formula Number</label><input type="text" id="f-formula-num" style="width:100%"></div>
+        <div class="field"><label>Formula Status</label><input type="text" id="f-formula-status" style="width:100%"></div>
+        <div class="field"><label>Formula Submitted / Approved</label>
+          <input type="text" id="f-formula-submitted" style="width:48%" placeholder="submitted">
+          <input type="text" id="f-formula-approved" style="width:48%" placeholder="approved">
+        </div>
+      </div>
+      <div>
+        <div class="field"><label>TTB Label / COLA ID</label><input type="text" id="f-label-id" style="width:100%"></div>
+        <div class="field"><label>Label Status</label><input type="text" id="f-label-status" style="width:100%"></div>
+        <div class="field"><label>Label Approval Date</label><input type="text" id="f-label-date" style="width:100%"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="controls no-print">
+    <button id="save-btn">Save changes</button>
+    <button class="secondary" id="export-pdf">Export PDF</button>
+    <button class="secondary" id="export-word">Export Word</button>
+    <button class="secondary" id="export-csv">Export CSV</button>
+  </div>
+</main>
+<script src="js/config.js"></script>
+<script src="js/api.js"></script>
+<script src="js/abv.js"></script>
+<script src="js/export.js"></script>
+<script src="js/recipe-app.js"></script>
+</body>
+</html>
