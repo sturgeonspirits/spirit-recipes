@@ -1,3 +1,4 @@
+// v1.1.0 (2026-07-05): show last-produced date/volume on recipe cards. Full history: CHANGELOG.md
 (async function () {
   const listEl = document.getElementById("recipe-rows");
   const search = document.getElementById("search");
@@ -6,6 +7,7 @@
   const countEl = document.getElementById("result-count");
   const banner = document.getElementById("demo-banner");
   const exportAllBtn = document.getElementById("export-all");
+  const ingredientsToggle = document.getElementById("ingredients-toggle");
 
   if (window.API.demoMode) {
     banner.style.display = "block";
@@ -39,8 +41,10 @@
     const q = search.value.trim().toLowerCase();
     const cat = categoryFilter.value;
     const ttb = ttbFilter.value;
+    const onlyWithIngredients = ingredientsToggle.checked;
 
     const filtered = recipes.filter(r => {
+      if (onlyWithIngredients && r.has_detailed_recipe !== "yes") return false;
       if (cat && r.category !== cat) return false;
       if (q && !(String(r.name).toLowerCase().includes(q) || String(r.notes || "").toLowerCase().includes(q))) return false;
       if (ttb === "has_formula" && !r.ttb_formula_number) return false;
@@ -67,8 +71,10 @@
       const date = (r.ttb_label_date || r.ttb_formula_approved)
         ? `<span>Approved ${escapeHTML(r.ttb_label_date || r.ttb_formula_approved)}</span>` : "";
       const noDetail = r.has_detailed_recipe === "yes" ? "" : `<span class="tag-empty">no ingredients yet</span>`;
-      const ttbRow = (formula || label || date)
-        ? `<div class="ttb-row">${formula}${label}${date}</div>` : "";
+      const production = r.last_production_date
+        ? `<span>Last produced ${escapeHTML(r.last_production_date)}${r.volume_produced ? " · " + escapeHTML(String(r.volume_produced)) + (r.batch_unit ? " " + escapeHTML(r.batch_unit) : "") : ""}</span>` : "";
+      const ttbRow = (formula || label || date || production)
+        ? `<div class="ttb-row">${formula}${label}${date}${production}</div>` : "";
 
       return `<a class="recipe-card" href="recipe.html?id=${encodeURIComponent(r.recipe_id)}">
         <div class="name"><span>${escapeHTML(r.name)}</span>${abv}</div>
@@ -88,6 +94,7 @@
   search.addEventListener("input", render);
   categoryFilter.addEventListener("change", render);
   ttbFilter.addEventListener("change", render);
+  ingredientsToggle.addEventListener("change", render);
   exportAllBtn.addEventListener("click", () => window.EXPORT.exportAllCSV(recipes));
 
   render();
