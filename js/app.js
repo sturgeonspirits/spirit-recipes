@@ -1,5 +1,5 @@
 (async function () {
-  const tbody = document.getElementById("recipe-rows");
+  const listEl = document.getElementById("recipe-rows");
   const search = document.getElementById("search");
   const categoryFilter = document.getElementById("category-filter");
   const ttbFilter = document.getElementById("ttb-filter");
@@ -15,7 +15,7 @@
   try {
     recipes = await window.API.getAllRecipes();
   } catch (err) {
-    tbody.innerHTML = `<tr><td colspan="6">Could not load recipes: ${err.message}</td></tr>`;
+    listEl.innerHTML = `<div class="empty-state">Could not load recipes: ${escapeHTML(err.message)}</div>`;
     return;
   }
 
@@ -52,18 +52,32 @@
 
     countEl.textContent = `${filtered.length} of ${recipes.length} recipes`;
 
-    tbody.innerHTML = filtered.map(r => {
+    if (!filtered.length) {
+      listEl.innerHTML = `<div class="empty-state">No recipes match. Try clearing the search or filters.</div>`;
+      return;
+    }
+
+    listEl.innerHTML = filtered.map(r => {
       const abv = (r.abv_percent !== "" && r.abv_percent !== undefined && r.abv_percent !== null && !isNaN(r.abv_percent))
         ? `<span class="abv-badge">${Number(r.abv_percent).toFixed(1)}%</span>` : "";
-      return `<tr>
-        <td><a class="recipe-link" href="recipe.html?id=${encodeURIComponent(r.recipe_id)}">${escapeHTML(r.name)}</a>
-            ${r.has_detailed_recipe === "yes" ? "" : '<div class="muted">no ingredient detail yet</div>'}</td>
-        <td><span class="category-pill">${escapeHTML(r.category || "")}</span></td>
-        <td>${abv}</td>
-        <td>${escapeHTML(r.ttb_formula_number || "")} <span class="ttb-status ${ttbStatusClass(r.ttb_formula_status)}">${escapeHTML(r.ttb_formula_status || "")}</span></td>
-        <td>${escapeHTML(r.ttb_label_cola_id || "")} <span class="ttb-status ${ttbStatusClass(r.ttb_label_status)}">${escapeHTML(r.ttb_label_status || "")}</span></td>
-        <td>${escapeHTML(r.ttb_label_date || r.ttb_formula_approved || "")}</td>
-      </tr>`;
+      const formula = r.ttb_formula_number
+        ? `<span>Formula ${escapeHTML(r.ttb_formula_number)} <span class="ttb-status ${ttbStatusClass(r.ttb_formula_status)}">${escapeHTML(r.ttb_formula_status || "")}</span></span>` : "";
+      const label = r.ttb_label_cola_id
+        ? `<span>Label ${escapeHTML(r.ttb_label_cola_id)} <span class="ttb-status ${ttbStatusClass(r.ttb_label_status)}">${escapeHTML(r.ttb_label_status || "")}</span></span>` : "";
+      const date = (r.ttb_label_date || r.ttb_formula_approved)
+        ? `<span>Approved ${escapeHTML(r.ttb_label_date || r.ttb_formula_approved)}</span>` : "";
+      const noDetail = r.has_detailed_recipe === "yes" ? "" : `<span class="tag-empty">no ingredients yet</span>`;
+      const ttbRow = (formula || label || date)
+        ? `<div class="ttb-row">${formula}${label}${date}</div>` : "";
+
+      return `<a class="recipe-card" href="recipe.html?id=${encodeURIComponent(r.recipe_id)}">
+        <div class="name"><span>${escapeHTML(r.name)}</span>${abv}</div>
+        <div class="meta-row">
+          ${r.category ? `<span class="category-pill">${escapeHTML(r.category)}</span>` : ""}
+          ${noDetail}
+        </div>
+        ${ttbRow}
+      </a>`;
     }).join("");
   }
 

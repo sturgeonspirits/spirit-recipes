@@ -3,22 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <title>Sturgeon Spirits — Recipe Book</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#3B5B45">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 <header class="top">
-  <h1>Sturgeon Spirits — Recipe &amp; TTB Tracker</h1>
-  <a href="https://github.com/" target="_blank" rel="noopener">Source on GitHub</a>
+  <h1>Sturgeon Spirits</h1>
 </header>
 <main>
   <div id="demo-banner" class="demo-banner" style="display:none">
-    Running in local demo mode against <code>data/seed.json</code> — read-only. Add your Apps Script
-    URL to <code>js/config.js</code> to connect the live Google Sheet and enable editing/saving.
+    Demo mode — read-only. Add your Apps Script URL to <code>js/config.js</code> to enable editing.
   </div>
 
-  <div class="controls">
-    <input type="text" id="search" placeholder="Search recipes...">
+  <div class="search-bar">
+    <input type="text" id="search" placeholder="Search recipes…" autocomplete="off">
+  </div>
+
+  <div class="filters">
     <select id="category-filter"><option value="">All categories</option></select>
     <select id="ttb-filter">
       <option value="">All TTB statuses</option>
@@ -27,16 +29,14 @@
       <option value="has_label">Has label/COLA #</option>
       <option value="detailed">Has ingredient detail</option>
     </select>
-    <button class="secondary" id="export-all">Export catalog to CSV</button>
-    <span id="result-count" class="muted" style="margin-left:auto"></span>
+    <button class="secondary" id="export-all">Export CSV</button>
   </div>
 
-  <table>
-    <thead>
-      <tr><th>Recipe</th><th>Category</th><th>ABV</th><th>TTB Formula #</th><th>TTB Label / COLA #</th><th>Last Approved</th></tr>
-    </thead>
-    <tbody id="recipe-rows"><tr><td colspan="6">Loading…</td></tr></tbody>
-  </table>
+  <div id="result-count" class="result-count"></div>
+
+  <div id="recipe-rows" class="recipe-list">
+    <div class="empty-state">Loading…</div>
+  </div>
 </main>
 <script src="js/config.js"></script>
 <script src="js/api.js"></script>

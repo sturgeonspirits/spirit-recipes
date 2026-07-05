@@ -3,91 +3,99 @@
 <head>
 <meta charset="UTF-8">
 <title>Recipe — Sturgeon Spirits</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#3B5B45">
 <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body class="has-action-bar">
 <header class="top">
+  <a href="index.html" class="back" aria-label="Back to all recipes">&larr;</a>
   <h1 id="recipe-title">Recipe</h1>
-  <a href="index.html">&larr; Back to all recipes</a>
 </header>
 <main>
   <div id="demo-banner" class="demo-banner" style="display:none">
-    Local demo mode — changes here won't be saved. Connect an Apps Script URL in <code>js/config.js</code> to enable saving.
+    Demo mode — changes here won't be saved.
   </div>
 
-  <div class="card">
-    <div class="grid-2">
-      <div>
-        <div class="field"><label>Category</label><span id="f-category"></span></div>
-        <div class="field"><label>Batch size</label>
-          <input type="number" id="f-batch-size" step="any"> <input type="text" id="f-batch-unit" style="width:80px">
-        </div>
-        <div class="field"><label>Notes</label>
-          <textarea id="f-notes" rows="3" style="width:100%;font-family:Arial;font-size:13px;padding:8px;border:1px solid var(--border);border-radius:6px"></textarea>
-        </div>
-      </div>
-      <div>
-        <label>Live ABV</label>
-        <div class="abv-live" id="abv-live">—</div>
-        <div id="abv-warning" class="muted"></div>
-      </div>
+  <div class="abv-hero">
+    <div>
+      <div class="label">Live ABV</div>
+      <div class="value" id="abv-live">—</div>
+    </div>
+    <div class="batch">
+      <input type="number" id="f-batch-size" step="any" inputmode="decimal" aria-label="Batch size">
+      <input type="text" id="f-batch-unit" aria-label="Batch unit" style="max-width:90px">
     </div>
   </div>
+  <div id="abv-warning" class="abv-warning"></div>
 
   <div class="card">
-    <h2>Ingredients</h2>
-    <table id="ingredients-table">
-      <thead><tr><th>Name</th><th>Amount</th><th>Unit</th><th>Alcohol?</th><th>ABV %</th><th></th></tr></thead>
-      <tbody id="ingredients-body"></tbody>
-    </table>
-    <p><button class="secondary" id="add-ingredient">+ Add ingredient</button></p>
+    <h2>Ingredients <span id="f-category" class="category-pill" style="float:right"></span></h2>
+    <div id="ingredients-body" class="ing-list"></div>
+    <button class="btn-add" id="add-ingredient">+ Add ingredient</button>
   </div>
 
-  <div class="card">
-    <h2>Scale this batch</h2>
-    <div class="controls">
-      <div>
-        <label>New batch size</label>
-        <input type="number" id="scale-size" step="any" style="width:120px">
-        <input type="text" id="scale-unit" style="width:80px" placeholder="cups, mL, gal...">
-        <button id="scale-apply">Apply scale</button>
+  <details class="section">
+    <summary>Scale this batch</summary>
+    <div class="section-body">
+      <div class="tool-row">
+        <div class="grow"><label>New batch size</label>
+          <input type="number" id="scale-size" step="any" inputmode="decimal"></div>
+        <div class="grow"><label>Unit</label>
+          <input type="text" id="scale-unit" placeholder="cups, mL, gal…"></div>
+        <button id="scale-apply">Scale</button>
       </div>
-      <div>
-        <label>...or solve for a target ABV (adjusts alcohol + Water, keeps batch size fixed)</label>
-        <input type="number" id="target-abv" step="any" style="width:100px" placeholder="e.g. 5.0">
-        <button id="target-apply">Solve for target ABV</button>
+      <div class="tool-divider">or</div>
+      <div class="tool-row">
+        <div class="grow"><label>Target ABV %</label>
+          <input type="number" id="target-abv" step="any" inputmode="decimal" placeholder="e.g. 5.0"></div>
+        <button id="target-apply">Solve for ABV</button>
       </div>
+      <p class="hint">Solving for ABV adjusts the alcohol and "Water" amounts, keeping batch size fixed. Scaling only updates the screen — press Save to write it back.</p>
     </div>
-    <p class="muted">Scaling only updates what's shown below — press Save to write it back to the sheet.</p>
-  </div>
+  </details>
 
-  <div class="card">
-    <h2>TTB Tracking</h2>
-    <div class="grid-2">
-      <div>
-        <div class="field"><label>TTB Formula Number</label><input type="text" id="f-formula-num" style="width:100%"></div>
-        <div class="field"><label>Formula Status</label><input type="text" id="f-formula-status" style="width:100%"></div>
-        <div class="field"><label>Formula Submitted / Approved</label>
-          <input type="text" id="f-formula-submitted" style="width:48%" placeholder="submitted">
-          <input type="text" id="f-formula-approved" style="width:48%" placeholder="approved">
+  <details class="section">
+    <summary>TTB tracking</summary>
+    <div class="section-body">
+      <div class="grid-2">
+        <div>
+          <div class="field"><label>TTB Formula Number</label><input type="text" id="f-formula-num"></div>
+          <div class="field"><label>Formula Status</label><input type="text" id="f-formula-status"></div>
+          <div class="field"><label>Formula Submitted</label><input type="text" id="f-formula-submitted" placeholder="date submitted"></div>
+          <div class="field"><label>Formula Approved</label><input type="text" id="f-formula-approved" placeholder="date approved"></div>
+        </div>
+        <div>
+          <div class="field"><label>TTB Label / COLA ID</label><input type="text" id="f-label-id"></div>
+          <div class="field"><label>Label Status</label><input type="text" id="f-label-status"></div>
+          <div class="field"><label>Label Approval Date</label><input type="text" id="f-label-date"></div>
         </div>
       </div>
-      <div>
-        <div class="field"><label>TTB Label / COLA ID</label><input type="text" id="f-label-id" style="width:100%"></div>
-        <div class="field"><label>Label Status</label><input type="text" id="f-label-status" style="width:100%"></div>
-        <div class="field"><label>Label Approval Date</label><input type="text" id="f-label-date" style="width:100%"></div>
-      </div>
     </div>
-  </div>
+  </details>
 
-  <div class="controls no-print">
-    <button id="save-btn">Save changes</button>
-    <button class="secondary" id="export-pdf">Export PDF</button>
-    <button class="secondary" id="export-word">Export Word</button>
-    <button class="secondary" id="export-csv">Export CSV</button>
-  </div>
+  <details class="section">
+    <summary>Notes</summary>
+    <div class="section-body">
+      <textarea id="f-notes" rows="4"></textarea>
+    </div>
+  </details>
 </main>
+
+<div class="action-bar no-print">
+  <div class="bar-inner">
+    <button id="save-btn">Save changes</button>
+    <details class="export-menu" id="export-menu">
+      <summary>Export</summary>
+      <div class="menu">
+        <button id="export-pdf">PDF</button>
+        <button id="export-word">Word</button>
+        <button id="export-csv">CSV</button>
+      </div>
+    </details>
+  </div>
+</div>
+
 <script src="js/config.js"></script>
 <script src="js/api.js"></script>
 <script src="js/abv.js"></script>
