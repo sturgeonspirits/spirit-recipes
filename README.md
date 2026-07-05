@@ -1,5 +1,7 @@
 # Sturgeon Spirits — Recipe Book & TTB Tracker
 
+**v1.1.0 (2026-07-05)** — see [CHANGELOG.md](CHANGELOG.md) for revision history.
+
 A small static webapp for editing recipes, live-calculating ABV, scaling batches,
 and tracking TTB formula/label approvals. Google Sheets is the database; Netlify
 hosts the site; GitHub stores the code and triggers deploys.
@@ -69,11 +71,13 @@ git push -u origin main
     silently overwritten.
   - **Export PDF / Word / CSV** for any single recipe.
 
-## Local demo mode
+## Adding the production columns to an existing Sheet
 
-Leaving `API_URL` blank in `js/config.js` runs the app read-only against the
-bundled `data/seed.json` — useful for previewing before the Sheet/Script is
-wired up. A yellow banner reminds you it's in demo mode.
+If you deployed the Sheet before `last_production_date` and `volume_produced`
+were added, add two columns to the end of the **Recipes** tab's header row
+with those exact names (or re-import `data/recipes_seed.csv`, which now
+includes them). `update_recipe_field` looks up columns by name, so saving
+will fail with "unknown field" until the header row has them.
 
 ## Data notes
 

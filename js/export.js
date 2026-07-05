@@ -1,5 +1,6 @@
 // Export helpers: PDF (browser print), Word (.doc via HTML blob -- opens fine in
 // Word/Google Docs without needing a docx library), and CSV.
+// v1.1.0 (2026-07-05): include last_production_date + volume_produced in Word/CSV exports. Full history: CHANGELOG.md
 window.EXPORT = (function () {
 
   function download(filename, content, mime) {
@@ -35,6 +36,8 @@ window.EXPORT = (function () {
       <p class="meta">TTB Formula #: ${escapeHTML(recipe.ttb_formula_number || "")} &nbsp;
       Label/COLA #: ${escapeHTML(recipe.ttb_label_cola_id || "")} &nbsp;
       Notes: ${escapeHTML(recipe.notes || "")}</p>
+      <p class="meta">Last produced: ${escapeHTML(recipe.last_production_date || "n/a")} &nbsp;
+      Volume produced: ${recipe.volume_produced ? escapeHTML(String(recipe.volume_produced)) + " " + escapeHTML(recipe.batch_unit || "") : "n/a"}</p>
       </body></html>`;
   }
 
@@ -55,9 +58,11 @@ window.EXPORT = (function () {
 
   function exportAllCSV(recipes) {
     const rows = [["recipe_id","name","category","batch_size","batch_unit","abv_percent",
-      "ttb_formula_number","ttb_formula_status","ttb_label_cola_id","ttb_label_status","ttb_label_date","notes"]];
+      "ttb_formula_number","ttb_formula_status","ttb_label_cola_id","ttb_label_status","ttb_label_date",
+      "last_production_date","volume_produced","notes"]];
     recipes.forEach(r => rows.push([r.recipe_id, r.name, r.category, r.batch_size, r.batch_unit,
-      r.abv_percent, r.ttb_formula_number, r.ttb_formula_status, r.ttb_label_cola_id, r.ttb_label_status, r.ttb_label_date, r.notes]));
+      r.abv_percent, r.ttb_formula_number, r.ttb_formula_status, r.ttb_label_cola_id, r.ttb_label_status, r.ttb_label_date,
+      r.last_production_date, r.volume_produced, r.notes]));
     download("recipe_book_export.csv", toCSV(rows), "text/csv");
   }
 

@@ -1,39 +1,27 @@
-// Thin wrapper around the Apps Script API, with a read-only local-demo fallback.
+// Thin wrapper around the Apps Script API (Google Sheet backend).
 window.API = (function () {
   const url = window.CONFIG.API_URL;
-  const demoMode = !url;
+  const demoMode = !url; // true only if no API_URL is configured
 
-  let demoCache = null;
-  async function loadDemo() {
-    if (demoCache) return demoCache;
-    const res = await fetch("./data/seed.json");
-    demoCache = await res.json();
-    return demoCache;
+  function requireUrl() {
+    if (!url) throw new Error("No API_URL configured in js/config.js — set the Apps Script /exec URL to load data.");
   }
 
   async function getAllRecipes() {
-    if (demoMode) {
-      const recipes = await loadDemo();
-      return recipes;
-    }
+    requireUrl();
     const res = await fetch(url);
     const data = await res.json();
     return data.recipes || [];
   }
 
   async function getRecipe(id) {
-    if (demoMode) {
-      const recipes = await loadDemo();
-      return recipes.find(r => String(r.recipe_id) === String(id));
-    }
+    requireUrl();
     const res = await fetch(url + "?recipe=" + encodeURIComponent(id));
     return res.json();
   }
 
   async function post(payload) {
-    if (demoMode) {
-      throw new Error("Demo mode: connect an Apps Script URL in js/config.js to enable saving.");
-    }
+    requireUrl();
     // text/plain avoids a CORS preflight against Apps Script
     const res = await fetch(url, {
       method: "POST",
