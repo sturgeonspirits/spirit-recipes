@@ -8,6 +8,7 @@
   const banner = document.getElementById("demo-banner");
   const exportAllBtn = document.getElementById("export-all");
   const ingredientsToggle = document.getElementById("ingredients-toggle");
+  const noIngredientsToggle = document.getElementById("no-ingredients-toggle");
 
   if (window.API.demoMode) {
     banner.style.display = "block";
@@ -42,9 +43,11 @@
     const cat = categoryFilter.value;
     const ttb = ttbFilter.value;
     const onlyWithIngredients = ingredientsToggle.checked;
+    const onlyWithoutIngredients = noIngredientsToggle.checked;
 
     const filtered = recipes.filter(r => {
       if (onlyWithIngredients && r.has_detailed_recipe !== "yes") return false;
+      if (onlyWithoutIngredients && r.has_detailed_recipe === "yes") return false;
       if (cat && r.category !== cat) return false;
       if (q && !(String(r.name).toLowerCase().includes(q) || String(r.notes || "").toLowerCase().includes(q))) return false;
       if (ttb === "has_formula" && !r.ttb_formula_number) return false;
@@ -94,7 +97,14 @@
   search.addEventListener("input", render);
   categoryFilter.addEventListener("change", render);
   ttbFilter.addEventListener("change", render);
-  ingredientsToggle.addEventListener("change", render);
+  ingredientsToggle.addEventListener("change", () => {
+    if (ingredientsToggle.checked) noIngredientsToggle.checked = false;
+    render();
+  });
+  noIngredientsToggle.addEventListener("change", () => {
+    if (noIngredientsToggle.checked) ingredientsToggle.checked = false;
+    render();
+  });
   exportAllBtn.addEventListener("click", () => window.EXPORT.exportAllCSV(recipes));
 
   render();

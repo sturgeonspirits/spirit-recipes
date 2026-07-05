@@ -29,6 +29,13 @@
 
   document.getElementById("recipe-title").textContent = recipe.name;
   document.title = recipe.name + " — Sturgeon Spirits";
+  const nameField = document.getElementById("f-name");
+  nameField.value = recipe.name || "";
+  nameField.addEventListener("input", () => {
+    const v = nameField.value.trim() || "Recipe";
+    document.getElementById("recipe-title").textContent = v;
+    document.title = v + " — Sturgeon Spirits";
+  });
   document.getElementById("f-category").textContent = recipe.category || "";
   document.getElementById("f-batch-size").value = recipe.batch_size || "";
   document.getElementById("f-batch-unit").value = recipe.batch_unit || "";
@@ -164,6 +171,7 @@
   const saveBtn = document.getElementById("save-btn");
   saveBtn.addEventListener("click", async () => {
     const fields = {
+      name: document.getElementById("f-name").value,
       notes: document.getElementById("f-notes").value,
       batch_size: document.getElementById("f-batch-size").value,
       batch_unit: document.getElementById("f-batch-unit").value,
