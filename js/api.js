@@ -55,5 +55,9 @@ window.API = (function () {
     return post({ action: "add_recipe", recipe });
   }
 
-  return { demoMode, getAllRecipes, getRecipe, updateRecipeField, replaceIngredients, addRecipe };
+  async function deleteRecipe(recipeId) {
+    return post({ action: "delete_recipe", recipe_id: recipeId });
+  }
+
+  return { demoMode, getAllRecipes, getRecipe, updateRecipeField, replaceIngredients, addRecipe, deleteRecipe };
 })();

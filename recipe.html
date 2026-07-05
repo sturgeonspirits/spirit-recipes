@@ -1,3 +1,4 @@
+<!-- v1.1.0 (2026-07-05): added Production section (last_production_date, volume_produced). Full history: CHANGELOG.md -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -75,9 +76,34 @@
   </details>
 
   <details class="section">
+    <summary>Production</summary>
+    <div class="section-body">
+      <div class="grid-2">
+        <div class="field"><label>Date of Last Production</label><input type="text" id="f-last-production-date" placeholder="MM/DD/YYYY"></div>
+        <div class="field"><label>Volume Produced <span id="volume-unit-hint" class="muted"></span></label><input type="number" step="any" inputmode="decimal" id="f-volume-produced" placeholder="e.g. 750"></div>
+      </div>
+    </div>
+  </details>
+
+  <details class="section">
     <summary>Notes</summary>
     <div class="section-body">
       <textarea id="f-notes" rows="4"></textarea>
+    </div>
+  </details>
+
+  <details class="section danger-section">
+    <summary>Delete recipe</summary>
+    <div class="section-body">
+      <p class="hint">Permanently removes this recipe and all of its ingredients. This cannot be undone.</p>
+      <button class="btn-danger" id="delete-recipe">Delete this recipe</button>
+      <div id="delete-confirm" class="delete-confirm" style="display:none">
+        <p class="delete-confirm-text">Are you sure? This will permanently delete <strong id="delete-recipe-name"></strong> and its ingredients.</p>
+        <div class="delete-confirm-actions">
+          <button class="secondary" id="delete-cancel">Cancel</button>
+          <button class="btn-danger" id="delete-confirm-yes">Yes, delete permanently</button>
+        </div>
+      </div>
     </div>
   </details>
 </main>

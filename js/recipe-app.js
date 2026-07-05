@@ -1,3 +1,4 @@
+// v1.1.0 (2026-07-05): load/save last_production_date + volume_produced. Full history: CHANGELOG.md
 (async function () {
   const params = new URLSearchParams(location.search);
   const id = params.get("id");
@@ -39,6 +40,15 @@
   document.getElementById("f-label-id").value = recipe.ttb_label_cola_id || "";
   document.getElementById("f-label-status").value = recipe.ttb_label_status || "";
   document.getElementById("f-label-date").value = recipe.ttb_label_date || "";
+  document.getElementById("f-last-production-date").value = recipe.last_production_date || "";
+  document.getElementById("f-volume-produced").value = recipe.volume_produced || "";
+
+  function syncVolumeUnitHint() {
+    const unit = document.getElementById("f-batch-unit").value || recipe.batch_unit || "";
+    document.getElementById("volume-unit-hint").textContent = unit ? `(${unit})` : "";
+  }
+  syncVolumeUnitHint();
+  document.getElementById("f-batch-unit").addEventListener("input", syncVolumeUnitHint);
 
   const listEl = document.getElementById("ingredients-body");
 
@@ -164,6 +174,8 @@
       ttb_label_cola_id: document.getElementById("f-label-id").value,
       ttb_label_status: document.getElementById("f-label-status").value,
       ttb_label_date: document.getElementById("f-label-date").value,
+      last_production_date: document.getElementById("f-last-production-date").value,
+      volume_produced: document.getElementById("f-volume-produced").value,
     };
     saveBtn.disabled = true;
     saveBtn.textContent = "Saving…";
@@ -178,6 +190,38 @@
     } finally {
       saveBtn.disabled = false;
       saveBtn.textContent = "Save changes";
+    }
+  });
+
+  // Delete recipe — requires a secondary confirmation before firing.
+  const deleteBtn = document.getElementById("delete-recipe");
+  const deleteConfirm = document.getElementById("delete-confirm");
+  const deleteCancel = document.getElementById("delete-cancel");
+  const deleteYes = document.getElementById("delete-confirm-yes");
+  document.getElementById("delete-recipe-name").textContent = recipe.name || "this recipe";
+
+  deleteBtn.addEventListener("click", () => {
+    deleteBtn.style.display = "none";
+    deleteConfirm.style.display = "block";
+  });
+  deleteCancel.addEventListener("click", () => {
+    deleteConfirm.style.display = "none";
+    deleteBtn.style.display = "";
+  });
+  deleteYes.addEventListener("click", async () => {
+    deleteYes.disabled = true;
+    deleteCancel.disabled = true;
+    deleteYes.textContent = "Deleting…";
+    try {
+      const res = await window.API.deleteRecipe(recipe.recipe_id);
+      if (res && res.error) throw new Error(res.error);
+      showToast("Recipe deleted");
+      setTimeout(() => { location.href = "index.html"; }, 700);
+    } catch (err) {
+      showToast(err.message);
+      deleteYes.disabled = false;
+      deleteCancel.disabled = false;
+      deleteYes.textContent = "Yes, delete permanently";
     }
   });
 

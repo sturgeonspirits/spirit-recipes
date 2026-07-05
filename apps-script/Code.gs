@@ -9,6 +9,10 @@
  * Deploy: Extensions > Apps Script > paste this file > Deploy > New deployment
  *         > type "Web app" > Execute as "Me" > Who has access "Anyone with the link"
  *         Copy the resulting /exec URL into webapp/js/config.js
+ *
+ * v1.1.0 (2026-07-05): no logic change here (columns are resolved by header
+ * name), but the Recipes tab now expects two more optional columns:
+ * last_production_date, volume_produced. See CHANGELOG.md.
  */
 
 const RECIPES_SHEET = "Recipes";
@@ -93,6 +97,7 @@ function findRowByRecipeId_(sheet, recipeId, idColName) {
  * { action: "update_ingredient", recipe_id, ingredient_name, field, value }
  * { action: "replace_ingredients", recipe_id, ingredients: [{name, amount, unit, is_alcohol, abv_percent}, ...] }
  * { action: "add_recipe", recipe: {...} }
+ * { action: "delete_recipe", recipe_id }
  */
 function doPost(e) {
   try {
@@ -139,6 +144,28 @@ function doPost(e) {
       const row = headers.map(h => body.recipe[h] !== undefined ? body.recipe[h] : "");
       sheet.appendRow(row);
       logChange_(body.recipe.recipe_id, "*new recipe*", "", JSON.stringify(body.recipe), "add_recipe");
+      return jsonOut_({ ok: true });
+    }
+
+    if (action === "delete_recipe") {
+      const recipesSheet = getSheet_(RECIPES_SHEET);
+      const found = findRowByRecipeId_(recipesSheet, body.recipe_id, "recipe_id");
+      if (!found) return jsonOut_({ error: "recipe not found" });
+      // capture the recipe row for the changelog before deleting
+      const oldRecipe = {};
+      found.headers.forEach((h, idx) => { oldRecipe[h] = found.row[idx]; });
+      // remove the recipe's ingredient rows first (bottom-up)
+      const ingSheet = getSheet_(INGREDIENTS_SHEET);
+      const ingValues = ingSheet.getDataRange().getValues();
+      const ingIdCol = ingValues[0].indexOf("recipe_id");
+      for (let i = ingValues.length - 1; i >= 1; i--) {
+        if (String(ingValues[i][ingIdCol]) === String(body.recipe_id)) {
+          ingSheet.deleteRow(i + 1);
+        }
+      }
+      // remove the recipe row itself
+      recipesSheet.deleteRow(found.rowIndex);
+      logChange_(body.recipe_id, "*delete recipe*", JSON.stringify(oldRecipe), "", "delete_recipe");
       return jsonOut_({ ok: true });
     }
 

@@ -400,6 +400,25 @@ details.section > .section-body { padding: 0 16px 16px; }
 }
 .btn-add:active { background: var(--accent-light); }
 
+/* ---------- Delete recipe ---------- */
+.btn-danger {
+  background: #fff;
+  color: var(--danger);
+  border: 1.5px solid var(--danger);
+}
+.btn-danger:active { background: #a12222; color: #fff; }
+.danger-section > summary { color: var(--danger); }
+.delete-confirm {
+  margin-top: 12px;
+  padding: 12px;
+  border: 1.5px solid var(--danger);
+  border-radius: 10px;
+  background: #fdf4f4;
+}
+.delete-confirm-text { margin: 0 0 12px; font-size: 14px; }
+.delete-confirm-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.delete-confirm-actions button { flex: 1 1 auto; }
+
 /* ---------- Scale tools ---------- */
 .tool-row { display: flex; gap: 8px; align-items: flex-end; flex-wrap: wrap; }
 .tool-row .grow { flex: 1 1 90px; }
