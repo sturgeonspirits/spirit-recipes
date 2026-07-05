@@ -166,7 +166,6 @@ liqueur_coffee,Sugar,10,lb,no,
 liqueur_coffee,Vanilla Syrup,0.25,cups,no,
 liqueur_coffee,Hot Water,24,cups,no,
 liqueur_coffee,Alcohol (60%),27,cups,yes,60
-liqueur_decaf_coffee,Ingredients not yet documented in this system,,,no,
 liqueur_coquito,Alcohol (93%),1000,mL,yes,93
 liqueur_coquito,Evaporated Milk,12,oz,no,
 liqueur_coquito,Cream of Coconut,15,oz,no,
@@ -530,3 +529,8 @@ bitters_walnut,Allspice,1,tbsp,no,
 bitters_walnut,Cloves,1,tbsp,no,
 bitters_walnut,Coriander,1,tbsp,no,
 bitters_walnut,Cardamom,1,tbsp,no,
+liqueur_decaf_coffee,Decaf Instant Coffee,12,oz,no,
+liqueur_decaf_coffee,Sugar,10,lb,no,
+liqueur_decaf_coffee,Vanilla Syrup,0.25,cups,no,
+liqueur_decaf_coffee,Hot Water,24,cups,no,
+liqueur_decaf_coffee,Alcohol (60%),27,cups,yes,60

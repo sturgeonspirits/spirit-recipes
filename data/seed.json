@@ -2619,17 +2619,45 @@
     "ttb_label_cola_id": "",
     "ttb_label_status": "",
     "ttb_label_date": "",
-    "has_detailed_recipe": "no",
+    "has_detailed_recipe": "yes",
     "notes": "",
     "last_production_date": "",
     "volume_produced": "",
     "ingredients": [
       {
-        "name": "Ingredients not yet documented in this system",
-        "amount": "",
-        "unit": "",
+        "name": "Decaf Instant Coffee",
+        "amount": "12",
+        "unit": "oz",
         "is_alcohol": false,
         "abv_percent": 0
+      },
+      {
+        "name": "Sugar",
+        "amount": "10",
+        "unit": "lb",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Vanilla Syrup",
+        "amount": "0.25",
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Hot Water",
+        "amount": "24",
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Alcohol (60%)",
+        "amount": "27",
+        "unit": "cups",
+        "is_alcohol": true,
+        "abv_percent": 60
       }
     ]
   },
