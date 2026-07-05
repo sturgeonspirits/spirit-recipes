@@ -78,15 +78,50 @@
     "ttb_label_cola_id": "23264001000853",
     "ttb_label_status": "APPROVED",
     "ttb_label_date": "09/27/2023",
-    "has_detailed_recipe": "no",
+    "has_detailed_recipe": "yes",
     "notes": "Statement of composition: Grapefruit Bitters",
     "last_production_date": "",
     "volume_produced": "",
     "ingredients": [
       {
-        "name": "Grapefruit Bitters",
-        "amount": "",
-        "unit": "",
+        "name": "Alcohol (93%)",
+        "amount": "500",
+        "unit": "mL",
+        "is_alcohol": true,
+        "abv_percent": 93
+      },
+      {
+        "name": "Grapefruit (peeled, dehydrated)",
+        "amount": "4",
+        "unit": "each",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Allspice",
+        "amount": "1",
+        "unit": "tbsp",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Cloves",
+        "amount": "1",
+        "unit": "tbsp",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Coriander",
+        "amount": "1",
+        "unit": "tbsp",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Cardamom",
+        "amount": "1",
+        "unit": "tbsp",
         "is_alcohol": false,
         "abv_percent": 0
       }
@@ -107,15 +142,50 @@
     "ttb_label_cola_id": "24151001000871",
     "ttb_label_status": "APPROVED",
     "ttb_label_date": "06/04/2024",
-    "has_detailed_recipe": "no",
+    "has_detailed_recipe": "yes",
     "notes": "",
     "last_production_date": "",
     "volume_produced": "",
     "ingredients": [
       {
-        "name": "Ingredients not yet documented in this system",
-        "amount": "",
-        "unit": "",
+        "name": "Alcohol (93%)",
+        "amount": "500",
+        "unit": "mL",
+        "is_alcohol": true,
+        "abv_percent": 93
+      },
+      {
+        "name": "Lemon (peeled, dehydrated)",
+        "amount": "4",
+        "unit": "each",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Allspice",
+        "amount": "1",
+        "unit": "tbsp",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Cloves",
+        "amount": "1",
+        "unit": "tbsp",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Coriander",
+        "amount": "1",
+        "unit": "tbsp",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Cardamom",
+        "amount": "1",
+        "unit": "tbsp",
         "is_alcohol": false,
         "abv_percent": 0
       }
@@ -136,15 +206,50 @@
     "ttb_label_cola_id": "24151001000910",
     "ttb_label_status": "APPROVED",
     "ttb_label_date": "06/04/2024",
-    "has_detailed_recipe": "no",
+    "has_detailed_recipe": "yes",
     "notes": "",
     "last_production_date": "",
     "volume_produced": "",
     "ingredients": [
       {
-        "name": "Ingredients not yet documented in this system",
-        "amount": "",
-        "unit": "",
+        "name": "Alcohol (93%)",
+        "amount": "500",
+        "unit": "mL",
+        "is_alcohol": true,
+        "abv_percent": 93
+      },
+      {
+        "name": "Oak (dehydrated)",
+        "amount": "4",
+        "unit": "each",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Allspice",
+        "amount": "1",
+        "unit": "tbsp",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Cloves",
+        "amount": "1",
+        "unit": "tbsp",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Coriander",
+        "amount": "1",
+        "unit": "tbsp",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Cardamom",
+        "amount": "1",
+        "unit": "tbsp",
         "is_alcohol": false,
         "abv_percent": 0
       }
@@ -165,15 +270,50 @@
     "ttb_label_cola_id": "24151001000916",
     "ttb_label_status": "APPROVED",
     "ttb_label_date": "06/04/2024",
-    "has_detailed_recipe": "no",
+    "has_detailed_recipe": "yes",
     "notes": "",
     "last_production_date": "",
     "volume_produced": "",
     "ingredients": [
       {
-        "name": "Ingredients not yet documented in this system",
-        "amount": "",
-        "unit": "",
+        "name": "Alcohol (93%)",
+        "amount": "500",
+        "unit": "mL",
+        "is_alcohol": true,
+        "abv_percent": 93
+      },
+      {
+        "name": "Rhubarb (dehydrated)",
+        "amount": "4",
+        "unit": "each",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Allspice",
+        "amount": "1",
+        "unit": "tbsp",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Cloves",
+        "amount": "1",
+        "unit": "tbsp",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Coriander",
+        "amount": "1",
+        "unit": "tbsp",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Cardamom",
+        "amount": "1",
+        "unit": "tbsp",
         "is_alcohol": false,
         "abv_percent": 0
       }
@@ -194,15 +334,50 @@
     "ttb_label_cola_id": "24151001000919",
     "ttb_label_status": "APPROVED",
     "ttb_label_date": "06/04/2024",
-    "has_detailed_recipe": "no",
+    "has_detailed_recipe": "yes",
     "notes": "",
     "last_production_date": "",
     "volume_produced": "",
     "ingredients": [
       {
-        "name": "Ingredients not yet documented in this system",
-        "amount": "",
-        "unit": "",
+        "name": "Alcohol (93%)",
+        "amount": "500",
+        "unit": "mL",
+        "is_alcohol": true,
+        "abv_percent": 93
+      },
+      {
+        "name": "Walnut (dehydrated)",
+        "amount": "4",
+        "unit": "each",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Allspice",
+        "amount": "1",
+        "unit": "tbsp",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Cloves",
+        "amount": "1",
+        "unit": "tbsp",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Coriander",
+        "amount": "1",
+        "unit": "tbsp",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Cardamom",
+        "amount": "1",
+        "unit": "tbsp",
         "is_alcohol": false,
         "abv_percent": 0
       }
@@ -8082,9 +8257,9 @@
     "recipe_id": "brandy_crosslake_blackberry",
     "name": "Crosslake Blackberry (Brandy)",
     "category": "Brandy",
-    "batch_size": "",
-    "batch_unit": "",
-    "abv_percent": "",
+    "batch_size": "750",
+    "batch_unit": "mL",
+    "abv_percent": "35",
     "label_serial_internal": "26BBB1",
     "ttb_formula_number": "1675902",
     "ttb_formula_status": "Approved",
@@ -8093,15 +8268,36 @@
     "ttb_label_cola_id": "26037001000772",
     "ttb_label_status": "APPROVED",
     "ttb_label_date": "02/10/2026",
-    "has_detailed_recipe": "no",
-    "notes": "Crosslake label. Blackberry brandy.",
+    "has_detailed_recipe": "yes",
+    "notes": "Crosslake label. Uses the Blackberry Vodka recipe with brandy in place of vodka. Statement of composition: Brandy with Natural Flavor. Per-bottle dose.",
     "last_production_date": "",
     "volume_produced": "",
     "ingredients": [
       {
-        "name": "Ingredients not yet documented in this system",
-        "amount": "",
-        "unit": "",
+        "name": "Brandy",
+        "amount": "750",
+        "unit": "mL",
+        "is_alcohol": true,
+        "abv_percent": 40
+      },
+      {
+        "name": "Blackberry Flavor Concentrate",
+        "amount": "1.33",
+        "unit": "tbsp",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Simple Syrup",
+        "amount": "2",
+        "unit": "oz",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Water",
+        "amount": "100",
+        "unit": "mL",
         "is_alcohol": false,
         "abv_percent": 0
       }
