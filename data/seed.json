@@ -16,6 +16,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "yes",
     "notes": "Statement of composition: cloves, orange peels, allspice, coriander, cardamon | 93% alcohol base.",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Alcohol (93%)",
@@ -78,6 +80,8 @@
     "ttb_label_date": "09/27/2023",
     "has_detailed_recipe": "no",
     "notes": "Statement of composition: Grapefruit Bitters",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Grapefruit Bitters",
@@ -105,6 +109,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -132,6 +138,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -159,6 +167,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -186,6 +196,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -213,6 +225,8 @@
     "ttb_label_date": "10/02/2023",
     "has_detailed_recipe": "yes",
     "notes": "Statement of composition: Sweet Tea Flavored Vodka with Natural Flavor | Test batch 1; steep tea twice.",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Sweet Tea",
@@ -254,6 +268,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "yes",
     "notes": "5-gallon batch.",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Vodka",
@@ -309,6 +325,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "yes",
     "notes": "5-gallon batch.",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Cranberry Vodka",
@@ -364,6 +382,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "yes",
     "notes": "5-gallon batch, grapefruit-lime gin base.",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Gin",
@@ -412,6 +432,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "yes",
     "notes": "5-gallon batch.",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Cherry Vodka",
@@ -454,24 +476,47 @@
     "recipe_id": "cans_blackberry_hard_seltzer",
     "name": "Blackberry Hard Seltzer (Cans)",
     "category": "Cans",
-    "batch_size": "",
-    "batch_unit": "",
-    "abv_percent": "",
-    "label_serial_internal": "",
+    "batch_size": "10",
+    "batch_unit": "gal",
+    "abv_percent": "5",
+    "label_serial_internal": "24CBS1",
     "ttb_formula_number": "1604752",
     "ttb_formula_status": "Approved",
     "ttb_formula_submitted": "05/03/2024",
     "ttb_formula_approved": "05/09/2024",
-    "ttb_label_cola_id": "",
-    "ttb_label_status": "",
-    "ttb_label_date": "",
-    "has_detailed_recipe": "no",
-    "notes": "",
+    "ttb_label_cola_id": "24150001000886",
+    "ttb_label_status": "APPROVED",
+    "ttb_label_date": "05/30/2024",
+    "has_detailed_recipe": "yes",
+    "notes": "10-gallon batch, 5% ABV RTD in cans, lightly carbonated. Blackberry vodka (vodka with natural flavors) blended with water and a splash of lemon. TTB formula 1604752, approved 05/09/2024.",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
-        "name": "Ingredients not yet documented in this system",
-        "amount": "",
-        "unit": "",
+        "name": "Blackberry Vodka",
+        "amount": "1.3",
+        "unit": "gal",
+        "is_alcohol": true,
+        "abv_percent": 40
+      },
+      {
+        "name": "Lemon Juice",
+        "amount": "1",
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Sugar",
+        "amount": "1",
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Water",
+        "amount": "8.6",
+        "unit": "gal",
         "is_alcohol": false,
         "abv_percent": 0
       }
@@ -481,24 +526,47 @@
     "recipe_id": "cans_raspberry_lemonade",
     "name": "Raspberry Lemonade (Cans)",
     "category": "Cans",
-    "batch_size": "",
-    "batch_unit": "",
-    "abv_percent": "",
-    "label_serial_internal": "",
+    "batch_size": "10",
+    "batch_unit": "gal",
+    "abv_percent": "5",
+    "label_serial_internal": "24CRL1",
     "ttb_formula_number": "1604750",
     "ttb_formula_status": "Approved",
     "ttb_formula_submitted": "05/03/2024",
     "ttb_formula_approved": "05/08/2024",
-    "ttb_label_cola_id": "",
-    "ttb_label_status": "",
-    "ttb_label_date": "",
-    "has_detailed_recipe": "no",
-    "notes": "",
+    "ttb_label_cola_id": "24150001000860",
+    "ttb_label_status": "APPROVED",
+    "ttb_label_date": "05/30/2024",
+    "has_detailed_recipe": "yes",
+    "notes": "10-gallon batch, 5% ABV RTD in cans. Raspberry vodka blended with homemade lemonade (lemon juice, sugar, water). TTB formula 1604750, approved 05/08/2024.",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
-        "name": "Ingredients not yet documented in this system",
-        "amount": "",
-        "unit": "",
+        "name": "Raspberry Vodka",
+        "amount": "1.3",
+        "unit": "gal",
+        "is_alcohol": true,
+        "abv_percent": 40
+      },
+      {
+        "name": "Lemon Juice",
+        "amount": "10",
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Sugar",
+        "amount": "10",
+        "unit": "cups",
+        "is_alcohol": false,
+        "abv_percent": 0
+      },
+      {
+        "name": "Water",
+        "amount": "8.1",
+        "unit": "gal",
         "is_alcohol": false,
         "abv_percent": 0
       }
@@ -521,6 +589,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -548,6 +618,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "yes",
     "notes": "15-gallon batch.",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Vodka",
@@ -603,6 +675,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -630,6 +704,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -657,6 +733,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -684,6 +762,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -711,6 +791,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -738,6 +820,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -765,6 +849,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -792,6 +878,8 @@
     "ttb_label_date": "07/14/2023",
     "has_detailed_recipe": "no",
     "notes": "Statement of composition: Agave Spirits",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Agave Spirits",
@@ -819,6 +907,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -846,6 +936,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -873,6 +965,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "Statement of composition: Jalapeno Flavored Agave Spirits",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Jalapeno Flavored Agave Spirits",
@@ -900,6 +994,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -927,6 +1023,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -954,6 +1052,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -981,6 +1081,8 @@
     "ttb_label_date": "11/15/2023",
     "has_detailed_recipe": "yes",
     "notes": "Statement of composition: Aquavit (Craft Distilled) | ",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Vodka",
@@ -1050,6 +1152,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -1077,6 +1181,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "Statement of composition: distilled specialty spirit",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "distilled specialty spirit",
@@ -1104,6 +1210,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -1131,6 +1239,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -1158,6 +1268,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "Statement of composition: Apple Brandy",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Apple Brandy",
@@ -1185,6 +1297,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -1212,6 +1326,8 @@
     "ttb_label_date": "11/25/2022",
     "has_detailed_recipe": "no",
     "notes": "Statement of composition: Made from 100% Grain",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Made from 100% Grain",
@@ -1239,6 +1355,8 @@
     "ttb_label_date": "05/02/2023",
     "has_detailed_recipe": "no",
     "notes": "Statement of composition: Blood Orange Flavored Gin",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Blood Orange Flavored Gin",
@@ -1266,6 +1384,8 @@
     "ttb_label_date": "10/23/2023",
     "has_detailed_recipe": "no",
     "notes": "Statement of composition: Gin with Blueberries",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Gin with Blueberries",
@@ -1293,6 +1413,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -1320,6 +1442,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -1347,6 +1471,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -1374,6 +1500,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -1401,6 +1529,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -1428,6 +1558,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "yes",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Gin/Vodka base",
@@ -1462,6 +1594,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "yes",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Gin",
@@ -1496,6 +1630,8 @@
     "ttb_label_date": "05/23/2023",
     "has_detailed_recipe": "yes",
     "notes": "Statement of composition: Gin with Mushrooms | Infuse ~3 weeks.",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Gin",
@@ -1530,6 +1666,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -1557,6 +1695,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "yes",
     "notes": "Steep 24 hours.",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Gin",
@@ -1591,6 +1731,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "Statement of composition: Gin with Plums",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Gin with Plums",
@@ -1618,6 +1760,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "yes",
     "notes": "Macerate rhubarb+sugar 1 day before adding gin. Steep 1-4 weeks.",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Gin",
@@ -1659,6 +1803,8 @@
     "ttb_label_date": "09/14/2023",
     "has_detailed_recipe": "no",
     "notes": "Statement of composition: Gin with Rosemary and Basil",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Gin with Rosemary and Basil",
@@ -1686,6 +1832,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -1713,6 +1861,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -1740,6 +1890,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "yes",
     "notes": "Ratio not fully legible in notes.",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Gin",
@@ -1774,6 +1926,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -1801,6 +1955,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -1828,6 +1984,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "yes",
     "notes": "Bigger-batch multipliers in notebook - re-verify before scaling large.",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Water",
@@ -1890,6 +2048,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "yes",
     "notes": "Boil cider+juice 5-10 min; cool before adding GNS.",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Apple Cider",
@@ -1945,6 +2105,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "yes",
     "notes": "Orange peel stands 48h, sugar stands 24h.",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Vodka",
@@ -2000,6 +2162,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "yes",
     "notes": "Statement of composition: Hand Crafted | ",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Vodka",
@@ -2069,6 +2233,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "yes",
     "notes": "Steep 2 weeks; finish with sugar syrup to taste.",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Alcohol (93%)",
@@ -2173,6 +2339,8 @@
     "ttb_label_date": "09/21/2023",
     "has_detailed_recipe": "yes",
     "notes": "Statement of composition: Hand Crafted | Heat cocoa+water+sugar; cool fully before adding alcohol.",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Cocoa Powder",
@@ -2221,6 +2389,8 @@
     "ttb_label_date": "01/11/2023",
     "has_detailed_recipe": "yes",
     "notes": "Statement of composition: Hand Crafted | Smaller/10-case batches also recorded in notebook.",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Instant Coffee",
@@ -2276,6 +2446,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -2303,6 +2475,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "yes",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Alcohol (93%)",
@@ -2365,6 +2539,8 @@
     "ttb_label_date": "01/10/2024",
     "has_detailed_recipe": "yes",
     "notes": "Statement of composition: Hand Crafted | Steep vodka on mint first.",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Mint Leaves",
@@ -2413,6 +2589,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -2440,6 +2618,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -2467,6 +2647,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "yes",
     "notes": "Double for a bigger batch.",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Half & Half",
@@ -2529,6 +2711,8 @@
     "ttb_label_date": "01/19/2024",
     "has_detailed_recipe": "yes",
     "notes": "10 lemon peels soak 2 weeks.",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Vodka or GNS",
@@ -2577,6 +2761,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -2604,6 +2790,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "yes",
     "notes": "Steep 1 month.",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Vodka",
@@ -2645,6 +2833,8 @@
     "ttb_label_date": "09/25/2023",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -2672,6 +2862,8 @@
     "ttb_label_date": "11/06/2023",
     "has_detailed_recipe": "yes",
     "notes": "Toast spices first; 8-day steep.",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Vodka base",
@@ -2706,6 +2898,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -2733,6 +2927,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -2760,6 +2956,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "Statement of composition: Hand Crafted",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Hand Crafted",
@@ -2787,6 +2985,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "yes",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Vodka",
@@ -2835,6 +3035,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "yes",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "GNS",
@@ -2883,6 +3085,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -2910,6 +3114,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "yes",
     "notes": "Chocolate mix (no alcohol) + cold brew, ~4:3 ratio.",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Chocolate Mix (no alcohol)",
@@ -2944,6 +3150,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -2971,6 +3179,8 @@
     "ttb_label_date": "11/18/2022",
     "has_detailed_recipe": "no",
     "notes": "Statement of composition: Hand-Crafted",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Hand-Crafted",
@@ -2998,6 +3208,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "Statement of composition: Rum with Banana Flavor",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Rum with Banana Flavor",
@@ -3025,6 +3237,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -3052,6 +3266,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -3079,6 +3295,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -3106,6 +3324,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -3133,6 +3353,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -3160,6 +3382,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -3187,6 +3411,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -3214,6 +3440,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -3241,6 +3469,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "Statement of composition: Pineapple Flavored Rum",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Pineapple Flavored Rum",
@@ -3268,6 +3498,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -3295,6 +3527,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "yes",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Alcohol (93%)",
@@ -3392,6 +3626,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "yes",
     "notes": "Same aromatics as dry, swap the grape-juice component.",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Alcohol (93%)",
@@ -3447,6 +3683,8 @@
     "ttb_label_date": "08/30/2022",
     "has_detailed_recipe": "no",
     "notes": "Statement of composition: Distilled from Grain in Wisconsin",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Distilled from Grain in Wisconsin",
@@ -3474,6 +3712,8 @@
     "ttb_label_date": "09/27/2023",
     "has_detailed_recipe": "yes",
     "notes": "Beck's Smoked Bacon; 9 pieces/gal. Crispy bacon underperformed at scale - trying floppy bacon next.",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Vodka",
@@ -3508,6 +3748,8 @@
     "ttb_label_date": "03/17/2023",
     "has_detailed_recipe": "no",
     "notes": "Statement of composition: Vodka Aged in an Oak Barrel",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Vodka Aged in an Oak Barrel",
@@ -3535,6 +3777,8 @@
     "ttb_label_date": "10/17/2023",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -3562,6 +3806,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "yes",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Vodka",
@@ -3596,6 +3842,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -3623,6 +3871,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -3650,6 +3900,8 @@
     "ttb_label_date": "06/20/2023",
     "has_detailed_recipe": "yes",
     "notes": "Statement of composition: Vodka with Black Pepper | ",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Vodka",
@@ -3684,6 +3936,8 @@
     "ttb_label_date": "01/31/2023",
     "has_detailed_recipe": "yes",
     "notes": "Statement of composition: Vodka with Natural Flavor | Per-bottle dose.",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Vodka",
@@ -3732,6 +3986,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -3759,6 +4015,8 @@
     "ttb_label_date": "01/31/2023",
     "has_detailed_recipe": "no",
     "notes": "Statement of composition: Vodka with Natural Flavor",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Vodka with Natural Flavor",
@@ -3786,6 +4044,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -3813,6 +4073,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -3840,6 +4102,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -3867,6 +4131,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -3894,6 +4160,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "yes",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Vodka",
@@ -3928,6 +4196,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -3955,6 +4225,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -3982,6 +4254,8 @@
     "ttb_label_date": "11/29/2023",
     "has_detailed_recipe": "no",
     "notes": "Statement of composition: carolina reaper pepper flavored vodka",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "carolina reaper pepper flavored vodka",
@@ -4009,6 +4283,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -4036,6 +4312,8 @@
     "ttb_label_date": "04/04/2023",
     "has_detailed_recipe": "yes",
     "notes": "Statement of composition: Vodka with Natural Flavor | Some batch figures illegible in original notes - verify before scaling.",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Vodka",
@@ -4070,6 +4348,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -4097,6 +4377,8 @@
     "ttb_label_date": "10/23/2023",
     "has_detailed_recipe": "no",
     "notes": "Statement of composition: Chili Tepins Flavored Vodka",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Chili Tepins Flavored Vodka",
@@ -4124,6 +4406,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "yes",
     "notes": "Steep 12 days.",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Vodka",
@@ -4158,6 +4442,8 @@
     "ttb_label_date": "11/29/2023",
     "has_detailed_recipe": "no",
     "notes": "Statement of composition: chocolate ghost pepper flavored vodka",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "chocolate ghost pepper flavored vodka",
@@ -4185,6 +4471,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -4212,6 +4500,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -4239,6 +4529,8 @@
     "ttb_label_date": "09/13/2023",
     "has_detailed_recipe": "yes",
     "notes": "Statement of composition: Vodka with Natural Flavor | Steep 1 week.",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Vodka",
@@ -4287,6 +4579,8 @@
     "ttb_label_date": "12/29/2022",
     "has_detailed_recipe": "yes",
     "notes": "Statement of composition: Cranberry Infused Vodka | Bulk/concentrate formula - some figures illegible.",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Vodka",
@@ -4321,6 +4615,8 @@
     "ttb_label_date": "06/21/2023",
     "has_detailed_recipe": "yes",
     "notes": "Statement of composition: Vodka with Natural Flavor | Fill jar to top with peeled, deseeded cucumber.",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Vodka",
@@ -4362,6 +4658,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -4389,6 +4687,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -4416,6 +4716,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -4443,6 +4745,8 @@
     "ttb_label_date": "09/21/2023",
     "has_detailed_recipe": "no",
     "notes": "Statement of composition: Vodka with Natural Flavor",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Vodka with Natural Flavor",
@@ -4470,6 +4774,8 @@
     "ttb_label_date": "07/20/2023",
     "has_detailed_recipe": "yes",
     "notes": "Statement of composition: Vodka with Natural Flavor | 22 cloves/gal.",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Vodka",
@@ -4504,6 +4810,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -4531,6 +4839,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "yes",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Vodka",
@@ -4572,6 +4882,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -4599,6 +4911,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -4626,6 +4940,8 @@
     "ttb_label_date": "09/27/2023",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -4653,6 +4969,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -4680,6 +4998,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "Statement of composition: Vodka with Habanero Peppers",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Vodka with Habanero Peppers",
@@ -4707,6 +5027,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -4734,6 +5056,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -4761,6 +5085,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -4788,6 +5114,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -4815,6 +5143,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -4842,6 +5172,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -4869,6 +5201,8 @@
     "ttb_label_date": "05/24/2023",
     "has_detailed_recipe": "no",
     "notes": "Statement of composition: Vodka with Jalape\u00f1o Peppers",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Vodka with Jalape\u00f1o Peppers",
@@ -4896,6 +5230,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -4923,6 +5259,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -4950,6 +5288,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -4977,6 +5317,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -5004,6 +5346,8 @@
     "ttb_label_date": "09/27/2023",
     "has_detailed_recipe": "no",
     "notes": "Statement of composition: Mango Habanero Flavored Vodka",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Mango Habanero Flavored Vodka",
@@ -5031,6 +5375,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -5058,6 +5404,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -5085,6 +5433,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -5112,6 +5462,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -5139,6 +5491,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -5166,6 +5520,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "yes",
     "notes": "Fill jar to top with cut peaches.",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Vodka",
@@ -5200,6 +5556,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "yes",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Vodka",
@@ -5234,6 +5592,8 @@
     "ttb_label_date": "10/10/2023",
     "has_detailed_recipe": "no",
     "notes": "Statement of composition: Pear Flavored Vodka",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Pear Flavored Vodka",
@@ -5261,6 +5621,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -5288,6 +5650,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -5315,6 +5679,8 @@
     "ttb_label_date": "09/14/2023",
     "has_detailed_recipe": "no",
     "notes": "Statement of composition: Vodka with Natural Flavor",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Vodka with Natural Flavor",
@@ -5342,6 +5708,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -5369,6 +5737,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -5396,6 +5766,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -5423,6 +5795,8 @@
     "ttb_label_date": "10/24/2023",
     "has_detailed_recipe": "yes",
     "notes": "Statement of composition: Vodka with Natural Flavors | Large batch spice blend.",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Vodka",
@@ -5506,6 +5880,8 @@
     "ttb_label_date": "06/05/2023",
     "has_detailed_recipe": "no",
     "notes": "Statement of composition: Vodka with Natural Flavor",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Vodka with Natural Flavor",
@@ -5533,6 +5909,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -5560,6 +5938,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "yes",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Vodka",
@@ -5594,6 +5974,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -5621,6 +6003,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -5648,6 +6032,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -5675,6 +6061,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -5702,6 +6090,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -5729,6 +6119,8 @@
     "ttb_label_date": "01/07/2024",
     "has_detailed_recipe": "no",
     "notes": "Statement of composition: scotch bonnet pepper flavored vodka",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "scotch bonnet pepper flavored vodka",
@@ -5756,6 +6148,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -5783,6 +6177,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -5810,6 +6206,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -5837,6 +6235,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -5864,6 +6264,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -5891,6 +6293,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -5918,6 +6322,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "Statement of composition: vodka with natural flavor",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "vodka with natural flavor",
@@ -5945,6 +6351,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "yes",
     "notes": "1:1 strawberries to vodka.",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Strawberries",
@@ -5979,6 +6387,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "yes",
     "notes": "Statement of composition: Vodka with Natural Flavor | Add 1 cup sugar for the liqueur variant.",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Rhubarb",
@@ -6027,6 +6437,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "yes",
     "notes": "Statement of composition: Vodka with Natural Flavor | Steep tea 2.5 hours.",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Vodka (93%)",
@@ -6075,6 +6487,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -6102,6 +6516,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "Statement of composition: Scotch Bonnet Pepper Flavored Vodka",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Scotch Bonnet Pepper Flavored Vodka",
@@ -6129,6 +6545,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -6156,6 +6574,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -6183,6 +6603,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -6210,6 +6632,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -6237,6 +6661,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -6264,6 +6690,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -6291,6 +6719,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -6318,6 +6748,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -6345,6 +6777,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -6372,6 +6806,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -6399,6 +6835,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -6426,6 +6864,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -6453,6 +6893,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -6480,6 +6922,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -6507,6 +6951,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -6534,6 +6980,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -6561,6 +7009,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -6588,6 +7038,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -6615,6 +7067,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -6642,6 +7096,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -6669,6 +7125,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -6696,6 +7154,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -6723,6 +7183,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -6750,6 +7212,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -6777,6 +7241,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -6804,6 +7270,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -6831,6 +7299,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -6858,6 +7328,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -6885,6 +7357,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "no",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Ingredients not yet documented in this system",
@@ -6912,6 +7386,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "yes",
     "notes": "3-gal tea base, scaled ~6.86x.",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Sweet Tea",
@@ -6953,6 +7429,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "yes",
     "notes": "5-gallon batch.",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Vodka",
@@ -7015,6 +7493,8 @@
     "ttb_label_date": "02/09/2026",
     "has_detailed_recipe": "yes",
     "notes": "~53 pears per batch.",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Gin",
@@ -7070,6 +7550,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "yes",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Water",
@@ -7111,6 +7593,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "yes",
     "notes": "Top off jar with GNS.",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Almonds",
@@ -7145,6 +7629,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "yes",
     "notes": "Top off jar with GNS.",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Vanilla Beans",
@@ -7179,6 +7665,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "yes",
     "notes": "Mix directly in the pourer bottle.",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Dark Maple Syrup",
@@ -7220,6 +7708,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "yes",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Whiskey",
@@ -7261,6 +7751,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "yes",
     "notes": "Seasonal - Mother's Day batch.",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Pine Tips (heaping)",
@@ -7302,6 +7794,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "yes",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Strawberry Syrup",
@@ -7336,6 +7830,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "yes",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Water",
@@ -7377,6 +7873,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "yes",
     "notes": "Shake well, rest overnight.",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Cardamom Pods, crushed",
@@ -7411,6 +7909,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "yes",
     "notes": "For whiskey.",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Water",
@@ -7452,6 +7952,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "yes",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Sugar",
@@ -7493,6 +7995,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "yes",
     "notes": "",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Butterfly Pea Flower Tea + Gin",
@@ -7534,6 +8038,8 @@
     "ttb_label_date": "",
     "has_detailed_recipe": "yes",
     "notes": "Season to taste.",
+    "last_production_date": "",
+    "volume_produced": "",
     "ingredients": [
       {
         "name": "Green Tomatoes",

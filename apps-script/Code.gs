@@ -1,10 +1,12 @@
 /**
  * Sturgeon Spirits Recipe Book - Apps Script backend.
  *
- * Bind this script to the Google Sheet that has three tabs:
+ * This script targets a fixed spreadsheet by ID (SPREADSHEET_ID below), so it
+ * always uses the right sheet no matter where the script is deployed from.
+ * That spreadsheet must have three tabs:
  *   Recipes      - one row per product (see recipes_seed.csv for columns)
  *   Ingredients  - one row per ingredient line (see ingredients_seed.csv for columns)
- *   ChangeLog    - created automatically the first time something is edited
+ *   changelog    - created automatically the first time something is edited
  *
  * Deploy: Extensions > Apps Script > paste this file > Deploy > New deployment
  *         > type "Web app" > Execute as "Me" > Who has access "Anyone with the link"
@@ -15,13 +17,30 @@
  * last_production_date, volume_produced. See CHANGELOG.md.
  */
 
+// The one and only database for this webapp. Bind explicitly by ID so the
+// backend always reads/writes THIS spreadsheet, regardless of which sheet the
+// Apps Script project happens to be container-bound to. This is what keeps the
+// project locked to the right sheet.
+// https://docs.google.com/spreadsheets/d/1-lAWU_yPq-0wnhYNGZ4jzGXr153KXVcu1TMjpj-W-wA/edit
+const SPREADSHEET_ID = "1-lAWU_yPq-0wnhYNGZ4jzGXr153KXVcu1TMjpj-W-wA";
+
 const RECIPES_SHEET = "Recipes";
 const INGREDIENTS_SHEET = "Ingredients";
-const CHANGELOG_SHEET = "ChangeLog";
+const CHANGELOG_SHEET = "changelog";
+
+function getSpreadsheet_() {
+  return SpreadsheetApp.openById(SPREADSHEET_ID);
+}
 
 function getSheet_(name) {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const ss = getSpreadsheet_();
   let sheet = ss.getSheetByName(name);
+  // Tolerate tab-name casing differences (e.g. "changelog" vs "ChangeLog").
+  if (!sheet) {
+    sheet = ss.getSheets().find(function (s) {
+      return s.getName().toLowerCase() === String(name).toLowerCase();
+    }) || null;
+  }
   if (!sheet && name === CHANGELOG_SHEET) {
     sheet = ss.insertSheet(CHANGELOG_SHEET);
     sheet.appendRow(["timestamp", "recipe_id", "field", "old_value", "new_value", "source"]);
