@@ -1,6 +1,6 @@
 # Sturgeon Spirits — Recipe Book & TTB Tracker
 
-**v1.1.0 (2026-07-05)** — see [CHANGELOG.md](CHANGELOG.md) for revision history.
+**v1.4.0 (2026-07-06)** — see [CHANGELOG.md](CHANGELOG.md) for revision history.
 
 A small static webapp for editing recipes, live-calculating ABV, scaling batches,
 and tracking TTB formula/label approvals. Google Sheets is the database; Netlify
@@ -78,6 +78,71 @@ were added, add two columns to the end of the **Recipes** tab's header row
 with those exact names (or re-import `data/recipes_seed.csv`, which now
 includes them). `update_recipe_field` looks up columns by name, so saving
 will fail with "unknown field" until the header row has them.
+
+## Distilling module (v1.3.0)
+
+A separate section for **mash/fermentation recipes** and **distillation run
+records**, reached from the "Distilling →" link in the product catalog header.
+
+Enabling it requires two one-time steps against your existing Sheet + backend:
+
+1. **Update the Apps Script.** Paste the current `apps-script/Code.gs` over the
+   old one, then **Deploy > Manage deployments > Edit > New version**. The
+   backend creates the three tabs below automatically the first time a mash or
+   run is saved, so you don't have to add them by hand — but you can pre-create
+   them by importing the seed CSVs if you'd like the example data:
+   - `MashRecipes` ← `data/mash_recipes_seed.csv`
+   - `MashComponents` ← `data/mash_components_seed.csv`
+   - `DistillationRuns` ← `data/distillation_runs_seed.csv`
+   - `GravityReadings` ← `data/gravity_readings_seed.csv`
+2. **Redeploy the site** (git push, Netlify auto-builds) so the new pages and
+   scripts (`distilling.html`, `mash.html`, `js/distill.js`,
+   `js/distilling-app.js`, `js/mash-app.js`, `js/tilt.js`) go live.
+
+The seed CSVs contain real digitized data for three washes (Molasses Rum, Agave
+Spirit, Rye Whiskey) with their dated runs and fermentation gravity logs — import
+them to preload that history, or start empty and add your own.
+
+What it tracks:
+
+- **Mash recipe**: spirit type, an optional link to a product recipe, batch and
+  mash-water volumes, strike temp, mash pH, target OG/FG, yeast strain, pitch
+  rate, fermentation temp/days, target yield, and notes.
+- **Mash bill & additions**: each grain, sugar, enzyme, nutrient, acid, or yeast
+  addition with amount, unit, and when it's added (mash vs fermentation).
+- **Distillation runs** (one per run, over time): date, still, operator, this
+  batch's actual OG/FG and wash ABV/volume, the foreshots/heads/hearts/tails
+  volumes + ABV, cut temperatures, run duration, and where the hearts went
+  (barrel ID, fill date, entry proof, char level) plus notes.
+
+Auto-calculated (all overridable): estimated ABV from OG–FG, apparent
+attenuation, US **proof gallons** and **liters of absolute alcohol** per run —
+the units TTB production reports and excise tax use — and the alcohol
+**recovery** from wash to hearts.
+
+**Fermentation gravity log & Tilt import.** Each run has a gravity-over-time log
+(date, time, specific gravity, temp, notes). The first and last readings
+auto-fill that run's OG and FG, and the app draws the fermentation curve. You can
+log readings by hand or import a Tilt hydrometer log two ways:
+
+- **Upload Tilt file** — a Tilt export as `.xlsx`, `.xls`, or `.csv` (either the
+  "Data" or "Report" sheet layout). SheetJS loads on demand from cdnjs the first
+  time you import a workbook.
+- **Sync from Google Sheet** — paste the Tilt sheet's normal share/edit link into
+  the run and hit **Sync**. The Apps Script backend reads it server-side (runs as
+  you, so no sharing or CORS needed) and pulls the readings. The link is saved
+  with the run (`tilt_sheet_url`), so you can re-sync later as the Tilt keeps
+  logging. Each batch is its own sheet, so each run remembers its own link; if
+  you instead keep one workbook with a tab per batch, copy the link while viewing
+  that batch's tab (it carries `#gid=…`) and Sync will use that tab.
+
+Either way the SG/temp series is de-duplicated, sorted, and downsampled to ~80
+points before the curve is redrawn.
+
+> Adding to an already-deployed sheet: the DistillationRuns tab gains a
+> `tilt_sheet_url` column — add it to the header row (or re-import
+> `data/distillation_runs_seed.csv`). Column lookups are by name, so Sync's save
+> will report "unknown field" until it's present.
 
 ## Data notes
 

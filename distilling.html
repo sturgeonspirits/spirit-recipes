@@ -1,0 +1,47 @@
+<!-- v1.3.0 (2026-07-06): Distilling module — mash/ferment recipe list. Full history: CHANGELOG.md -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Distilling — Sturgeon Spirits</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#3B5B45">
+<link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
+<link rel="manifest" href="icons/site.webmanifest">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="top">
+  <a href="index.html" class="back" aria-label="Back to product recipes">&larr;</a>
+  <h1>Distilling</h1>
+</header>
+<main>
+  <div id="demo-banner" class="demo-banner" style="display:none">
+    Demo mode — read-only. Add your Apps Script URL to <code>js/config.js</code> to enable editing.
+  </div>
+
+  <div class="search-bar">
+    <input type="text" id="search" placeholder="Search mash recipes…" autocomplete="off">
+  </div>
+
+  <div class="filters">
+    <select id="type-filter"><option value="">All spirit types</option></select>
+    <button class="secondary" id="new-mash">+ New mash recipe</button>
+  </div>
+
+  <div id="result-count" class="result-count"></div>
+
+  <div id="mash-rows" class="recipe-list">
+    <div class="empty-state">Loading…</div>
+  </div>
+</main>
+<script src="js/config.js"></script>
+<script src="js/api.js"></script>
+<script src="js/abv.js"></script>
+<script src="js/distill.js"></script>
+<script src="js/distilling-app.js"></script>
+</body>
+</html>

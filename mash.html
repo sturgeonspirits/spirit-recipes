@@ -1,0 +1,192 @@
+<!-- v1.4.0 (2026-07-06): + fermentation gravity log & Tilt import. v1.3.0: mash detail + run log. Full history: CHANGELOG.md -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Mash Recipe — Distilling</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#3B5B45">
+<link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
+<link rel="manifest" href="icons/site.webmanifest">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body class="has-action-bar">
+<header class="top">
+  <a href="distilling.html" class="back" aria-label="Back to distilling">&larr;</a>
+  <h1 id="mash-title">Mash Recipe</h1>
+</header>
+<main>
+  <div id="demo-banner" class="demo-banner" style="display:none">
+    Demo mode — changes here won't be saved.
+  </div>
+
+  <div class="card">
+    <div class="field"><label>Recipe name</label><input type="text" id="f-name" autocomplete="off"></div>
+    <div class="grid-2">
+      <div class="field"><label>Spirit type</label><input type="text" id="f-spirit-type" placeholder="Bourbon, Rum, Vodka wash…"></div>
+      <div class="field"><label>Linked product recipe</label>
+        <select id="f-linked-recipe"><option value="">— none —</option></select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Live calculated summary -->
+  <div class="stat-hero">
+    <div class="stat"><div class="stat-label">Expected ABV</div><div class="stat-value" id="calc-abv">—</div><div class="stat-sub">from OG–FG</div></div>
+    <div class="stat"><div class="stat-label">Attenuation</div><div class="stat-value" id="calc-atten">—</div><div class="stat-sub">apparent</div></div>
+    <div class="stat"><div class="stat-label">Batch</div><div class="stat-value" id="calc-batch">—</div><div class="stat-sub">wash volume</div></div>
+  </div>
+
+  <details class="section" open>
+    <summary>Mash bill &amp; fermentation additions</summary>
+    <div class="section-body">
+      <div id="components-body" class="ing-list"></div>
+      <button class="btn-add" id="add-component">+ Add component</button>
+      <p class="hint">Grains, sugars, enzymes, nutrients, acids, yeast — set the category and when it's added (mash vs fermentation).</p>
+    </div>
+  </details>
+
+  <details class="section" open>
+    <summary>Fermentation &amp; targets</summary>
+    <div class="section-body">
+      <div class="grid-2">
+        <div class="field"><label>Batch volume</label><input type="number" step="any" inputmode="decimal" id="f-batch-volume"></div>
+        <div class="field"><label>Volume unit</label><input type="text" id="f-volume-unit" placeholder="L, gal…"></div>
+        <div class="field"><label>Mash water volume</label><input type="number" step="any" inputmode="decimal" id="f-mash-water"></div>
+        <div class="field"><label>Water unit</label><input type="text" id="f-water-unit" placeholder="L, gal…"></div>
+        <div class="field"><label>Strike temp (°F)</label><input type="number" step="any" inputmode="decimal" id="f-strike-temp"></div>
+        <div class="field"><label>Mash pH</label><input type="number" step="any" inputmode="decimal" id="f-mash-ph"></div>
+        <div class="field"><label>Target OG</label><input type="number" step="any" inputmode="decimal" id="f-target-og" placeholder="e.g. 1.075"></div>
+        <div class="field"><label>Target FG</label><input type="number" step="any" inputmode="decimal" id="f-target-fg" placeholder="e.g. 1.010"></div>
+        <div class="field"><label>Yeast strain</label><input type="text" id="f-yeast-strain"></div>
+        <div class="field"><label>Pitch rate</label><input type="text" id="f-pitch-rate" placeholder="e.g. 1 g/L"></div>
+        <div class="field"><label>Ferment temp (°F)</label><input type="number" step="any" inputmode="decimal" id="f-ferment-temp"></div>
+        <div class="field"><label>Ferment days</label><input type="number" step="any" inputmode="decimal" id="f-ferment-days"></div>
+        <div class="field"><label>Target yield</label><input type="number" step="any" inputmode="decimal" id="f-target-yield"></div>
+        <div class="field"><label>Yield unit</label><input type="text" id="f-yield-unit" placeholder="L @ 65% ABV…"></div>
+      </div>
+    </div>
+  </details>
+
+  <details class="section">
+    <summary>Notes</summary>
+    <div class="section-body">
+      <textarea id="f-notes" rows="5"></textarea>
+    </div>
+  </details>
+
+  <!-- ===== Distillation run log ===== -->
+  <div class="card runs-card">
+    <div class="runs-head">
+      <h2>Distillation runs <span id="runs-count" class="muted"></span></h2>
+      <button class="secondary" id="add-run">+ Log a run</button>
+    </div>
+    <div id="runs-body"></div>
+  </div>
+
+  <details class="section danger-section">
+    <summary>Delete mash recipe</summary>
+    <div class="section-body">
+      <p class="hint">Permanently removes this mash recipe, its components, and all logged runs. This cannot be undone.</p>
+      <button class="btn-danger" id="delete-mash">Delete this mash recipe</button>
+      <div id="delete-confirm" class="delete-confirm" style="display:none">
+        <p class="delete-confirm-text">Are you sure? This permanently deletes <strong id="delete-mash-name"></strong>, its components, and its runs.</p>
+        <div class="delete-confirm-actions">
+          <button class="secondary" id="delete-cancel">Cancel</button>
+          <button class="btn-danger" id="delete-confirm-yes">Yes, delete permanently</button>
+        </div>
+      </div>
+    </div>
+  </details>
+</main>
+
+<div class="action-bar no-print">
+  <div class="bar-inner">
+    <button id="save-btn">Save changes</button>
+  </div>
+</div>
+
+<!-- Run editor modal -->
+<div id="run-modal" class="run-modal" hidden>
+  <div class="run-modal-card">
+    <header class="run-modal-head">
+      <h2 id="run-modal-title">Log a run</h2>
+      <button id="run-close" class="ghost" aria-label="Close">✕</button>
+    </header>
+    <div class="run-modal-body">
+      <div class="grid-2">
+        <div class="field"><label>Run date</label><input type="text" id="r-run-date" placeholder="MM/DD/YYYY"></div>
+        <div class="field"><label>Operator / distiller</label><input type="text" id="r-operator"></div>
+        <div class="field"><label>Still used</label><input type="text" id="r-still"></div>
+        <div class="field"><label>Volume unit</label><input type="text" id="r-volume-unit" placeholder="L, gal, mL"></div>
+      </div>
+
+      <div class="run-subhead">Fermentation (this batch)</div>
+      <div class="grid-2">
+        <div class="field"><label>Original gravity</label><input type="number" step="any" inputmode="decimal" id="r-og"></div>
+        <div class="field"><label>Final gravity</label><input type="number" step="any" inputmode="decimal" id="r-fg"></div>
+        <div class="field"><label>Wash ABV %</label><input type="number" step="any" inputmode="decimal" id="r-wash-abv" placeholder="auto from OG–FG if blank"></div>
+        <div class="field"><label>Wash volume</label><input type="number" step="any" inputmode="decimal" id="r-wash-volume"></div>
+      </div>
+
+      <div class="run-subhead">Fermentation gravity log</div>
+      <div id="readings-body" class="readings-list"></div>
+      <div class="reading-btns">
+        <button type="button" class="btn-add" id="add-reading">+ Add gravity reading</button>
+        <button type="button" class="secondary" id="import-tilt">⤒ Upload Tilt file</button>
+        <input type="file" id="tilt-file" accept=".xlsx,.xls,.csv" hidden>
+      </div>
+      <div class="tilt-gsheet">
+        <input type="text" id="r-tilt-url" placeholder="Tilt Google Sheet link (optional — saved with the run)">
+        <button type="button" class="secondary" id="import-gsheet">⟳ Sync from Google Sheet</button>
+      </div>
+      <div id="tilt-status" class="tilt-status" hidden></div>
+      <div id="gravity-chart" class="gravity-chart" hidden></div>
+      <p class="hint">First and last readings auto-fill OG and FG above. Log by hand, upload a Tilt export (.xlsx, .xls or .csv), or paste your Tilt Google Sheet link and Sync to pull the whole curve — and re-sync later as it keeps logging.</p>
+
+      <div class="run-subhead">Cuts</div>
+      <div class="grid-2">
+        <div class="field"><label>Foreshots volume (discard)</label><input type="number" step="any" inputmode="decimal" id="r-foreshots"></div>
+        <div class="field"><label></label><div class="muted" style="padding-top:6px">Discarded — not counted in yield.</div></div>
+        <div class="field"><label>Heads volume</label><input type="number" step="any" inputmode="decimal" id="r-heads-vol"></div>
+        <div class="field"><label>Heads ABV %</label><input type="number" step="any" inputmode="decimal" id="r-heads-abv"></div>
+        <div class="field"><label>Hearts volume</label><input type="number" step="any" inputmode="decimal" id="r-hearts-vol"></div>
+        <div class="field"><label>Hearts ABV %</label><input type="number" step="any" inputmode="decimal" id="r-hearts-abv"></div>
+        <div class="field"><label>Tails volume</label><input type="number" step="any" inputmode="decimal" id="r-tails-vol"></div>
+        <div class="field"><label>Tails ABV %</label><input type="number" step="any" inputmode="decimal" id="r-tails-abv"></div>
+        <div class="field"><label>Heads→hearts cut temp (°F)</label><input type="number" step="any" inputmode="decimal" id="r-cut-heads"></div>
+        <div class="field"><label>Hearts→tails cut temp (°F)</label><input type="number" step="any" inputmode="decimal" id="r-cut-tails"></div>
+        <div class="field"><label>Run duration</label><input type="text" id="r-duration" placeholder="e.g. 6.5 h"></div>
+      </div>
+
+      <!-- Live run calcs -->
+      <div class="run-calc" id="run-calc"></div>
+
+      <div class="run-subhead">Barrel / aging</div>
+      <div class="grid-2">
+        <div class="field"><label>Barrel ID</label><input type="text" id="r-barrel-id"></div>
+        <div class="field"><label>Barrel fill date</label><input type="text" id="r-barrel-date" placeholder="MM/DD/YYYY"></div>
+        <div class="field"><label>Entry proof</label><input type="number" step="any" inputmode="decimal" id="r-entry-proof"></div>
+        <div class="field"><label>Char level</label><input type="text" id="r-char" placeholder="#1–#4"></div>
+      </div>
+
+      <div class="field"><label>Run notes</label><textarea id="r-notes" rows="3"></textarea></div>
+    </div>
+    <footer class="run-modal-foot">
+      <button class="secondary" id="run-cancel">Cancel</button>
+      <button id="run-save">Save run</button>
+    </footer>
+  </div>
+</div>
+
+<script src="js/config.js"></script>
+<script src="js/api.js"></script>
+<script src="js/abv.js"></script>
+<script src="js/distill.js"></script>
+<script src="js/tilt.js"></script>
+<script src="js/mash-app.js"></script>
+</body>
+</html>

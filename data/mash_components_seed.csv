@@ -1,0 +1,19 @@
+mash_id,component,category,amount,unit,timing,notes
+mash_rum_molasses,Water,water,30.6,gal,mash,
+mash_rum_molasses,Molasses,sugar/adjunct,4.7,gal,mash,
+mash_rum_molasses,Cane sugar,sugar/adjunct,37.6,lbs,mash,
+mash_rum_molasses,Cold water,water,4.7,gal,mash,To cool wash before pitching
+mash_rum_molasses,Yeast nutrient,nutrient,50,g,fermentation,
+mash_rum_molasses,DADY yeast,yeast,1,cup,fermentation,
+mash_agave_spirit,Agave nectar,sugar/adjunct,5,gal,mash,
+mash_agave_spirit,Cane sugar,sugar/adjunct,18,lbs,mash,
+mash_agave_spirit,Superferm BSG nutrient,nutrient,80,g,fermentation,
+mash_agave_spirit,Yeast (turbo/fruit),yeast,1,cup,fermentation,
+mash_agave_spirit,Water,water,,gal,mash,Add to reach 40 gal total
+mash_agave_spirit,Calcium carbonate,acid/pH,,,fermentation,As needed to buffer pH if it drops
+mash_rye_whiskey,Water,water,40,gal,mash,
+mash_rye_whiskey,Rye,grain,46.7,lbs,mash,
+mash_rye_whiskey,Corn,grain,26.7,lbs,mash,
+mash_rye_whiskey,Malted barley,grain,10,lbs,mash,
+mash_rye_whiskey,Alpha-amylase (hi-temp),enzyme,,,mash,"Add at 158F, hold 30 min"
+mash_rye_whiskey,Distillers yeast,yeast,0.75,cup,fermentation,

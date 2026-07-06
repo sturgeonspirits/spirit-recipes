@@ -1,4 +1,4 @@
-<!-- v1.1.0 (2026-07-05): added Production section (last_production_date, volume_produced). Full history: CHANGELOG.md -->
+<!-- v1.2.0 (2026-07-06): added full-screen Make mode (production view). Full history: CHANGELOG.md -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,6 +17,7 @@
 <header class="top">
   <a href="index.html" class="back" aria-label="Back to all recipes">&larr;</a>
   <h1 id="recipe-title">Recipe</h1>
+  <button id="make-mode-btn" class="header-action no-print" aria-label="Open make mode">&#9654; Make</button>
 </header>
 <main>
   <div id="demo-banner" class="demo-banner" style="display:none">
@@ -116,6 +117,49 @@
     </div>
   </details>
 </main>
+
+<!-- ===== Make mode: full-screen, read-only view for producing the recipe ===== -->
+<div id="make-mode" class="make-mode" hidden>
+  <header class="make-top">
+    <h1 id="make-title">Recipe</h1>
+    <button id="make-done" class="make-done" aria-label="Close make mode">Done</button>
+  </header>
+  <div class="make-scroll">
+    <div class="make-hero">
+      <div class="make-abv">
+        <span class="make-hero-label">ABV</span>
+        <span class="make-hero-value" id="make-abv-value">&mdash;</span>
+      </div>
+      <div class="make-batch">
+        <span class="make-hero-label">Batch this run</span>
+        <span class="make-hero-value" id="make-batch-value">&mdash;</span>
+      </div>
+    </div>
+
+    <div class="make-scaler">
+      <span class="make-scaler-label">Scale</span>
+      <div class="make-scaler-btns" id="make-scaler-btns">
+        <button type="button" data-mult="0.5">&frac12;&times;</button>
+        <button type="button" data-mult="1" class="active">1&times;</button>
+        <button type="button" data-mult="2">2&times;</button>
+        <button type="button" data-mult="3">3&times;</button>
+      </div>
+      <input type="number" id="make-mult-input" step="any" inputmode="decimal" placeholder="custom &times;" aria-label="Custom multiplier">
+    </div>
+
+    <div class="make-progress">
+      <span id="make-progress-text">0 / 0 added</span>
+      <button type="button" id="make-reset" class="make-reset">Reset</button>
+    </div>
+
+    <ol id="make-ingredients" class="make-ings"></ol>
+
+    <div id="make-notes-wrap" class="make-notes" hidden>
+      <div class="make-notes-label">Notes</div>
+      <div id="make-notes-text"></div>
+    </div>
+  </div>
+</div>
 
 <div class="action-bar no-print">
   <div class="bar-inner">
