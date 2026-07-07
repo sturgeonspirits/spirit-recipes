@@ -570,15 +570,31 @@ function doPost(e) {
 
 // ================= Account setup (run from the editor) =================
 // The web app can't create the first account (login requires an existing user),
-// so bootstrap accounts here:
-//   1. Edit the username / password / name below.
-//   2. In the Apps Script editor, pick SETUP_createUser from the function
-//      dropdown and click Run (authorize if prompted).
-//   3. Delete the password you typed once it's created, and Save.
-// Re-running with an existing username resets that user's password. Add more
-// people by changing the values and running again.
+// so bootstrap accounts here. YOU TYPE THE PASSWORD IN THIS FUNCTION — never in
+// the Users sheet. The sheet only ever stores a salted hash.
+//
+// HOW TO USE:
+//   1. Edit the values in the createUserAccount_(username, password, name) line
+//      below. Password goes in the MIDDLE quotes.
+//   2. In the editor toolbar, set the function dropdown to SETUP_createUser and
+//      click Run (authorize the first time).
+//   3. Check the Users tab — a row with salt + password_hash should appear.
+//   4. Delete the password you typed (put a placeholder back) and Save, so no
+//      plaintext is left in the code.
+//
+// ADDING MORE PEOPLE — two options:
+//   A) Change the one line to the next person and Run again (repeat per person).
+//   B) Add a line per person and Run once, e.g.:
+//         createUserAccount_("karl", "KarlsPass1!", "Karl");
+//         createUserAccount_("sam",  "SamsPass2!",  "Sam");
+//         createUserAccount_("jo",   "JosPass3!",   "Jo");
+//
+// Running with a username that already exists RESETS that person's password
+// (no duplicate row) — so this is also how you change a password.
+// To disable someone instead, set their `active` cell to "no" in the Users tab.
 function SETUP_createUser() {
   createUserAccount_("karl", "CHANGE-ME-NOW", "Karl");
+  // Add more createUserAccount_(...) lines here if you want to create several at once.
 }
 
 // Add or reset a user. Passwords are never stored — only a salted SHA-256 hash.
