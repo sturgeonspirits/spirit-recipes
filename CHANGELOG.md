@@ -9,11 +9,12 @@ carries a one-line version header at the top pointing back to this file.
   pops a one-line definition on tap — tap again, tap away, or press Escape to
   close. Replaces the inline hints from v1.9.1 so the form stays uncluttered.
   New `js/infotips.js` (a generic `.info-btn[data-tip]` popover) + styles.
-- **Additions/tweaks editor rebuilt for mobile.** The per-run additions entry was
-  a cramped 7-column grid that collapsed into unreadable stacked boxes on a
-  phone. It now uses the same labeled component-card layout as the mash bill:
+- **Additions/tweaks and gravity-reading editors rebuilt for mobile.** Both were
+  cramped multi-column grids that collapsed into unreadable stacked boxes on a
+  phone. They now use the same labeled component-card layout as the mash bill:
   each field has a visible label and the card reflows to two columns on narrow
-  screens. Front-end only (`mash.html`, `js/mash-app.js`, `js/infotips.js`,
+  screens. Gravity readings lead with a Date/Time header, then Gravity, Temp, pH,
+  and Notes. Front-end only (`mash.html`, `js/mash-app.js`, `js/infotips.js`,
   `styles.css`) — no backend change, no redeploy needed.
 
 ## v1.9.1 - 2026-07-07

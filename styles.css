@@ -988,20 +988,11 @@ body.has-action-bar main { padding-bottom: 96px; }
 .cut-suggest-laa { margin-top: 6px; font-weight: 600; color: var(--accent-dark); }
 .cut-suggest-note { margin-top: 6px; font-size: 0.78rem; color: var(--muted); font-style: italic; }
 
-/* Fermentation gravity log (run modal) */
-.readings-list { display: grid; gap: 8px; margin-bottom: 10px; }
-.reading-row {
-  display: grid;
-  grid-template-columns: 1.3fr 0.9fr 0.9fr 0.7fr 0.7fr 1.6fr auto;
-  gap: 6px;
-  align-items: center;
-}
-.reading-row input { min-height: 40px; padding: 8px 10px; }
-.reading-row .btn-remove { min-width: 40px; min-height: 40px; }
-@media (max-width: 560px) {
-  .reading-row { grid-template-columns: 1fr 1fr auto; }
-  .reading-row .rd-notes { grid-column: 1 / -1; }
-}
+/* Fermentation gravity log (run modal) — labeled component-card layout so each
+   reading is readable on a phone (Date/Time header, then Gravity/Temp/pH/Notes). */
+.readings-list { display: grid; gap: 10px; margin-bottom: 10px; }
+.reading-card .reading-when { align-items: flex-end; }
+.reading-card .reading-when .mini { flex: 1 1 auto; margin: 0; }
 
 /* Run additions / tweaks (run modal) — reuses the component-card layout so the
    fields stay labeled and reflow cleanly on a phone instead of piling up. */

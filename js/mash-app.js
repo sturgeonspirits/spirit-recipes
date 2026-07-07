@@ -1,5 +1,5 @@
-// v1.10.0 (2026-07-07): additions/tweaks editor rebuilt as labeled cards so it's
-// readable on a phone (was a cramped grid). v1.8.0: + suggested-cuts panel (best-practice foreshots/heads/
+// v1.10.0 (2026-07-07): additions/tweaks AND gravity-reading editors rebuilt as
+// labeled cards so they're readable on a phone (were cramped grids). v1.8.0: + suggested-cuts panel (best-practice foreshots/heads/
 // hearts/tails guidance with foreshots mL + expected pure alcohol) on the run
 // form. v1.7.0: + Compare runs table with tweak highlighter, and a live
 // predicted-ABV readout from OG on the run form. v1.6.0: +
@@ -433,15 +433,23 @@
     readingsEl.innerHTML = "";
     currentReadings.forEach((rd, idx) => {
       const row = document.createElement("div");
-      row.className = "reading-row";
+      row.className = "ing-card comp-card reading-card";
       row.innerHTML = `
-        <input type="text" data-f="reading_date" placeholder="MM/DD/YYYY" aria-label="Reading date" class="rd-date">
-        <input type="text" data-f="reading_time" placeholder="hh:mm" aria-label="Reading time" class="rd-time">
-        <input type="number" step="any" inputmode="decimal" data-f="gravity" placeholder="SG" aria-label="Gravity" class="rd-grav">
-        <input type="number" step="any" inputmode="decimal" data-f="temp" placeholder="°" aria-label="Temp" class="rd-temp">
-        <input type="number" step="any" inputmode="decimal" data-f="ph" placeholder="pH" aria-label="pH" class="rd-ph">
-        <input type="text" data-f="notes" placeholder="notes" aria-label="Reading notes" class="rd-notes">
-        <button type="button" class="btn-remove" data-action="remove" aria-label="Remove reading">✕</button>
+        <div class="ing-name reading-when">
+          <div class="mini"><label>Date</label>
+            <input type="text" data-f="reading_date" placeholder="MM/DD/YYYY" aria-label="Reading date"></div>
+          <div class="mini"><label>Time</label>
+            <input type="text" data-f="reading_time" placeholder="hh:mm" aria-label="Reading time"></div>
+          <button type="button" class="btn-remove" data-action="remove" aria-label="Remove reading">✕</button>
+        </div>
+        <div class="mini"><label>Gravity</label>
+          <input type="number" step="any" inputmode="decimal" data-f="gravity" placeholder="SG" aria-label="Gravity"></div>
+        <div class="mini"><label>Temp</label>
+          <input type="number" step="any" inputmode="decimal" data-f="temp" placeholder="°" aria-label="Temp"></div>
+        <div class="mini"><label>pH</label>
+          <input type="number" step="any" inputmode="decimal" data-f="ph" placeholder="pH" aria-label="pH"></div>
+        <div class="mini comp-notes"><label>Notes</label>
+          <input type="text" data-f="notes" placeholder="e.g. OG, pitched yeast…" aria-label="Reading notes"></div>
       `;
       row.querySelector('[data-f="reading_date"]').value = rd.reading_date || "";
       row.querySelector('[data-f="reading_time"]').value = rd.reading_time || "";
