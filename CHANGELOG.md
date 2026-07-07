@@ -3,6 +3,24 @@
 All notable changes to this project are logged here. Each code file also
 carries a one-line version header at the top pointing back to this file.
 
+## v1.10.0 - 2026-07-07
+- **Click-through field definitions.** Every field on the mash recipe page (and
+  the Expected ABV / Attenuation / Batch stats) now has a small "?" button that
+  pops a one-line definition on tap — tap again, tap away, or press Escape to
+  close. Replaces the inline hints from v1.9.1 so the form stays uncluttered.
+  New `js/infotips.js` (a generic `.info-btn[data-tip]` popover) + styles.
+- **Additions/tweaks editor rebuilt for mobile.** The per-run additions entry was
+  a cramped 7-column grid that collapsed into unreadable stacked boxes on a
+  phone. It now uses the same labeled component-card layout as the mash bill:
+  each field has a visible label and the card reflows to two columns on narrow
+  screens. Front-end only (`mash.html`, `js/mash-app.js`, `js/infotips.js`,
+  `styles.css`) — no backend change, no redeploy needed.
+
+## v1.9.1 - 2026-07-07
+- **Inline field definitions** on the mash recipe page: short helper hints under
+  Strike temp, Pitch rate, and Yield unit explaining what each means. Front-end
+  copy only (`mash.html`, `styles.css`) — superseded by the tooltips in v1.10.0.
+
 ## v1.9.0 - 2026-07-07
 - **Access control (login required).** The app and its data are no longer open to
   anyone with the link. Every read and write now requires a valid session token.

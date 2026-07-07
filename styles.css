@@ -425,6 +425,25 @@ details.section > .section-body { padding: 0 16px 16px; }
 .tool-row .grow { flex: 1 1 90px; }
 .tool-row button { flex-shrink: 0; }
 .hint { color: var(--muted); font-size: 13px; margin: 10px 0 0; }
+
+/* Click-through field definitions (info tooltips) */
+.info-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 18px; height: 18px; margin-left: 5px; padding: 0;
+  border: 1px solid var(--border); border-radius: 50%;
+  background: #fff; color: var(--muted);
+  font-size: 11px; font-weight: 700; line-height: 1; cursor: pointer;
+  vertical-align: middle; flex-shrink: 0;
+}
+.info-btn:hover, .info-btn[aria-expanded="true"] { border-color: var(--accent); color: var(--accent); }
+.stat-label .info-btn { border-color: rgba(255,255,255,0.5); background: transparent; color: inherit; }
+.info-pop {
+  position: fixed; z-index: 200; max-width: 300px;
+  background: var(--text); color: #fff;
+  font-size: 13px; font-weight: 400; line-height: 1.4; text-transform: none; letter-spacing: normal;
+  padding: 9px 12px; border-radius: 10px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.22);
+}
 .tool-divider {
   display: flex; align-items: center; gap: 10px;
   color: var(--muted); font-size: 12px; font-weight: 600;
@@ -984,20 +1003,9 @@ body.has-action-bar main { padding-bottom: 96px; }
   .reading-row .rd-notes { grid-column: 1 / -1; }
 }
 
-/* Run additions / tweaks (run modal) */
-.additions-list { display: grid; gap: 8px; margin-bottom: 10px; }
-.addition-row {
-  display: grid;
-  grid-template-columns: 1.4fr 1fr 0.7fr 0.7fr 0.9fr 1.6fr auto;
-  gap: 6px;
-  align-items: center;
-}
-.addition-row input, .addition-row select { min-height: 40px; padding: 8px 10px; }
-.addition-row .btn-remove { min-width: 40px; min-height: 40px; }
-@media (max-width: 560px) {
-  .addition-row { grid-template-columns: 1fr 1fr auto; }
-  .addition-row .ad-notes { grid-column: 1 / -1; }
-}
+/* Run additions / tweaks (run modal) — reuses the component-card layout so the
+   fields stay labeled and reflow cleanly on a phone instead of piling up. */
+.additions-list { display: grid; gap: 10px; margin-bottom: 10px; }
 
 /* Additions summary chips on run cards */
 .run-additions {

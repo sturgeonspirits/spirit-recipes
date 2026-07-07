@@ -1,4 +1,4 @@
-<!-- v1.8.0 (2026-07-07): + suggested-cuts panel on the run form. v1.7.0: + Compare runs table with tweak highlighter & predicted ABV. v1.6.0: + per-run additions/tweaks list. v1.5.0: + per-reading pH. v1.4.0: + fermentation gravity log & Tilt import. v1.3.0: mash detail + run log. Full history: CHANGELOG.md -->
+<!-- v1.10.0 (2026-07-07): click-through info tooltips on all mash fields; additions/tweaks editor rebuilt as labeled cards (mobile-friendly). v1.9.1: inline field definitions. v1.8.0: + suggested-cuts panel. v1.7.0: + Compare runs table, tweak highlighter & predicted ABV. v1.6.0: + additions/tweaks list. v1.5.0: + per-reading pH. v1.4.0: + fermentation gravity log & Tilt import. v1.3.0: mash detail + run log. Full history: CHANGELOG.md -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,10 +24,10 @@
   </div>
 
   <div class="card">
-    <div class="field"><label>Recipe name</label><input type="text" id="f-name" autocomplete="off"></div>
+    <div class="field"><label>Recipe name <button type="button" class="info-btn" aria-label="About Recipe name" aria-expanded="false" data-tip="A name for this mash/wash recipe — this is how it appears in the distilling list.">?</button></label><input type="text" id="f-name" autocomplete="off"></div>
     <div class="grid-2">
-      <div class="field"><label>Spirit type</label><input type="text" id="f-spirit-type" placeholder="Bourbon, Rum, Vodka wash…"></div>
-      <div class="field"><label>Linked product recipe</label>
+      <div class="field"><label>Spirit type <button type="button" class="info-btn" aria-label="About Spirit type" aria-expanded="false" data-tip="What you're making from this wash — e.g. Bourbon, Rum, Vodka wash, Agave spirit. Used to group and filter recipes.">?</button></label><input type="text" id="f-spirit-type" placeholder="Bourbon, Rum, Vodka wash…"></div>
+      <div class="field"><label>Linked product recipe <button type="button" class="info-btn" aria-label="About Linked product recipe" aria-expanded="false" data-tip="Optional link to a product in your catalog, so this wash ties back to the finished, bottled spirit.">?</button></label>
         <select id="f-linked-recipe"><option value="">— none —</option></select>
       </div>
     </div>
@@ -35,9 +35,9 @@
 
   <!-- Live calculated summary -->
   <div class="stat-hero">
-    <div class="stat"><div class="stat-label">Expected ABV</div><div class="stat-value" id="calc-abv">—</div><div class="stat-sub">from OG–FG</div></div>
-    <div class="stat"><div class="stat-label">Attenuation</div><div class="stat-value" id="calc-atten">—</div><div class="stat-sub">apparent</div></div>
-    <div class="stat"><div class="stat-label">Batch</div><div class="stat-value" id="calc-batch">—</div><div class="stat-sub">wash volume</div></div>
+    <div class="stat"><div class="stat-label">Expected ABV <button type="button" class="info-btn" aria-label="About Expected ABV" aria-expanded="false" data-tip="Estimated alcohol by volume of the finished wash, from Target OG and FG: (OG − FG) × 131.25.">?</button></div><div class="stat-value" id="calc-abv">—</div><div class="stat-sub">from OG–FG</div></div>
+    <div class="stat"><div class="stat-label">Attenuation <button type="button" class="info-btn" aria-label="About Attenuation" aria-expanded="false" data-tip="Share of the sugar the yeast consumed, from OG and FG. Higher means a more fully fermented, drier wash.">?</button></div><div class="stat-value" id="calc-atten">—</div><div class="stat-sub">apparent</div></div>
+    <div class="stat"><div class="stat-label">Batch <button type="button" class="info-btn" aria-label="About Batch" aria-expanded="false" data-tip="Your wash (batch) volume — the amount of liquid you ferment.">?</button></div><div class="stat-value" id="calc-batch">—</div><div class="stat-sub">wash volume</div></div>
   </div>
 
   <details class="section" open>
@@ -53,20 +53,20 @@
     <summary>Fermentation &amp; targets</summary>
     <div class="section-body">
       <div class="grid-2">
-        <div class="field"><label>Batch volume</label><input type="number" step="any" inputmode="decimal" id="f-batch-volume"></div>
-        <div class="field"><label>Volume unit</label><input type="text" id="f-volume-unit" placeholder="L, gal…"></div>
-        <div class="field"><label>Mash water volume</label><input type="number" step="any" inputmode="decimal" id="f-mash-water"></div>
-        <div class="field"><label>Water unit</label><input type="text" id="f-water-unit" placeholder="L, gal…"></div>
-        <div class="field"><label>Strike temp (°F)</label><input type="number" step="any" inputmode="decimal" id="f-strike-temp"></div>
-        <div class="field"><label>Mash pH</label><input type="number" step="any" inputmode="decimal" id="f-mash-ph"></div>
-        <div class="field"><label>Target OG</label><input type="number" step="any" inputmode="decimal" id="f-target-og" placeholder="e.g. 1.075"></div>
-        <div class="field"><label>Target FG</label><input type="number" step="any" inputmode="decimal" id="f-target-fg" placeholder="e.g. 1.010"></div>
-        <div class="field"><label>Yeast strain</label><input type="text" id="f-yeast-strain"></div>
-        <div class="field"><label>Pitch rate</label><input type="text" id="f-pitch-rate" placeholder="e.g. 1 g/L"></div>
-        <div class="field"><label>Ferment temp (°F)</label><input type="number" step="any" inputmode="decimal" id="f-ferment-temp"></div>
-        <div class="field"><label>Ferment days</label><input type="number" step="any" inputmode="decimal" id="f-ferment-days"></div>
-        <div class="field"><label>Target yield</label><input type="number" step="any" inputmode="decimal" id="f-target-yield"></div>
-        <div class="field"><label>Yield unit</label><input type="text" id="f-yield-unit" placeholder="L @ 65% ABV…"></div>
+        <div class="field"><label>Batch volume <button type="button" class="info-btn" aria-label="About Batch volume" aria-expanded="false" data-tip="How much wash you ferment in this batch (in the volume unit at right).">?</button></label><input type="number" step="any" inputmode="decimal" id="f-batch-volume"></div>
+        <div class="field"><label>Volume unit <button type="button" class="info-btn" aria-label="About Volume unit" aria-expanded="false" data-tip="Unit for batch and wash volumes — L, gal, or mL.">?</button></label><input type="text" id="f-volume-unit" placeholder="L, gal…"></div>
+        <div class="field"><label>Mash water volume <button type="button" class="info-btn" aria-label="About Mash water volume" aria-expanded="false" data-tip="Water used to mash/cook the grain or dissolve the sugar, before topping up to the full batch volume.">?</button></label><input type="number" step="any" inputmode="decimal" id="f-mash-water"></div>
+        <div class="field"><label>Water unit <button type="button" class="info-btn" aria-label="About Water unit" aria-expanded="false" data-tip="Unit for the mash water volume — L or gal.">?</button></label><input type="text" id="f-water-unit" placeholder="L, gal…"></div>
+        <div class="field"><label>Strike temp (°F) <button type="button" class="info-btn" aria-label="About Strike temp" aria-expanded="false" data-tip="Water temp before you add grain — strike hotter than your target rest temp, since the room-temp grain cools it. Grain mashes only.">?</button></label><input type="number" step="any" inputmode="decimal" id="f-strike-temp"></div>
+        <div class="field"><label>Mash pH <button type="button" class="info-btn" aria-label="About Mash pH" aria-expanded="false" data-tip="Acidity of the mash. Around 5.2–5.6 suits grain conversion; sugar and molasses washes are often adjusted to keep the yeast happy.">?</button></label><input type="number" step="any" inputmode="decimal" id="f-mash-ph"></div>
+        <div class="field"><label>Target OG <button type="button" class="info-btn" aria-label="About Target OG" aria-expanded="false" data-tip="Original gravity you aim for before fermentation — how much sugar is in the wash (e.g. 1.075). Higher OG = more potential alcohol.">?</button></label><input type="number" step="any" inputmode="decimal" id="f-target-og" placeholder="e.g. 1.075"></div>
+        <div class="field"><label>Target FG <button type="button" class="info-btn" aria-label="About Target FG" aria-expanded="false" data-tip="Final gravity you expect when fermentation finishes (e.g. 1.010). OG minus FG drives the ABV.">?</button></label><input type="number" step="any" inputmode="decimal" id="f-target-fg" placeholder="e.g. 1.010"></div>
+        <div class="field"><label>Yeast strain <button type="button" class="info-btn" aria-label="About Yeast strain" aria-expanded="false" data-tip="The yeast you pitch — e.g. distillers yeast, DADY, turbo, or a specific named strain.">?</button></label><input type="text" id="f-yeast-strain"></div>
+        <div class="field"><label>Pitch rate <button type="button" class="info-btn" aria-label="About Pitch rate" aria-expanded="false" data-tip="How much yeast you add (&quot;pitch&quot;) relative to the batch — e.g. 1 g/L or 2 cups per 40 gal. Recorded so you can repeat what worked.">?</button></label><input type="text" id="f-pitch-rate" placeholder="e.g. 1 g/L"></div>
+        <div class="field"><label>Ferment temp (°F) <button type="button" class="info-btn" aria-label="About Ferment temp" aria-expanded="false" data-tip="Temperature you hold during fermentation. Staying in the yeast's range keeps the ferment clean and avoids off flavors.">?</button></label><input type="number" step="any" inputmode="decimal" id="f-ferment-temp"></div>
+        <div class="field"><label>Ferment days <button type="button" class="info-btn" aria-label="About Ferment days" aria-expanded="false" data-tip="Roughly how long fermentation takes for this recipe, start to finish.">?</button></label><input type="number" step="any" inputmode="decimal" id="f-ferment-days"></div>
+        <div class="field"><label>Target yield <button type="button" class="info-btn" aria-label="About Target yield" aria-expanded="false" data-tip="How much spirit you expect this recipe to make (in the yield unit at right).">?</button></label><input type="number" step="any" inputmode="decimal" id="f-target-yield"></div>
+        <div class="field"><label>Yield unit <button type="button" class="info-btn" aria-label="About Yield unit" aria-expanded="false" data-tip="Unit for the Target yield number — e.g. L @ 65% ABV, proof gallons, or L of absolute alcohol.">?</button></label><input type="text" id="f-yield-unit" placeholder="L @ 65% ABV…"></div>
       </div>
     </div>
   </details>
@@ -211,6 +211,7 @@
 <script src="js/abv.js"></script>
 <script src="js/distill.js"></script>
 <script src="js/tilt.js"></script>
+<script src="js/infotips.js"></script>
 <script src="js/mash-app.js"></script>
 </body>
 </html>

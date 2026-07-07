@@ -1,4 +1,5 @@
-// v1.8.0 (2026-07-07): + suggested-cuts panel (best-practice foreshots/heads/
+// v1.10.0 (2026-07-07): additions/tweaks editor rebuilt as labeled cards so it's
+// readable on a phone (was a cramped grid). v1.8.0: + suggested-cuts panel (best-practice foreshots/heads/
 // hearts/tails guidance with foreshots mL + expected pure alcohol) on the run
 // form. v1.7.0: + Compare runs table with tweak highlighter, and a live
 // predicted-ABV readout from OG on the run form. v1.6.0: +
@@ -382,15 +383,22 @@
     const opts = COMPONENT_CATEGORIES.map(cat => `<option value="${cat}">${cat}</option>`).join("");
     currentAdditions.forEach((ad, idx) => {
       const row = document.createElement("div");
-      row.className = "addition-row";
+      row.className = "ing-card comp-card add-card";
       row.innerHTML = `
-        <input type="text" data-f="item" placeholder="Item (e.g. SuperFerm)" aria-label="Addition item" class="ad-item">
-        <select data-f="category" aria-label="Category" class="ad-cat">${opts}</select>
-        <input type="number" step="any" inputmode="decimal" data-f="amount" placeholder="Amt" aria-label="Amount" class="ad-amt">
-        <input type="text" data-f="unit" placeholder="unit" aria-label="Unit" class="ad-unit">
-        <input type="text" data-f="timing" placeholder="timing" aria-label="Timing" class="ad-timing">
-        <input type="text" data-f="notes" placeholder="why / result" aria-label="Addition notes" class="ad-notes">
-        <button type="button" class="btn-remove" data-action="remove" aria-label="Remove addition">✕</button>
+        <div class="ing-name">
+          <input type="text" data-f="item" placeholder="Item (e.g. SuperFerm)" aria-label="Addition item">
+          <button type="button" class="btn-remove" data-action="remove" aria-label="Remove addition">✕</button>
+        </div>
+        <div class="mini"><label>Category</label>
+          <select data-f="category">${opts}</select></div>
+        <div class="mini"><label>Amount</label>
+          <input type="number" step="any" inputmode="decimal" data-f="amount"></div>
+        <div class="mini"><label>Unit</label>
+          <input type="text" data-f="unit" placeholder="g, mL, cup…"></div>
+        <div class="mini"><label>Timing</label>
+          <input type="text" data-f="timing" placeholder="fermentation…"></div>
+        <div class="mini comp-notes"><label>Why / result</label>
+          <input type="text" data-f="notes" placeholder="e.g. testing vs usual nutrient"></div>
       `;
       row.querySelector('[data-f="item"]').value = ad.item || "";
       row.querySelector('[data-f="category"]').value = COMPONENT_CATEGORIES.includes(ad.category) ? ad.category : "nutrient";
