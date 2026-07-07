@@ -1,6 +1,8 @@
-// v1.4.0 (2026-07-06): + fermentation gravity log (editable readings, live
-// curve, OG/FG autofill) and Tilt-export import. v1.3.0: mash detail —
-// components, live calcs, distillation run log. Full history: CHANGELOG.md
+// v1.7.0 (2026-07-07): + Compare runs table (all runs of a recipe side by side:
+// OG→FG, ABV, pH, yield, recovery, tweaks) with a tweak highlighter. v1.6.0: +
+// per-run additions/tweaks list. v1.5.0: + pH tracking in the fermentation log.
+// v1.4.0: + fermentation gravity log, live curve, Tilt import. v1.3.0: mash
+// detail — components, live calcs, run log. Full history: CHANGELOG.md
 (async function () {
   const params = new URLSearchParams(location.search);
   const id = params.get("id");
@@ -151,6 +153,26 @@
   function runStat(label, value) {
     return `<div class="run-stat"><span class="run-stat-label">${label}</span><span class="run-stat-val">${value}</span></div>`;
   }
+  // pH summary for a fermentation span: start→end if it moved, else a single
+  // value. Returns "" when no pH was logged. Leading " · " so it appends inline.
+  function phValue(span) {
+    if (!span || !span.hasPh) return "—";
+    const a = D.round(span.phFirst, 2), b = D.round(span.phLast, 2);
+    return a === b ? String(a) : a + "→" + b;
+  }
+  function phText(span) {
+    return (!span || !span.hasPh) ? "" : " · pH " + phValue(span);
+  }
+  // Compact chips row of a run's additions/tweaks (item + amount/unit).
+  function additionsSummary(additions) {
+    const list = (additions || []).filter(a => a.item && String(a.item).trim() !== "");
+    if (!list.length) return "";
+    const chips = list.map(a => {
+      const amt = (a.amount !== "" && a.amount != null) ? " " + escapeHTML(String(a.amount)) + (a.unit ? " " + escapeHTML(a.unit) : "") : "";
+      return `<span class="add-chip">${escapeHTML(a.item)}${amt}</span>`;
+    }).join("");
+    return `<div class="run-additions"><span class="run-additions-label">Tweaks</span>${chips}</div>`;
+  }
   function renderRuns() {
     $("runs-count").textContent = mash.runs.length ? `(${mash.runs.length})` : "";
     if (!mash.runs.length) {
@@ -168,7 +190,7 @@
       const span = D.readingSpan(run.readings);
       const ferment = span ? `<div class="run-ferment">
           <span class="spark-wrap">${fermChart(span.gravities, span.temps, 120, 34, { showTemp: span.hasTemp, showDots: false })}</span>
-          <span class="run-ferment-txt">Ferment OG ${span.og} → FG ${span.fg}${span.days != null ? " · " + span.days + "d" : ""} · ${span.count} readings${span.hasTemp ? " · temp " + D.round(span.tempRange.min, 0) + "–" + D.round(span.tempRange.max, 0) + "°" : ""}</span>
+          <span class="run-ferment-txt">Ferment OG ${span.og} → FG ${span.fg}${span.days != null ? " · " + span.days + "d" : ""} · ${span.count} readings${span.hasTemp ? " · temp " + D.round(span.tempRange.min, 0) + "–" + D.round(span.tempRange.max, 0) + "°" : ""}${phText(span)}</span>
         </div>` : "";
       return `<div class="run-item" data-run="${escapeHTML(run.run_id)}">
         <div class="run-item-head">
@@ -186,6 +208,7 @@
           ${runStat("Recovery", rec === null ? "—" : fmt(rec, 0) + "%")}
         </div>
         ${ferment}
+        ${additionsSummary(run.additions)}
         ${barrel}
         ${run.notes ? `<div class="run-note">${escapeHTML(run.notes)}</div>` : ""}
       </div>`;
@@ -193,7 +216,95 @@
 
     runsBody.querySelectorAll(".run-edit").forEach(b => b.addEventListener("click", () => openRunModal(b.dataset.run)));
     runsBody.querySelectorAll(".run-del").forEach(b => b.addEventListener("click", () => deleteRun(b.dataset.run)));
+    renderCompare();
   }
+
+  // ---------- Compare runs (all runs of this recipe, side by side) ----------
+  let compareFilter = "";  // lowercased tweak item to highlight, or "" for none
+  function runAdditionItems(run) {
+    return (run.additions || [])
+      .filter(a => a.item && String(a.item).trim() !== "")
+      .map(a => String(a.item).trim());
+  }
+  function renderCompare() {
+    const wrap = $("runs-compare");
+    const section = $("compare-section");
+    const countEl = $("compare-count");
+    if (!mash.runs.length) {
+      if (section) section.style.display = "none";
+      return;
+    }
+    if (section) section.style.display = "";
+    countEl.textContent = `(${mash.runs.length})`;
+
+    const sorted = mash.runs.slice().sort((a, b) => String(b.run_date).localeCompare(String(a.run_date)));
+
+    // Populate the tweak-highlight dropdown with the distinct items used.
+    const items = Array.from(new Set(
+      mash.runs.flatMap(runAdditionItems).map(s => s)
+    )).sort((a, b) => a.localeCompare(b));
+    const sel = $("compare-filter");
+    const keep = sel.value;
+    sel.innerHTML = `<option value="">— show all runs —</option>` +
+      items.map(it => `<option value="${escapeHTML(it.toLowerCase())}">${escapeHTML(it)}</option>`).join("");
+    sel.value = items.some(it => it.toLowerCase() === keep) ? keep : "";
+    compareFilter = sel.value;
+
+    const rows = sorted.map(run => {
+      const span = D.readingSpan(run.readings);
+      const og = span ? span.og : (run.ferment_og || "");
+      const fg = span ? span.fg : (run.ferment_fg || "");
+      const ogfg = (og || fg) ? `${og || "—"} → ${fg || "—"}` : "—";
+      const abv = D.washABV(run);
+      const days = span && span.days != null ? span.days : "—";
+      const hearts = run.hearts_volume
+        ? `${fmt(run.hearts_volume)} ${escapeHTML(run.volume_unit || "")} @ ${fmt(run.hearts_abv)}%` : "—";
+      const pg = D.proofGallons(run.hearts_volume, run.volume_unit, run.hearts_abv);
+      const rec = D.heartsRecovery(run);
+      const tweakItems = runAdditionItems(run);
+      const tweakChips = tweakItems.length
+        ? (run.additions || []).filter(a => a.item && String(a.item).trim() !== "").map(a => {
+            const amt = (a.amount !== "" && a.amount != null) ? " " + escapeHTML(String(a.amount)) + (a.unit ? " " + escapeHTML(a.unit) : "") : "";
+            return `<span class="add-chip">${escapeHTML(a.item)}${amt}</span>`;
+          }).join(" ")
+        : `<span class="muted">—</span>`;
+      const dataItems = tweakItems.map(i => i.toLowerCase()).join("|");
+      return `<tr data-items="${escapeHTML(dataItems)}">
+        <td class="c-date">${escapeHTML(run.run_date || "—")}</td>
+        <td>${escapeHTML(ogfg)}</td>
+        <td>${abv === null ? "—" : fmt(abv) + "%"}</td>
+        <td>${escapeHTML(phValue(span))}</td>
+        <td>${days === "—" ? "—" : days + "d"}</td>
+        <td>${hearts}</td>
+        <td>${pg === null ? "—" : fmt(pg)}</td>
+        <td>${rec === null ? "—" : fmt(rec, 0) + "%"}</td>
+        <td class="c-tweaks">${tweakChips}</td>
+      </tr>`;
+    }).join("");
+
+    wrap.innerHTML = `<table class="compare-table">
+      <thead><tr>
+        <th>Date</th><th>OG → FG</th><th>Wash ABV</th><th>pH</th><th>Days</th>
+        <th>Hearts</th><th>Proof gal</th><th>Recovery</th><th>Tweaks</th>
+      </tr></thead>
+      <tbody>${rows}</tbody>
+    </table>`;
+    applyCompareHighlight();
+  }
+  function applyCompareHighlight() {
+    const wrap = $("runs-compare");
+    wrap.querySelectorAll("tbody tr").forEach(tr => {
+      tr.classList.remove("row-match", "row-dim");
+      if (!compareFilter) return;
+      const items = (tr.dataset.items || "").split("|");
+      if (items.includes(compareFilter)) tr.classList.add("row-match");
+      else tr.classList.add("row-dim");
+    });
+  }
+  $("compare-filter").addEventListener("change", () => {
+    compareFilter = $("compare-filter").value;
+    applyCompareHighlight();
+  });
   renderRuns();
 
   // ---------- Run modal ----------
@@ -209,6 +320,7 @@
   };
   let editingRunId = null;
   let currentReadings = [];   // gravity log for the run being edited
+  let currentAdditions = [];  // additions/tweaks for the run being edited
 
   // Build an inline SVG chart of a data series scaled to its own min/max, laid
   // out across the full width. Values that are null are skipped (the line
@@ -254,6 +366,58 @@
     return svg;
   }
 
+  // ---------- Run additions / tweaks ----------
+  const additionsEl = $("additions-body");
+  function renderAdditions() {
+    additionsEl.innerHTML = "";
+    if (!currentAdditions.length) {
+      const empty = document.createElement("div");
+      empty.className = "muted";
+      empty.style.cssText = "padding:4px 0 8px";
+      empty.textContent = "No tweaks logged for this run — add nutrients, yeast, acid, or anything you changed from the recipe.";
+      additionsEl.appendChild(empty);
+    }
+    const opts = COMPONENT_CATEGORIES.map(cat => `<option value="${cat}">${cat}</option>`).join("");
+    currentAdditions.forEach((ad, idx) => {
+      const row = document.createElement("div");
+      row.className = "addition-row";
+      row.innerHTML = `
+        <input type="text" data-f="item" placeholder="Item (e.g. SuperFerm)" aria-label="Addition item" class="ad-item">
+        <select data-f="category" aria-label="Category" class="ad-cat">${opts}</select>
+        <input type="number" step="any" inputmode="decimal" data-f="amount" placeholder="Amt" aria-label="Amount" class="ad-amt">
+        <input type="text" data-f="unit" placeholder="unit" aria-label="Unit" class="ad-unit">
+        <input type="text" data-f="timing" placeholder="timing" aria-label="Timing" class="ad-timing">
+        <input type="text" data-f="notes" placeholder="why / result" aria-label="Addition notes" class="ad-notes">
+        <button type="button" class="btn-remove" data-action="remove" aria-label="Remove addition">✕</button>
+      `;
+      row.querySelector('[data-f="item"]').value = ad.item || "";
+      row.querySelector('[data-f="category"]').value = COMPONENT_CATEGORIES.includes(ad.category) ? ad.category : "nutrient";
+      row.querySelector('[data-f="amount"]').value = ad.amount ?? "";
+      row.querySelector('[data-f="unit"]').value = ad.unit || "";
+      row.querySelector('[data-f="timing"]').value = ad.timing || "";
+      row.querySelector('[data-f="notes"]').value = ad.notes || "";
+      row.querySelectorAll("input, select").forEach(input => {
+        const evt = input.tagName === "SELECT" ? "change" : "input";
+        input.addEventListener(evt, () => {
+          let v = input.value;
+          if (input.dataset.f === "amount") v = v === "" ? "" : Number(v);
+          currentAdditions[idx][input.dataset.f] = v;
+        });
+      });
+      row.querySelector('[data-action="remove"]').addEventListener("click", () => {
+        currentAdditions.splice(idx, 1);
+        renderAdditions();
+      });
+      additionsEl.appendChild(row);
+    });
+  }
+  $("add-addition").addEventListener("click", () => {
+    currentAdditions.push({ item: "", category: "nutrient", amount: "", unit: "", timing: "fermentation", notes: "" });
+    renderAdditions();
+    const items = additionsEl.querySelectorAll('[data-f="item"]');
+    if (items.length) items[items.length - 1].focus();
+  });
+
   const readingsEl = $("readings-body");
   function renderReadings() {
     readingsEl.innerHTML = "";
@@ -265,6 +429,7 @@
         <input type="text" data-f="reading_time" placeholder="hh:mm" aria-label="Reading time" class="rd-time">
         <input type="number" step="any" inputmode="decimal" data-f="gravity" placeholder="SG" aria-label="Gravity" class="rd-grav">
         <input type="number" step="any" inputmode="decimal" data-f="temp" placeholder="°" aria-label="Temp" class="rd-temp">
+        <input type="number" step="any" inputmode="decimal" data-f="ph" placeholder="pH" aria-label="pH" class="rd-ph">
         <input type="text" data-f="notes" placeholder="notes" aria-label="Reading notes" class="rd-notes">
         <button type="button" class="btn-remove" data-action="remove" aria-label="Remove reading">✕</button>
       `;
@@ -272,11 +437,12 @@
       row.querySelector('[data-f="reading_time"]').value = rd.reading_time || "";
       row.querySelector('[data-f="gravity"]').value = rd.gravity ?? "";
       row.querySelector('[data-f="temp"]').value = rd.temp ?? "";
+      row.querySelector('[data-f="ph"]').value = rd.ph ?? "";
       row.querySelector('[data-f="notes"]').value = rd.notes || "";
       row.querySelectorAll("input").forEach(input => {
         input.addEventListener("input", () => {
           let v = input.value;
-          if (input.dataset.f === "gravity" || input.dataset.f === "temp") v = v === "" ? "" : Number(v);
+          if (input.dataset.f === "gravity" || input.dataset.f === "temp" || input.dataset.f === "ph") v = v === "" ? "" : Number(v);
           currentReadings[idx][input.dataset.f] = v;
           updateReadingDerived();
         });
@@ -299,11 +465,12 @@
       $("r-fg").value = span.fg;
       const svg = fermChart(span.gravities, span.temps, 280, 64, { showTemp: span.hasTemp, showDots: true });
       const tempCap = span.tempRange ? ` · temp ${D.round(span.tempRange.min, 0)}–${D.round(span.tempRange.max, 0)}°` : "";
+      const phCap = phText(span);
       const legend = span.hasTemp
         ? `<div class="chart-legend"><span class="lg lg-sg">SG</span><span class="lg lg-temp">Temp</span></div>` : "";
       chart.innerHTML = svg
-        ? `${legend}${svg}<div class="chart-caption">OG ${span.og} → FG ${span.fg}${span.days != null ? " · " + span.days + " day" + (span.days === 1 ? "" : "s") : ""} · ${span.count} readings${tempCap}</div>`
-        : `<div class="chart-caption">OG ${span.og}${span.count > 1 ? " → FG " + span.fg : ""} · ${span.count} reading${span.count === 1 ? "" : "s"}</div>`;
+        ? `${legend}${svg}<div class="chart-caption">OG ${span.og} → FG ${span.fg}${span.days != null ? " · " + span.days + " day" + (span.days === 1 ? "" : "s") : ""} · ${span.count} readings${tempCap}${phCap}</div>`
+        : `<div class="chart-caption">OG ${span.og}${span.count > 1 ? " → FG " + span.fg : ""} · ${span.count} reading${span.count === 1 ? "" : "s"}${phCap}</div>`;
       chart.hidden = false;
     } else {
       chart.hidden = true;
@@ -316,7 +483,7 @@
     const last = currentReadings[currentReadings.length - 1];
     currentReadings.push({
       reading_date: (last && last.reading_date) || new Date().toLocaleDateString("en-US"),
-      reading_time: "", gravity: "", temp: "", notes: ""
+      reading_time: "", gravity: "", temp: "", ph: "", notes: ""
     });
     renderReadings();
     const gravs = readingsEl.querySelectorAll('[data-f="gravity"]');
@@ -433,9 +600,14 @@
     // Deep-copy this run's gravity log so edits can be cancelled cleanly.
     currentReadings = (run.readings || []).map(r => ({
       reading_date: r.reading_date || "", reading_time: r.reading_time || "",
-      gravity: r.gravity ?? "", temp: r.temp ?? "", notes: r.notes || ""
+      gravity: r.gravity ?? "", temp: r.temp ?? "", ph: r.ph ?? "", notes: r.notes || ""
+    }));
+    currentAdditions = (run.additions || []).map(a => ({
+      item: a.item || "", category: a.category || "nutrient", amount: a.amount ?? "",
+      unit: a.unit || "", timing: a.timing || "", notes: a.notes || ""
     }));
     renderReadings();
+    renderAdditions();
     if (!runId) {
       if (!$("r-run-date").value) $("r-run-date").value = new Date().toLocaleDateString("en-US");
       if (!$("r-volume-unit").value) $("r-volume-unit").value = mash.volume_unit || "L";
@@ -461,8 +633,12 @@
 
   $("run-save").addEventListener("click", async () => {
     const run = readRunForm();
-    // Keep only readings that have at least a gravity value.
-    const readings = currentReadings.filter(r => r.gravity !== "" && r.gravity != null);
+    // Keep readings that carry at least a gravity or a pH value (a pH-only spot
+    // check is worth logging even with no hydrometer reading).
+    const readings = currentReadings.filter(r =>
+      (r.gravity !== "" && r.gravity != null) || (r.ph !== "" && r.ph != null));
+    // Keep additions that at least name an item.
+    const additions = currentAdditions.filter(a => a.item && String(a.item).trim() !== "");
     const saveBtn = $("run-save");
     saveBtn.disabled = true; saveBtn.textContent = "Saving…";
     try {
@@ -473,7 +649,9 @@
         await window.API.addRun(run);
       }
       await window.API.replaceReadings(run.run_id, mash.mash_id, readings);
+      await window.API.replaceAdditions(run.run_id, mash.mash_id, additions);
       run.readings = readings;
+      run.additions = additions;
       const i = mash.runs.findIndex(r => String(r.run_id) === String(run.run_id));
       if (i !== -1) mash.runs[i] = run; else mash.runs.push(run);
       renderRuns();

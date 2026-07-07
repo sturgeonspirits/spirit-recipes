@@ -1,3 +1,4 @@
+// v1.5.0 (2026-07-07): readingSpan now also summarizes pH (phRange/first/last).
 // v1.4.0 (2026-07-06): + readingSpan/sortedReadings for the fermentation log.
 // v1.3.0: distilling math — gravity/ABV, attenuation, proof gallons / LAA, and
 // distillation yield. Dependency-free (reuses window.ABV for volume unit
@@ -133,11 +134,18 @@ window.DISTILL = (function () {
     const temps = s.map(r => num(r.ref.temp));
     const tvals = temps.filter(t => t !== null);
     const tempRange = tvals.length ? { min: Math.min.apply(null, tvals), max: Math.max.apply(null, tvals) } : null;
+    const phs = s.map(r => num(r.ref.ph));
+    const pvals = phs.filter(p => p !== null);
+    const phRange = pvals.length ? { min: Math.min.apply(null, pvals), max: Math.max.apply(null, pvals) } : null;
     return {
       og, fg, days, count: s.length,
       gravities: s.map(r => r.g),
       temps, tempRange,
-      hasTemp: tvals.length >= 2
+      hasTemp: tvals.length >= 2,
+      phs, phRange,
+      phFirst: pvals.length ? pvals[0] : null,
+      phLast: pvals.length ? pvals[pvals.length - 1] : null,
+      hasPh: pvals.length >= 1
     };
   }
 

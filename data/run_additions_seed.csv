@@ -1,0 +1,8 @@
+addition_id,run_id,mash_id,item,category,amount,unit,timing,notes
+add_rum_2024_09_02_1,run_rum_2024_09_02,mash_rum_molasses,Yeast nutrient,nutrient,50,g,fermentation,
+add_rum_2024_09_02_2,run_rum_2024_09_02,mash_rum_molasses,DADY yeast,yeast,1,cup,pitch,After 75 g bread yeast stalled
+add_rum_2025_07_12_1,run_rum_2025_07_12,mash_rum_molasses,Yeast nutrient,nutrient,50,g,fermentation,
+add_rum_2025_07_12_2,run_rum_2025_07_12,mash_rum_molasses,Distillers yeast,yeast,1,cup,pitch,
+add_agave_2025_04_28_1,run_agave_2025_04_28,mash_agave_spirit,Turbo fruit yeast,yeast,1,packet,pitch,
+add_agave_2025_04_28_2,run_agave_2025_04_28,mash_agave_spirit,Yeast food,nutrient,0.25,cup,fermentation,
+add_agave_2026_03_06_1,run_agave_2026_03_06,mash_agave_spirit,SuperFerm,nutrient,,,fermentation,Testing SuperFerm in place of usual yeast food

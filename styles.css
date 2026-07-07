@@ -944,7 +944,7 @@ body.has-action-bar main { padding-bottom: 96px; }
 .readings-list { display: grid; gap: 8px; margin-bottom: 10px; }
 .reading-row {
   display: grid;
-  grid-template-columns: 1.3fr 0.9fr 0.9fr 0.7fr 1.6fr auto;
+  grid-template-columns: 1.3fr 0.9fr 0.9fr 0.7fr 0.7fr 1.6fr auto;
   gap: 6px;
   align-items: center;
 }
@@ -954,6 +954,58 @@ body.has-action-bar main { padding-bottom: 96px; }
   .reading-row { grid-template-columns: 1fr 1fr auto; }
   .reading-row .rd-notes { grid-column: 1 / -1; }
 }
+
+/* Run additions / tweaks (run modal) */
+.additions-list { display: grid; gap: 8px; margin-bottom: 10px; }
+.addition-row {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 0.7fr 0.7fr 0.9fr 1.6fr auto;
+  gap: 6px;
+  align-items: center;
+}
+.addition-row input, .addition-row select { min-height: 40px; padding: 8px 10px; }
+.addition-row .btn-remove { min-width: 40px; min-height: 40px; }
+@media (max-width: 560px) {
+  .addition-row { grid-template-columns: 1fr 1fr auto; }
+  .addition-row .ad-notes { grid-column: 1 / -1; }
+}
+
+/* Additions summary chips on run cards */
+.run-additions {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 6px;
+  margin-top: 8px;
+}
+.run-additions-label {
+  font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em;
+  color: var(--muted); margin-right: 2px;
+}
+.add-chip {
+  display: inline-block; padding: 2px 8px; border-radius: 999px;
+  background: var(--chip-bg, rgba(59, 91, 69, 0.1));
+  color: var(--accent); font-size: 0.8rem; white-space: nowrap;
+}
+
+/* Compare runs table */
+.compare-controls {
+  display: flex; align-items: center; gap: 8px; margin-bottom: 10px; flex-wrap: wrap;
+}
+.compare-controls label { font-size: 0.85rem; color: var(--muted); }
+.compare-controls select { min-height: 40px; padding: 6px 10px; }
+.compare-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.compare-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+.compare-table th, .compare-table td {
+  padding: 8px 10px; text-align: left; white-space: nowrap;
+  border-bottom: 1px solid var(--border, #e2e5df); vertical-align: top;
+}
+.compare-table th {
+  font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em;
+  color: var(--muted); font-weight: 600;
+}
+.compare-table td.c-date { font-weight: 600; }
+.compare-table td.c-tweaks { white-space: normal; min-width: 180px; }
+.compare-table td.c-tweaks .add-chip { margin: 0 4px 4px 0; }
+.compare-table tbody tr.row-match td { background: var(--chip-bg, rgba(59, 91, 69, 0.1)); }
+.compare-table tbody tr.row-dim { opacity: 0.4; }
 
 .reading-btns { display: flex; gap: 8px; flex-wrap: wrap; }
 .reading-btns .btn-add { width: auto; flex: 1 1 auto; margin-top: 0; }

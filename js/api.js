@@ -1,5 +1,5 @@
 // Thin wrapper around the Apps Script API (Google Sheet backend).
-// v1.4.0 (2026-07-06): added replaceReadings (gravity log). v1.3.0: distilling methods. Full history: CHANGELOG.md
+// v1.6.0 (2026-07-07): added replaceAdditions (run additions/tweaks). v1.4.0: added replaceReadings (gravity log). v1.3.0: distilling methods. Full history: CHANGELOG.md
 window.API = (function () {
   const url = window.CONFIG.API_URL;
   const demoMode = !url; // true only if no API_URL is configured
@@ -84,6 +84,9 @@ window.API = (function () {
   async function replaceReadings(runId, mashId, readings) {
     return post({ action: "replace_readings", run_id: runId, mash_id: mashId, readings });
   }
+  async function replaceAdditions(runId, mashId, additions) {
+    return post({ action: "replace_additions", run_id: runId, mash_id: mashId, additions });
+  }
   async function getTiltSheet(urlOrId) {
     requireUrl();
     const res = await fetch(url + "?tilt=" + encodeURIComponent(urlOrId));
@@ -93,6 +96,6 @@ window.API = (function () {
   return {
     demoMode, getAllRecipes, getRecipe, updateRecipeField, replaceIngredients, addRecipe, deleteRecipe,
     getAllMashes, getMash, addMash, updateMashField, replaceMashComponents, deleteMash,
-    addRun, updateRun, deleteRun, replaceReadings
+    addRun, updateRun, deleteRun, replaceReadings, replaceAdditions
   };
 })();

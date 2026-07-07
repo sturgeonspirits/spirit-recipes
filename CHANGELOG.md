@@ -3,6 +3,46 @@
 All notable changes to this project are logged here. Each code file also
 carries a one-line version header at the top pointing back to this file.
 
+## v1.7.0 - 2026-07-07
+- **Compare runs table.** A new collapsible "Compare runs" section on each mash
+  recipe lines up every run of that recipe in one table — date, OG → FG, wash
+  ABV, pH (start→end), ferment days, hearts yield, proof gallons, recovery, and
+  the tweaks used. A "Highlight a tweak" dropdown (built from the distinct
+  additions across the recipe's runs) highlights the runs that used a given item
+  and dims the rest — so an A/B like "SuperFerm vs. the usual yeast food" reads
+  at a glance. Front-end only (`js/mash-app.js`, `mash.html`, `styles.css`); it
+  reuses the run/reading/addition data already loaded.
+
+## v1.6.0 - 2026-07-07
+- **Per-run additions / tweaks list.** Each distillation run now has a structured
+  list of what you changed from the base recipe that batch — nutrients, yeast,
+  acid, a different sugar — so tweaks can be compared across runs instead of
+  living in free-text notes. (Motivating case: testing SuperFerm as a nutrient
+  and seeing which runs used it.)
+  - New Sheet tab `RunAdditions` (addition_id, run_id, mash_id, item, category,
+    amount, unit, timing, notes), auto-created by the backend and cascade-deleted
+    with its run or mash. Seed file `data/run_additions_seed.csv`.
+  - Backend (`apps-script/Code.gs`): additions nest under each run on
+    `?mash=`/`?mashes=1`; new `replace_additions` action; `delete_run` and
+    `delete_mash` also remove additions.
+  - Run editor gains an "Additions & tweaks" table (item, category, amount, unit,
+    timing, why/result). Run cards show the tweaks as compact chips.
+  - API (`js/api.js`): `replaceAdditions`.
+
+## v1.5.0 - 2026-07-07
+- **pH tracking in the fermentation log.** Each gravity reading now carries an
+  optional `ph` value, so pH is recorded and trended across a distillation run
+  instead of being buried in note text.
+  - Data/backend: new `ph` column on the `GravityReadings` tab, persisted by
+    `replace_readings` (`apps-script/Code.gs`). Existing sheets pick it up once a
+    `ph` header cell is added; a freshly auto-created tab includes it. Seed file
+    `data/gravity_readings_seed.csv` updated, with the pH values that were living
+    in reading notes (e.g. 5.0, 3.8, 6.4) migrated into the new column.
+  - Run editor: each reading row gains a pH input. A reading is now kept on save
+    if it has a gravity **or** a pH value, so a pH-only spot check can be logged.
+  - `readingSpan` (`js/distill.js`) summarizes pH (first/last/range); run cards
+    and the live chart caption show "pH start→end".
+
 ## v1.4.0 - 2026-07-06
 - **Fermentation gravity-over-time log** on each distillation run. New Sheet tab
   `GravityReadings` (reading_id, run_id, mash_id, reading_date, reading_time,

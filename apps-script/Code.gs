@@ -26,6 +26,17 @@
  * DistillationRuns; the `replace_readings` POST action; and a `?tilt=<url|id>`
  * GET that reads a Tilt Google Sheet server-side (honors a #gid= tab). See
  * CHANGELOG.md.
+ *
+ * v1.5.0 (2026-07-07): pH tracking in the fermentation log. Adds a `ph` column
+ * to the GravityReadings tab (persisted by replace_readings). Existing sheets
+ * pick it up automatically — add a `ph` header cell, or let a fresh tab be
+ * auto-created with it. See CHANGELOG.md.
+ *
+ * v1.6.0 (2026-07-07): per-run additions/tweaks. Adds a fifth auto-created tab,
+ * RunAdditions (addition_id, run_id, mash_id, item, category, amount, unit,
+ * timing, notes); nests additions under each run on `?mash=`/`?mashes=1`; adds
+ * the `replace_additions` POST action; and cascade-deletes additions with their
+ * run or mash. See CHANGELOG.md.
  */
 
 // The one and only database for this webapp. Bind explicitly by ID so the
@@ -44,6 +55,7 @@ const MASH_RECIPES_SHEET = "MashRecipes";
 const MASH_COMPONENTS_SHEET = "MashComponents";
 const DISTILLATION_RUNS_SHEET = "DistillationRuns";
 const GRAVITY_READINGS_SHEET = "GravityReadings"; // v1.4.0
+const RUN_ADDITIONS_SHEET = "RunAdditions";       // v1.6.0
 
 // Header rows used when a distilling tab has to be auto-created. Keep in sync
 // with data/*_seed.csv. Columns are resolved by name everywhere else, so the
@@ -52,7 +64,8 @@ const DISTILL_HEADERS = {};
 DISTILL_HEADERS[MASH_RECIPES_SHEET] = ["mash_id","name","spirit_type","linked_recipe_id","batch_volume","volume_unit","mash_water_volume","water_unit","strike_temp","mash_ph","target_og","target_fg","yeast_strain","pitch_rate","ferment_temp","ferment_days","target_yield","yield_unit","notes","created_date"];
 DISTILL_HEADERS[MASH_COMPONENTS_SHEET] = ["mash_id","component","category","amount","unit","timing","notes"];
 DISTILL_HEADERS[DISTILLATION_RUNS_SHEET] = ["run_id","mash_id","run_date","still_used","operator","volume_unit","ferment_og","ferment_fg","wash_abv","wash_volume","foreshots_volume","heads_volume","heads_abv","hearts_volume","hearts_abv","tails_volume","tails_abv","cut_temp_heads","cut_temp_tails","run_duration","barrel_id","barrel_fill_date","entry_proof","char_level","tilt_sheet_url","notes"];
-DISTILL_HEADERS[GRAVITY_READINGS_SHEET] = ["reading_id","run_id","mash_id","reading_date","reading_time","gravity","temp","notes"];
+DISTILL_HEADERS[GRAVITY_READINGS_SHEET] = ["reading_id","run_id","mash_id","reading_date","reading_time","gravity","temp","ph","notes"];
+DISTILL_HEADERS[RUN_ADDITIONS_SHEET] = ["addition_id","run_id","mash_id","item","category","amount","unit","timing","notes"];
 
 function getSpreadsheet_() {
   return SpreadsheetApp.openById(SPREADSHEET_ID);
@@ -136,6 +149,11 @@ function nestReadings_(allReadings, runId) {
     });
 }
 
+// Run additions/tweaks for one run, in sheet order (the order they were added).
+function nestAdditions_(allAdditions, runId) {
+  return allAdditions.filter(a => String(a.run_id) === String(runId));
+}
+
 // Generic: delete every row whose idCol matches idValue (bottom-up).
 function deleteRowsById_(sheet, idValue, idCol) {
   const values = sheet.getDataRange().getValues();
@@ -207,11 +225,15 @@ function doGet(e) {
       const components = sheetToObjects_(getSheet_(MASH_COMPONENTS_SHEET));
       const runs = sheetToObjects_(getSheet_(DISTILLATION_RUNS_SHEET));
       const readings = sheetToObjects_(getSheet_(GRAVITY_READINGS_SHEET));
+      const additions = sheetToObjects_(getSheet_(RUN_ADDITIONS_SHEET));
       mash.components = components.filter(c => String(c.mash_id) === String(params.mash));
       mash.runs = runs
         .filter(r => String(r.mash_id) === String(params.mash))
         .sort((a, b) => String(b.run_date).localeCompare(String(a.run_date)));
-      mash.runs.forEach(r => { r.readings = nestReadings_(readings, r.run_id); });
+      mash.runs.forEach(r => {
+        r.readings = nestReadings_(readings, r.run_id);
+        r.additions = nestAdditions_(additions, r.run_id);
+      });
       return jsonOut_(mash);
     }
     if (params.mashes) {
@@ -219,10 +241,17 @@ function doGet(e) {
       const components = sheetToObjects_(getSheet_(MASH_COMPONENTS_SHEET));
       const runs = sheetToObjects_(getSheet_(DISTILLATION_RUNS_SHEET));
       const readings = sheetToObjects_(getSheet_(GRAVITY_READINGS_SHEET));
+      const additions = sheetToObjects_(getSheet_(RUN_ADDITIONS_SHEET));
       const byId = {};
       mashes.forEach(m => { byId[m.mash_id] = m; m.components = []; m.runs = []; });
       components.forEach(c => { if (byId[c.mash_id]) byId[c.mash_id].components.push(c); });
-      runs.forEach(r => { if (byId[r.mash_id]) { r.readings = nestReadings_(readings, r.run_id); byId[r.mash_id].runs.push(r); } });
+      runs.forEach(r => {
+        if (byId[r.mash_id]) {
+          r.readings = nestReadings_(readings, r.run_id);
+          r.additions = nestAdditions_(additions, r.run_id);
+          byId[r.mash_id].runs.push(r);
+        }
+      });
       return jsonOut_({ mashes: Object.values(byId) });
     }
 
@@ -381,6 +410,7 @@ function doPost(e) {
       deleteRowsById_(getSheet_(MASH_COMPONENTS_SHEET), body.mash_id, "mash_id");
       deleteRowsById_(getSheet_(DISTILLATION_RUNS_SHEET), body.mash_id, "mash_id");
       deleteRowsById_(getSheet_(GRAVITY_READINGS_SHEET), body.mash_id, "mash_id");
+      deleteRowsById_(getSheet_(RUN_ADDITIONS_SHEET), body.mash_id, "mash_id");
       sheet.deleteRow(found.rowIndex);
       logChange_(body.mash_id, "*delete mash*", JSON.stringify(old), "", "delete_mash");
       return jsonOut_({ ok: true });
@@ -408,6 +438,7 @@ function doPost(e) {
       const sheet = getSheet_(DISTILLATION_RUNS_SHEET);
       deleteRowsById_(sheet, body.run_id, "run_id");
       deleteRowsById_(getSheet_(GRAVITY_READINGS_SHEET), body.run_id, "run_id");
+      deleteRowsById_(getSheet_(RUN_ADDITIONS_SHEET), body.run_id, "run_id");
       logChange_(body.mash_id || "", "*delete run* " + body.run_id, "", "", "delete_run");
       return jsonOut_({ ok: true });
     }
@@ -421,10 +452,26 @@ function doPost(e) {
           reading_id: rd.reading_id || (body.run_id + "_r" + (i + 1)),
           run_id: body.run_id, mash_id: body.mash_id,
           reading_date: rd.reading_date, reading_time: rd.reading_time,
-          gravity: rd.gravity, temp: rd.temp, notes: rd.notes
+          gravity: rd.gravity, temp: rd.temp, ph: rd.ph, notes: rd.notes
         });
       });
       logChange_(body.mash_id || "", "readings " + body.run_id, "", JSON.stringify(body.readings), "replace_readings");
+      return jsonOut_({ ok: true });
+    }
+
+    if (action === "replace_additions") {
+      // Wholesale replace a run's additions/tweaks list (like readings).
+      const sheet = getSheet_(RUN_ADDITIONS_SHEET);
+      deleteRowsById_(sheet, body.run_id, "run_id");
+      (body.additions || []).forEach(function (ad, i) {
+        appendObject_(sheet, {
+          addition_id: ad.addition_id || (body.run_id + "_a" + (i + 1)),
+          run_id: body.run_id, mash_id: body.mash_id,
+          item: ad.item, category: ad.category, amount: ad.amount,
+          unit: ad.unit, timing: ad.timing, notes: ad.notes
+        });
+      });
+      logChange_(body.mash_id || "", "additions " + body.run_id, "", JSON.stringify(body.additions), "replace_additions");
       return jsonOut_({ ok: true });
     }
 

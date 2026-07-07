@@ -95,6 +95,7 @@ Enabling it requires two one-time steps against your existing Sheet + backend:
    - `MashComponents` ← `data/mash_components_seed.csv`
    - `DistillationRuns` ← `data/distillation_runs_seed.csv`
    - `GravityReadings` ← `data/gravity_readings_seed.csv`
+   - `RunAdditions` ← `data/run_additions_seed.csv`
 2. **Redeploy the site** (git push, Netlify auto-builds) so the new pages and
    scripts (`distilling.html`, `mash.html`, `js/distill.js`,
    `js/distilling-app.js`, `js/mash-app.js`, `js/tilt.js`) go live.
@@ -121,8 +122,10 @@ the units TTB production reports and excise tax use — and the alcohol
 **recovery** from wash to hearts.
 
 **Fermentation gravity log & Tilt import.** Each run has a gravity-over-time log
-(date, time, specific gravity, temp, notes). The first and last readings
-auto-fill that run's OG and FG, and the app draws the fermentation curve. You can
+(date, time, specific gravity, temp, pH, notes). Record a pH alongside any
+reading to track it across the ferment — run cards and the live chart show the
+pH start→end. The first and last readings auto-fill that run's OG and FG, and the
+app draws the fermentation curve. You can
 log readings by hand or import a Tilt hydrometer log two ways:
 
 - **Upload Tilt file** — a Tilt export as `.xlsx`, `.xls`, or `.csv` (either the
@@ -142,7 +145,26 @@ points before the curve is redrawn.
 > Adding to an already-deployed sheet: the DistillationRuns tab gains a
 > `tilt_sheet_url` column — add it to the header row (or re-import
 > `data/distillation_runs_seed.csv`). Column lookups are by name, so Sync's save
-> will report "unknown field" until it's present.
+> will report "unknown field" until it's present. Likewise, add a `ph` column to
+> the `GravityReadings` tab (after `temp`) so per-reading pH values persist.
+
+**Per-run additions / tweaks.** Each run has an "Additions & tweaks" list for
+what you changed from the base recipe that batch — nutrients, yeast, acid, a
+different sugar (item, category, amount, unit, timing, and a why/result note).
+It's stored per run in the `RunAdditions` tab, so you can compare batches — e.g.
+which runs used SuperFerm as the nutrient and how they fermented — instead of
+digging through free-text notes. Run cards show the tweaks as chips.
+
+> Adding to an already-deployed sheet: the backend auto-creates the
+> `RunAdditions` tab the first time a run's additions are saved (or add it from
+> `data/run_additions_seed.csv`).
+
+**Compare runs.** A "Compare runs" section on each recipe puts all of its runs in
+one table — date, OG → FG, wash ABV, pH, ferment days, hearts yield, proof
+gallons, recovery, and the tweaks used. Pick a tweak from the "Highlight a tweak"
+dropdown to spotlight the runs that used it (and dim the rest), so ingredient
+A/Bs like SuperFerm vs. the usual nutrient are easy to read across batches. It's
+purely front-end — no extra sheet or backend call.
 
 ## Data notes
 

@@ -1,36 +1,36 @@
-reading_id,run_id,mash_id,reading_date,reading_time,gravity,temp,notes
-run_rum_2024_03_11_03112024,run_rum_2024_03_11,mash_rum_molasses,03/11/2024,,1.087,,Initial gravity
-run_rum_2024_03_11_03262024,run_rum_2024_03_11,mash_rum_molasses,03/26/2024,,1.021,,
-run_rum_2024_03_11_04012024,run_rum_2024_03_11,mash_rum_molasses,04/01/2024,,1.008,,FG
-run_rum_2024_09_02_09022024,run_rum_2024_09_02,mash_rum_molasses,09/02/2024,,1.091,,OG
-run_rum_2024_10_14_10152024,run_rum_2024_10_14,mash_rum_molasses,10/15/2024,,1.059,,24 hrs after pitch
-run_rum_2024_10_14_10172024,run_rum_2024_10_14,mash_rum_molasses,10/17/2024,,1.018,,
-run_rum_2024_11_01_11012024,run_rum_2024_11_01,mash_rum_molasses,11/01/2024,,1.11,,OG
-run_rum_2024_11_01_11082024,run_rum_2024_11_01,mash_rum_molasses,11/08/2024,,1.019,,
-run_rum_2025_07_12_07122025,run_rum_2025_07_12,mash_rum_molasses,07/12/2025,,1.104,,"OG, 5.0 pH"
-run_rum_2025_07_12_07192025,run_rum_2025_07_12,mash_rum_molasses,07/19/2025,,1.055,,3.8 pH
-run_rum_2026_01_14_01142026,run_rum_2026_01_14,mash_rum_molasses,01/14/2026,,1.1,,OG
-run_rum_2026_01_14_01162026,run_rum_2026_01_14,mash_rum_molasses,01/16/2026,,1.07,,
-run_rum_2026_03_02_03032026,run_rum_2026_03_02,mash_rum_molasses,03/03/2026,,1.1,82,28.1 C
-run_rum_2026_03_02_04042026,run_rum_2026_03_02,mash_rum_molasses,04/04/2026,,1.005,,
-run_agave_2023_08_16_08162023,run_agave_2023_08_16,mash_agave_spirit,08/16/2023,,1.054,,OG
-run_agave_2023_08_16_08222023,run_agave_2023_08_16,mash_agave_spirit,08/22/2023,,1.023,,4% alc
-run_agave_2023_08_16_09022023,run_agave_2023_08_16,mash_agave_spirit,09/02/2023,,0.995,,7.74% alc
-run_agave_2023_11_03_11032023,run_agave_2023_11_03,mash_agave_spirit,11/03/2023,,1.14,,OG (as recorded)
-run_agave_2023_11_03_01042024,run_agave_2023_11_03,mash_agave_spirit,01/04/2024,,0.995,,Final gravity; distilled
-run_agave_2024_03_12_03122024,run_agave_2024_03_12,mash_agave_spirit,03/12/2024,,1.04,,Added 2 cups yeast + nutrient
-run_agave_2024_07_17_07172024,run_agave_2024_07_17,mash_agave_spirit,07/17/2024,,1.049,,OG - new batch
-run_agave_2024_07_17_08062024,run_agave_2024_07_17,mash_agave_spirit,08/06/2024,,1.04,,
-run_agave_2024_07_17_08112024,run_agave_2024_07_17,mash_agave_spirit,08/11/2024,,1.04,,
-run_agave_2024_07_17_08192024,run_agave_2024_07_17,mash_agave_spirit,08/19/2024,,1.039,,"Bubbling hard, tank pressurized"
-run_agave_2024_07_17_08262024,run_agave_2024_07_17,mash_agave_spirit,08/26/2024,,1.015,,Turbo yeast added 8/24
-run_agave_2024_07_17_08272024,run_agave_2024_07_17,mash_agave_spirit,08/27/2024,,1.014,,
-run_agave_2024_07_17_08282024,run_agave_2024_07_17,mash_agave_spirit,08/28/2024,,1.01,,
-run_agave_2024_07_17_08292024,run_agave_2024_07_17,mash_agave_spirit,08/29/2024,,1.006,,
-run_agave_2024_07_17_08302024,run_agave_2024_07_17,mash_agave_spirit,08/30/2024,,1.004,,
-run_agave_2024_07_17_08312024,run_agave_2024_07_17,mash_agave_spirit,08/31/2024,,1.004,,
-run_agave_2024_07_17_09022024,run_agave_2024_07_17,mash_agave_spirit,09/02/2024,,1.002,,6.17% alc
-run_agave_2025_04_28_04282025,run_agave_2025_04_28,mash_agave_spirit,04/28/2025,,1.07,75,"OG, pH 6.4"
-run_agave_2025_04_28_05062025,run_agave_2025_04_28,mash_agave_spirit,05/06/2025,,1.027,,Still bubbling
-run_agave_2025_04_28_05092025,run_agave_2025_04_28,mash_agave_spirit,05/09/2025,,0.997,,9.58% alc
-run_rye_2026_01_16_01162026,run_rye_2026_01_16,mash_rye_whiskey,01/16/2026,,1.083,,OG after 2-day rest
+reading_id,run_id,mash_id,reading_date,reading_time,gravity,temp,ph,notes
+run_rum_2024_03_11_03112024,run_rum_2024_03_11,mash_rum_molasses,03/11/2024,,1.087,,,Initial gravity
+run_rum_2024_03_11_03262024,run_rum_2024_03_11,mash_rum_molasses,03/26/2024,,1.021,,,
+run_rum_2024_03_11_04012024,run_rum_2024_03_11,mash_rum_molasses,04/01/2024,,1.008,,,FG
+run_rum_2024_09_02_09022024,run_rum_2024_09_02,mash_rum_molasses,09/02/2024,,1.091,,,OG
+run_rum_2024_10_14_10152024,run_rum_2024_10_14,mash_rum_molasses,10/15/2024,,1.059,,,24 hrs after pitch
+run_rum_2024_10_14_10172024,run_rum_2024_10_14,mash_rum_molasses,10/17/2024,,1.018,,,
+run_rum_2024_11_01_11012024,run_rum_2024_11_01,mash_rum_molasses,11/01/2024,,1.11,,,OG
+run_rum_2024_11_01_11082024,run_rum_2024_11_01,mash_rum_molasses,11/08/2024,,1.019,,,
+run_rum_2025_07_12_07122025,run_rum_2025_07_12,mash_rum_molasses,07/12/2025,,1.104,,5.0,OG
+run_rum_2025_07_12_07192025,run_rum_2025_07_12,mash_rum_molasses,07/19/2025,,1.055,,3.8,
+run_rum_2026_01_14_01142026,run_rum_2026_01_14,mash_rum_molasses,01/14/2026,,1.1,,,OG
+run_rum_2026_01_14_01162026,run_rum_2026_01_14,mash_rum_molasses,01/16/2026,,1.07,,,
+run_rum_2026_03_02_03032026,run_rum_2026_03_02,mash_rum_molasses,03/03/2026,,1.1,82,,28.1 C
+run_rum_2026_03_02_04042026,run_rum_2026_03_02,mash_rum_molasses,04/04/2026,,1.005,,,
+run_agave_2023_08_16_08162023,run_agave_2023_08_16,mash_agave_spirit,08/16/2023,,1.054,,,OG
+run_agave_2023_08_16_08222023,run_agave_2023_08_16,mash_agave_spirit,08/22/2023,,1.023,,,4% alc
+run_agave_2023_08_16_09022023,run_agave_2023_08_16,mash_agave_spirit,09/02/2023,,0.995,,,7.74% alc
+run_agave_2023_11_03_11032023,run_agave_2023_11_03,mash_agave_spirit,11/03/2023,,1.14,,,OG (as recorded)
+run_agave_2023_11_03_01042024,run_agave_2023_11_03,mash_agave_spirit,01/04/2024,,0.995,,,Final gravity; distilled
+run_agave_2024_03_12_03122024,run_agave_2024_03_12,mash_agave_spirit,03/12/2024,,1.04,,,Added 2 cups yeast + nutrient
+run_agave_2024_07_17_07172024,run_agave_2024_07_17,mash_agave_spirit,07/17/2024,,1.049,,,OG - new batch
+run_agave_2024_07_17_08062024,run_agave_2024_07_17,mash_agave_spirit,08/06/2024,,1.04,,,
+run_agave_2024_07_17_08112024,run_agave_2024_07_17,mash_agave_spirit,08/11/2024,,1.04,,,
+run_agave_2024_07_17_08192024,run_agave_2024_07_17,mash_agave_spirit,08/19/2024,,1.039,,,"Bubbling hard, tank pressurized"
+run_agave_2024_07_17_08262024,run_agave_2024_07_17,mash_agave_spirit,08/26/2024,,1.015,,,Turbo yeast added 8/24
+run_agave_2024_07_17_08272024,run_agave_2024_07_17,mash_agave_spirit,08/27/2024,,1.014,,,
+run_agave_2024_07_17_08282024,run_agave_2024_07_17,mash_agave_spirit,08/28/2024,,1.01,,,
+run_agave_2024_07_17_08292024,run_agave_2024_07_17,mash_agave_spirit,08/29/2024,,1.006,,,
+run_agave_2024_07_17_08302024,run_agave_2024_07_17,mash_agave_spirit,08/30/2024,,1.004,,,
+run_agave_2024_07_17_08312024,run_agave_2024_07_17,mash_agave_spirit,08/31/2024,,1.004,,,
+run_agave_2024_07_17_09022024,run_agave_2024_07_17,mash_agave_spirit,09/02/2024,,1.002,,,6.17% alc
+run_agave_2025_04_28_04282025,run_agave_2025_04_28,mash_agave_spirit,04/28/2025,,1.07,75,6.4,OG
+run_agave_2025_04_28_05062025,run_agave_2025_04_28,mash_agave_spirit,05/06/2025,,1.027,,,Still bubbling
+run_agave_2025_04_28_05092025,run_agave_2025_04_28,mash_agave_spirit,05/09/2025,,0.997,,,9.58% alc
+run_rye_2026_01_16_01162026,run_rye_2026_01_16,mash_rye_whiskey,01/16/2026,,1.083,,,OG after 2-day rest

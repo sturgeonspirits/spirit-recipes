@@ -1,4 +1,4 @@
-<!-- v1.4.0 (2026-07-06): + fermentation gravity log & Tilt import. v1.3.0: mash detail + run log. Full history: CHANGELOG.md -->
+<!-- v1.7.0 (2026-07-07): + Compare runs table with tweak highlighter. v1.6.0: + per-run additions/tweaks list. v1.5.0: + per-reading pH. v1.4.0: + fermentation gravity log & Tilt import. v1.3.0: mash detail + run log. Full history: CHANGELOG.md -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -87,6 +87,19 @@
     <div id="runs-body"></div>
   </div>
 
+  <!-- ===== Compare runs ===== -->
+  <details class="section" id="compare-section">
+    <summary>Compare runs <span id="compare-count" class="muted"></span></summary>
+    <div class="section-body">
+      <div class="compare-controls">
+        <label for="compare-filter">Highlight a tweak</label>
+        <select id="compare-filter"><option value="">— show all runs —</option></select>
+      </div>
+      <div id="runs-compare" class="compare-scroll"></div>
+      <p class="hint">Every run of this recipe side by side — pH, yield, recovery, and what you changed. Pick a tweak to highlight the runs that used it (e.g. SuperFerm) and compare how they turned out.</p>
+    </div>
+  </details>
+
   <details class="section danger-section">
     <summary>Delete mash recipe</summary>
     <div class="section-body">
@@ -124,6 +137,11 @@
         <div class="field"><label>Volume unit</label><input type="text" id="r-volume-unit" placeholder="L, gal, mL"></div>
       </div>
 
+      <div class="run-subhead">Additions &amp; tweaks (this run)</div>
+      <div id="additions-body" class="additions-list"></div>
+      <button type="button" class="btn-add" id="add-addition">+ Add addition / tweak</button>
+      <p class="hint">Anything you changed from the base recipe this run — nutrients, yeast, acid, enzyme, a different sugar. Logged per run so you can compare batches (e.g. did SuperFerm ferment cleaner than the usual yeast food?).</p>
+
       <div class="run-subhead">Fermentation (this batch)</div>
       <div class="grid-2">
         <div class="field"><label>Original gravity</label><input type="number" step="any" inputmode="decimal" id="r-og"></div>
@@ -145,7 +163,7 @@
       </div>
       <div id="tilt-status" class="tilt-status" hidden></div>
       <div id="gravity-chart" class="gravity-chart" hidden></div>
-      <p class="hint">First and last readings auto-fill OG and FG above. Log by hand, upload a Tilt export (.xlsx, .xls or .csv), or paste your Tilt Google Sheet link and Sync to pull the whole curve — and re-sync later as it keeps logging.</p>
+      <p class="hint">First and last readings auto-fill OG and FG above. Add a pH per reading to track it across the ferment. Log by hand, upload a Tilt export (.xlsx, .xls or .csv), or paste your Tilt Google Sheet link and Sync to pull the whole curve — and re-sync later as it keeps logging.</p>
 
       <div class="run-subhead">Cuts</div>
       <div class="grid-2">
