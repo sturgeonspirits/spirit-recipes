@@ -1,5 +1,8 @@
 // Thin wrapper around the Apps Script API (Google Sheet backend).
-// v1.6.0 (2026-07-07): added replaceAdditions (run additions/tweaks). v1.4.0: added replaceReadings (gravity log). v1.3.0: distilling methods. Full history: CHANGELOG.md
+// v1.9.0 (2026-07-07): sends the session token with every request, handles
+// expired-session responses, and adds login/logout. v1.6.0: added
+// replaceAdditions. v1.4.0: added replaceReadings. v1.3.0: distilling methods.
+// Full history: CHANGELOG.md
 window.API = (function () {
   const url = window.CONFIG.API_URL;
   const demoMode = !url; // true only if no API_URL is configured
@@ -8,28 +11,69 @@ window.API = (function () {
     if (!url) throw new Error("No API_URL configured in js/config.js — set the Apps Script /exec URL to load data.");
   }
 
-  async function getAllRecipes() {
-    requireUrl();
-    const res = await fetch(url);
-    const data = await res.json();
-    return data.recipes || [];
+  // Append the current session token to a GET url.
+  function withAuth(u) {
+    const t = window.AUTH && window.AUTH.token;
+    if (!t) return u;
+    return u + (u.indexOf("?") === -1 ? "?" : "&") + "token=" + encodeURIComponent(t);
   }
 
-  async function getRecipe(id) {
+  // If the backend says our session is gone, drop it and bounce to login.
+  function guardAuth(data) {
+    if (data && data.error === "auth") {
+      if (window.AUTH) {
+        window.AUTH.clearSession();
+        if (!/login\.html$/i.test(location.pathname)) window.AUTH.toLogin();
+      }
+      throw new Error(data.message || "Please sign in.");
+    }
+    return data;
+  }
+
+  async function getJSON(u) {
     requireUrl();
-    const res = await fetch(url + "?recipe=" + encodeURIComponent(id));
-    return res.json();
+    const res = await fetch(withAuth(u));
+    return guardAuth(await res.json());
   }
 
   async function post(payload) {
     requireUrl();
+    if (window.AUTH && window.AUTH.token) payload = Object.assign({ token: window.AUTH.token }, payload);
     // text/plain avoids a CORS preflight against Apps Script
     const res = await fetch(url, {
       method: "POST",
       headers: { "Content-Type": "text/plain;charset=utf-8" },
       body: JSON.stringify(payload)
     });
-    return res.json();
+    return guardAuth(await res.json());
+  }
+
+  // ----- Auth -----
+  async function login(username, password, remember) {
+    requireUrl();
+    const res = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify({ action: "login", username: username, password: password })
+    });
+    const data = await res.json();
+    if (data && data.ok && data.token && window.AUTH) {
+      window.AUTH.set({ token: data.token, display_name: data.display_name }, !!remember);
+    }
+    return data;
+  }
+  async function logout() {
+    if (!url || !(window.AUTH && window.AUTH.token)) return { ok: true };
+    return post({ action: "logout" });
+  }
+
+  async function getAllRecipes() {
+    const data = await getJSON(url);
+    return data.recipes || [];
+  }
+
+  async function getRecipe(id) {
+    return getJSON(url + "?recipe=" + encodeURIComponent(id));
   }
 
   async function updateRecipeField(recipeId, field, value) {
@@ -50,15 +94,11 @@ window.API = (function () {
 
   // ----- Distilling module (v1.3.0) -----
   async function getAllMashes() {
-    requireUrl();
-    const res = await fetch(url + "?mashes=1");
-    const data = await res.json();
+    const data = await getJSON(url + "?mashes=1");
     return data.mashes || [];
   }
   async function getMash(mashId) {
-    requireUrl();
-    const res = await fetch(url + "?mash=" + encodeURIComponent(mashId));
-    return res.json();
+    return getJSON(url + "?mash=" + encodeURIComponent(mashId));
   }
   async function addMash(mash) {
     return post({ action: "add_mash", mash });
@@ -88,14 +128,13 @@ window.API = (function () {
     return post({ action: "replace_additions", run_id: runId, mash_id: mashId, additions });
   }
   async function getTiltSheet(urlOrId) {
-    requireUrl();
-    const res = await fetch(url + "?tilt=" + encodeURIComponent(urlOrId));
-    return res.json();
+    return getJSON(url + "?tilt=" + encodeURIComponent(urlOrId));
   }
 
   return {
-    demoMode, getAllRecipes, getRecipe, updateRecipeField, replaceIngredients, addRecipe, deleteRecipe,
+    demoMode, login, logout,
+    getAllRecipes, getRecipe, updateRecipeField, replaceIngredients, addRecipe, deleteRecipe,
     getAllMashes, getMash, addMash, updateMashField, replaceMashComponents, deleteMash,
-    addRun, updateRun, deleteRun, replaceReadings, replaceAdditions
+    addRun, updateRun, deleteRun, replaceReadings, replaceAdditions, getTiltSheet
   };
 })();

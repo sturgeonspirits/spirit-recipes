@@ -3,7 +3,45 @@
 All notable changes to this project are logged here. Each code file also
 carries a one-line version header at the top pointing back to this file.
 
+## v1.9.0 - 2026-07-07
+- **Access control (login required).** The app and its data are no longer open to
+  anyone with the link. Every read and write now requires a valid session token.
+  - Accounts live in a new `Users` tab (username, salt, password_hash,
+    display_name, active). Passwords are stored only as salted SHA-256 hashes.
+  - Backend (`apps-script/Code.gs`): `login` returns a session token, `logout`
+    revokes it; tokens are held in Script Properties with a 14-day expiry. A new
+    `AUTH_REQUIRED` flag gates `doGet`/`doPost`. Bootstrap the first account by
+    running `SETUP_createUser()` from the Apps Script editor (`createUserAccount_`
+    hashes the password); `SETUP_clearAllSessions()` force-signs-everyone-out.
+  - Frontend: new `login.html` + `js/login-app.js` sign-in screen and `js/auth.js`
+    (token storage, redirect-to-login gate, injected "Sign out" control).
+    `js/api.js` now sends the token on every request and bounces to the login
+    page when a session expires. `auth.js` is included on every page.
+  - Demo mode (no `API_URL`) skips auth entirely, so the public demo still works.
+
+  > Deploy: add a `Users` tab (or let it auto-create), run `SETUP_createUser()`
+  > once per person from the editor, then redeploy the Web App. See README.
+
+## v1.8.0 - 2026-07-07
+- **Suggested cuts on the run form.** The Cuts section now leads with a
+  best-practice guidance panel for a pot-still spirit run: foreshots to discard
+  (~50 mL per gallon of wash, filled in as a concrete mL figure from the wash
+  volume), heads ~20–30%, hearts ~35–45% with the hearts→tails cut around
+  55–60% ABV (start checking by ~65%), and tails below ~40% ABV saved for the
+  next stripping run. When wash volume and ABV are known it also shows the
+  expected pure alcohol (L and proof gallons) to split across the cuts. New
+  `suggestCuts` helper in `js/distill.js`; heuristics sourced from common home/
+  craft distilling references (homedistiller wiki, learntomoonshine, etc.).
+  Guidance only — a reminder to confirm heads by aroma and hearts by taste.
+
 ## v1.7.0 - 2026-07-07
+- **Predicted ABV from OG** on the run form. As soon as an original gravity is
+  entered (and before a real final gravity exists), the run editor shows a live
+  "Predicted ABV ~X%" readout under the OG/FG fields, projecting from OG using
+  the recipe's target FG as the fermentation assumption (falling back to
+  ferment-to-dry, FG 1.000). It steps aside once an actual FG is entered, since
+  the measured Wash ABV then covers it. New `potentialABV` helper in
+  `js/distill.js`.
 - **Compare runs table.** A new collapsible "Compare runs" section on each mash
   recipe lines up every run of that recipe in one table — date, OG → FG, wash
   ABV, pH (start→end), ferment days, hearts yield, proof gallons, recovery, and

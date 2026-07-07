@@ -1,4 +1,4 @@
-<!-- v1.7.0 (2026-07-07): + Compare runs table with tweak highlighter. v1.6.0: + per-run additions/tweaks list. v1.5.0: + per-reading pH. v1.4.0: + fermentation gravity log & Tilt import. v1.3.0: mash detail + run log. Full history: CHANGELOG.md -->
+<!-- v1.8.0 (2026-07-07): + suggested-cuts panel on the run form. v1.7.0: + Compare runs table with tweak highlighter & predicted ABV. v1.6.0: + per-run additions/tweaks list. v1.5.0: + per-reading pH. v1.4.0: + fermentation gravity log & Tilt import. v1.3.0: mash detail + run log. Full history: CHANGELOG.md -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -149,6 +149,7 @@
         <div class="field"><label>Wash ABV %</label><input type="number" step="any" inputmode="decimal" id="r-wash-abv" placeholder="auto from OG–FG if blank"></div>
         <div class="field"><label>Wash volume</label><input type="number" step="any" inputmode="decimal" id="r-wash-volume"></div>
       </div>
+      <div id="r-predicted-abv" class="run-predicted" hidden></div>
 
       <div class="run-subhead">Fermentation gravity log</div>
       <div id="readings-body" class="readings-list"></div>
@@ -166,6 +167,7 @@
       <p class="hint">First and last readings auto-fill OG and FG above. Add a pH per reading to track it across the ferment. Log by hand, upload a Tilt export (.xlsx, .xls or .csv), or paste your Tilt Google Sheet link and Sync to pull the whole curve — and re-sync later as it keeps logging.</p>
 
       <div class="run-subhead">Cuts</div>
+      <div id="cut-suggest" class="cut-suggest"></div>
       <div class="grid-2">
         <div class="field"><label>Foreshots volume (discard)</label><input type="number" step="any" inputmode="decimal" id="r-foreshots"></div>
         <div class="field"><label></label><div class="muted" style="padding-top:6px">Discarded — not counted in yield.</div></div>
@@ -204,6 +206,7 @@
 </div>
 
 <script src="js/config.js"></script>
+<script src="js/auth.js"></script>
 <script src="js/api.js"></script>
 <script src="js/abv.js"></script>
 <script src="js/distill.js"></script>

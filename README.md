@@ -1,6 +1,6 @@
 # Sturgeon Spirits — Recipe Book & TTB Tracker
 
-**v1.4.0 (2026-07-06)** — see [CHANGELOG.md](CHANGELOG.md) for revision history.
+**v1.9.0 (2026-07-07)** — see [CHANGELOG.md](CHANGELOG.md) for revision history.
 
 A small static webapp for editing recipes, live-calculating ABV, scaling batches,
 and tracking TTB formula/label approvals. Google Sheets is the database; Netlify
@@ -55,8 +55,40 @@ git push -u origin main
 4. Deploy. Netlify gives you a URL immediately, and redeploys automatically on
    every push to `main`.
 
+## 5. Accounts & access (login)
+
+As of v1.9.0 the app requires a login, and the Apps Script backend rejects any
+read or write without a valid session — so the `/exec` URL alone no longer
+exposes your data. (Keep the deployment's access as **Anyone with the link**:
+that only lets the *login request* reach the script; the token check does the
+gatekeeping.)
+
+**Create the first account** (the web app can't — logging in needs an account to
+exist):
+
+1. In **Extensions > Apps Script**, open `Code.gs`.
+2. Edit `SETUP_createUser()` near the bottom — set the username, a strong
+   password, and a display name.
+3. In the editor's function dropdown pick **SETUP_createUser**, click **Run**, and
+   authorize if prompted. This adds the user to a `Users` tab (storing only a
+   salted SHA-256 hash — never the password itself).
+4. Clear the password you typed out of the function and **Save**.
+5. Redeploy the Web App (**Deploy > Manage deployments > Edit > New version**).
+
+**Add more people:** change the values in `createUserAccount_(...)` and run again.
+Re-running with an existing username **resets** that person's password.
+**Remove someone:** set their `active` cell to `no` in the `Users` tab (and run
+`SETUP_clearAllSessions()` to force everyone to sign in again).
+
+Notes and limits of this "basic" scheme: it's a shared-nothing token model good
+for a small trusted team. Sessions last 14 days. There's no self-serve password
+reset or 2FA — password changes go through `SETUP_createUser()`. Because Netlify
+serves the site over HTTPS, credentials and tokens are encrypted in transit.
+
 ## Using the app
 
+- **Sign in** (`login.html`): everyone lands here first; enter your username and
+  password. "Keep me signed in" persists the session on that device.
 - **Recipe list** (`index.html`): search, filter by category or TTB status,
   export the whole catalog to CSV.
 - **Recipe detail** (`recipe.html?id=...`): edit ingredients inline, ABV

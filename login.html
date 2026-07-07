@@ -1,0 +1,49 @@
+<!-- v1.9.0 (2026-07-07): sign-in page for the production recipe book. Full history: CHANGELOG.md -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Sign in — Sturgeon Spirits</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#3B5B45">
+<link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
+<link rel="manifest" href="icons/site.webmanifest">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body class="login-body">
+<main class="login-wrap">
+  <form id="login-form" class="login-card" autocomplete="on">
+    <img src="icons/icon.svg" alt="" class="login-logo" width="56" height="56">
+    <h1>Production Recipes</h1>
+    <p class="login-sub">Sturgeon Spirits — sign in to continue</p>
+
+    <div id="login-demo" class="demo-banner" style="display:none">
+      Demo mode — no backend configured, so there's nothing to sign in to.
+    </div>
+
+    <div class="field">
+      <label for="username">Username</label>
+      <input type="text" id="username" name="username" autocomplete="username" autocapitalize="none" autocorrect="off" required>
+    </div>
+    <div class="field">
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" autocomplete="current-password" required>
+    </div>
+    <label class="login-remember">
+      <input type="checkbox" id="remember"> Keep me signed in on this device
+    </label>
+
+    <div id="login-error" class="login-error" hidden></div>
+    <button type="submit" id="login-btn">Sign in</button>
+  </form>
+</main>
+
+<script src="js/config.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/api.js"></script>
+<script src="js/login-app.js"></script>
+</body>
+</html>

@@ -1,5 +1,7 @@
-// v1.7.0 (2026-07-07): + Compare runs table (all runs of a recipe side by side:
-// OG→FG, ABV, pH, yield, recovery, tweaks) with a tweak highlighter. v1.6.0: +
+// v1.8.0 (2026-07-07): + suggested-cuts panel (best-practice foreshots/heads/
+// hearts/tails guidance with foreshots mL + expected pure alcohol) on the run
+// form. v1.7.0: + Compare runs table with tweak highlighter, and a live
+// predicted-ABV readout from OG on the run form. v1.6.0: +
 // per-run additions/tweaks list. v1.5.0: + pH tracking in the fermentation log.
 // v1.4.0: + fermentation gravity log, live curve, Tilt import. v1.3.0: mash
 // detail — components, live calcs, run log. Full history: CHANGELOG.md
@@ -575,8 +577,49 @@
     Object.entries(RUN_MAP).forEach(([dom, key]) => { run[key] = $(dom).value; });
     return run;
   }
+  // Predicted ABV from OG, shown until a real final gravity is entered. Uses the
+  // recipe's target FG as the fermentation assumption, falling back to dry.
+  function updatePredictedABV(run) {
+    const el = $("r-predicted-abv");
+    const o = D.num(run.ferment_og);
+    const f = D.num(run.ferment_fg);
+    // Once an actual FG is in, the measured Wash ABV covers it — step aside.
+    if (o === null || f !== null) { el.hidden = true; el.textContent = ""; return; }
+    let fg = D.num(mash.target_fg), basis;
+    if (fg !== null && fg < o) basis = "assuming target FG " + D.round(fg, 3);
+    else { fg = 1.000; basis = "assuming it ferments dry (FG 1.000)"; }
+    const pred = D.potentialABV(o, fg);
+    if (pred === null) { el.hidden = true; el.textContent = ""; return; }
+    el.hidden = false;
+    el.innerHTML = `<strong>Predicted ABV ~${pred.toFixed(1)}%</strong> — from OG ${escapeHTML(String(run.ferment_og))}, ${basis}. Enter a final gravity for the measured value.`;
+  }
+  // Best-practice cut guidance for the run, with foreshots volume and expected
+  // pure-alcohol filled in from the wash figures when available.
+  function updateCutSuggest(run) {
+    const el = $("cut-suggest");
+    const fallback = D.potentialABV(run.ferment_og, mash.target_fg);
+    const s = D.suggestCuts(run, fallback);
+    const fs = s.foreshotsML != null
+      ? `~${s.foreshotsML} mL <span class="muted">(≈${s.foreshotsMlPerGal} mL/gal × ${D.round(s.washGal, 1)} gal wash)</span>`
+      : `~${s.foreshotsMlPerGal} mL per gallon of wash`;
+    const laaLine = s.laaL != null
+      ? `<div class="cut-suggest-laa">This wash holds ~${D.round(s.laaL, 2)} L pure alcohol${s.proofGal != null ? ` (~${D.round(s.proofGal, 2)} proof gal)` : ""} to split across the cuts.</div>`
+      : "";
+    el.innerHTML = `
+      <div class="cut-suggest-head">Suggested cuts · pot-still best practice</div>
+      <ul class="cut-suggest-list">
+        <li><strong>Foreshots — discard:</strong> ${fs}. Identify by smell, never taste.</li>
+        <li><strong>Heads:</strong> ~${s.headsPct[0]}–${s.headsPct[1]}% of what you collect — set aside and redistill.</li>
+        <li><strong>Hearts — keep:</strong> ~${s.heartsPct[0]}–${s.heartsPct[1]}%. Make the hearts→tails cut around ${s.heartsCutAbv[0]}–${s.heartsCutAbv[1]}% ABV (start checking by ~${s.watchAbv}%).</li>
+        <li><strong>Tails:</strong> ~${s.tailsPct[0]}–${s.tailsPct[1]}% — below ~${s.tailsAbv}% ABV; save for the next stripping run.</li>
+      </ul>
+      ${laaLine}
+      <div class="cut-suggest-note">Rules of thumb — always confirm heads by aroma and hearts by taste.</div>`;
+  }
   function updateRunCalc() {
     const run = readRunForm();
+    updatePredictedABV(run);
+    updateCutSuggest(run);
     const washAbv = D.washABV(run);
     const pg = D.proofGallons(run.hearts_volume, run.volume_unit, run.hearts_abv);
     const laa = D.laaLiters(run.hearts_volume, run.volume_unit, run.hearts_abv);

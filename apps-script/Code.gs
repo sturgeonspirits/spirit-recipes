@@ -37,6 +37,12 @@
  * timing, notes); nests additions under each run on `?mash=`/`?mashes=1`; adds
  * the `replace_additions` POST action; and cascade-deletes additions with their
  * run or mash. See CHANGELOG.md.
+ *
+ * v1.9.0 (2026-07-07): access control. Every read and write now requires a valid
+ * session token (AUTH_REQUIRED). Accounts live in a new Users tab (passwords are
+ * salted SHA-256 hashes only); `login` returns a token, `logout` revokes it, and
+ * tokens live in Script Properties with a 14-day expiry. Bootstrap the first
+ * account with SETUP_createUser() from the editor, then redeploy. See README.md.
  */
 
 // The one and only database for this webapp. Bind explicitly by ID so the
@@ -49,6 +55,14 @@ const SPREADSHEET_ID = "1-lAWU_yPq-0wnhYNGZ4jzGXr153KXVcu1TMjpj-W-wA";
 const RECIPES_SHEET = "Recipes";
 const INGREDIENTS_SHEET = "Ingredients";
 const CHANGELOG_SHEET = "changelog";
+
+// ----- Access control (v1.9.0) -----
+// When true, every read and write requires a valid session token obtained via
+// the `login` action. Bootstrap the first account by running SETUP_createUser()
+// from the Apps Script editor (see bottom of this file), then redeploy.
+const AUTH_REQUIRED = true;
+const USERS_SHEET = "Users";
+const SESSION_TTL_MS = 1000 * 60 * 60 * 24 * 14; // sessions last 14 days
 
 // ----- Distilling module tabs (v1.3.0) -----
 const MASH_RECIPES_SHEET = "MashRecipes";
@@ -66,6 +80,7 @@ DISTILL_HEADERS[MASH_COMPONENTS_SHEET] = ["mash_id","component","category","amou
 DISTILL_HEADERS[DISTILLATION_RUNS_SHEET] = ["run_id","mash_id","run_date","still_used","operator","volume_unit","ferment_og","ferment_fg","wash_abv","wash_volume","foreshots_volume","heads_volume","heads_abv","hearts_volume","hearts_abv","tails_volume","tails_abv","cut_temp_heads","cut_temp_tails","run_duration","barrel_id","barrel_fill_date","entry_proof","char_level","tilt_sheet_url","notes"];
 DISTILL_HEADERS[GRAVITY_READINGS_SHEET] = ["reading_id","run_id","mash_id","reading_date","reading_time","gravity","temp","ph","notes"];
 DISTILL_HEADERS[RUN_ADDITIONS_SHEET] = ["addition_id","run_id","mash_id","item","category","amount","unit","timing","notes"];
+DISTILL_HEADERS[USERS_SHEET] = ["username","salt","password_hash","display_name","active"];
 
 function getSpreadsheet_() {
   return SpreadsheetApp.openById(SPREADSHEET_ID);
@@ -184,9 +199,63 @@ function jsonOut_(obj) {
     .setMimeType(ContentService.MimeType.JSON);
 }
 
+// ================= Access control (v1.9.0) =================
+// Passwords are stored only as salted SHA-256 hashes in the Users tab. Sessions
+// are opaque tokens kept in Script Properties with an expiry — nothing sensitive
+// leaves the server except the token itself.
+
+function sha256Hex_(s) {
+  const raw = Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256, String(s), Utilities.Charset.UTF_8);
+  return raw.map(function (b) {
+    const v = (b < 0 ? b + 256 : b).toString(16);
+    return v.length === 1 ? "0" + v : v;
+  }).join("");
+}
+function hashPassword_(salt, pw) { return sha256Hex_(String(salt) + ":" + String(pw)); }
+
+function findUser_(username) {
+  const users = sheetToObjects_(getSheet_(USERS_SHEET));
+  const uname = String(username || "").trim().toLowerCase();
+  return users.find(u => String(u.username).trim().toLowerCase() === uname) || null;
+}
+function userActive_(user) {
+  const a = String(user.active == null ? "yes" : user.active).trim().toLowerCase();
+  return a !== "no" && a !== "false" && a !== "0" && a !== "";
+}
+
+function createSession_(user) {
+  const token = Utilities.getUuid().replace(/-/g, "") + Utilities.getUuid().replace(/-/g, "");
+  PropertiesService.getScriptProperties().setProperty(
+    "sess_" + token,
+    JSON.stringify({ u: user.username, n: user.display_name || user.username, exp: Date.now() + SESSION_TTL_MS })
+  );
+  return token;
+}
+function readSession_(token) {
+  if (!token) return null;
+  const props = PropertiesService.getScriptProperties();
+  const raw = props.getProperty("sess_" + token);
+  if (!raw) return null;
+  let s;
+  try { s = JSON.parse(raw); } catch (_) { return null; }
+  if (!s.exp || Date.now() > s.exp) { props.deleteProperty("sess_" + token); return null; }
+  return s;
+}
+function destroySession_(token) {
+  if (token) PropertiesService.getScriptProperties().deleteProperty("sess_" + token);
+}
+function authOK_(data) {
+  if (!AUTH_REQUIRED) return true;
+  return !!readSession_(data && data.token);
+}
+function authError_() {
+  return jsonOut_({ error: "auth", message: "Your session has expired — please sign in again." });
+}
+
 function doGet(e) {
   const params = e.parameter || {};
   try {
+    if (!authOK_(params)) return authError_();
     // ----- Tilt hydrometer: read a Tilt Google Sheet by id/URL (v1.4.0) -----
     // The script runs as its owner, so it can open any sheet that owner can see
     // (e.g. the user's own Tilt log) — no sharing or CORS needed on the client.
@@ -305,6 +374,24 @@ function doPost(e) {
   try {
     const body = JSON.parse(e.postData.contents);
     const action = body.action;
+
+    // ---- Auth actions (no token needed to log in) ----
+    if (action === "login") {
+      const user = findUser_(body.username);
+      if (!user || !userActive_(user) || hashPassword_(user.salt, body.password) !== String(user.password_hash)) {
+        return jsonOut_({ error: "Invalid username or password." });
+      }
+      const token = createSession_(user);
+      return jsonOut_({ ok: true, token: token, display_name: user.display_name || user.username });
+    }
+
+    // Everything past here requires a valid session.
+    if (!authOK_(body)) return authError_();
+
+    if (action === "logout") {
+      destroySession_(body.token);
+      return jsonOut_({ ok: true });
+    }
 
     if (action === "update_recipe_field") {
       const sheet = getSheet_(RECIPES_SHEET);
@@ -479,4 +566,46 @@ function doPost(e) {
   } catch (err) {
     return jsonOut_({ error: String(err) });
   }
+}
+
+// ================= Account setup (run from the editor) =================
+// The web app can't create the first account (login requires an existing user),
+// so bootstrap accounts here:
+//   1. Edit the username / password / name below.
+//   2. In the Apps Script editor, pick SETUP_createUser from the function
+//      dropdown and click Run (authorize if prompted).
+//   3. Delete the password you typed once it's created, and Save.
+// Re-running with an existing username resets that user's password. Add more
+// people by changing the values and running again.
+function SETUP_createUser() {
+  createUserAccount_("karl", "CHANGE-ME-NOW", "Karl");
+}
+
+// Add or reset a user. Passwords are never stored — only a salted SHA-256 hash.
+function createUserAccount_(username, password, displayName) {
+  if (!username || !password) throw new Error("username and password are required");
+  const sheet = getSheet_(USERS_SHEET);
+  const salt = Utilities.getUuid().replace(/-/g, "");
+  const hash = hashPassword_(salt, password);
+  const existing = findUser_(username);
+  if (existing) {
+    updateField_(sheet, existing.username, "username", "salt", salt);
+    updateField_(sheet, existing.username, "username", "password_hash", hash);
+    if (displayName) updateField_(sheet, existing.username, "username", "display_name", displayName);
+    updateField_(sheet, existing.username, "username", "active", "yes");
+  } else {
+    appendObject_(sheet, {
+      username: String(username).trim(), salt: salt, password_hash: hash,
+      display_name: displayName || username, active: "yes"
+    });
+  }
+  return "ok: " + username;
+}
+
+// Revoke everyone's sessions (e.g. after removing a user). Forces re-login.
+function SETUP_clearAllSessions() {
+  const props = PropertiesService.getScriptProperties();
+  const all = props.getProperties();
+  Object.keys(all).forEach(function (k) { if (k.indexOf("sess_") === 0) props.deleteProperty(k); });
+  return "cleared";
 }

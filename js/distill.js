@@ -1,3 +1,5 @@
+// v1.8.0 (2026-07-07): + suggestCuts (best-practice foreshots/heads/hearts/tails).
+// v1.7.0 (2026-07-07): + potentialABV (predicted ABV from OG).
 // v1.5.0 (2026-07-07): readingSpan now also summarizes pH (phRange/first/last).
 // v1.4.0 (2026-07-06): + readingSpan/sortedReadings for the fermentation log.
 // v1.3.0: distilling math — gravity/ABV, attenuation, proof gallons / LAA, and
@@ -32,6 +34,17 @@ window.DISTILL = (function () {
   function abvFromGravity(og, fg) {
     const o = num(og), f = num(fg);
     if (o === null || f === null || o <= f) return null;
+    return (o - f) * 131.25;
+  }
+
+  // Predicted / potential ABV from OG, assuming fermentation reaches `fg`.
+  // If fg is missing or not below OG, assume ferment-to-dry (FG 1.000). This is
+  // the "what will this wash make?" estimate before you have a real final gravity.
+  function potentialABV(og, fg) {
+    const o = num(og);
+    if (o === null) return null;
+    let f = num(fg);
+    if (f === null || f >= o) f = 1.000;
     return (o - f) * 131.25;
   }
 
@@ -97,6 +110,32 @@ window.DISTILL = (function () {
     return (out / washAlc) * 100;
   }
 
+  // Suggested cuts for a pot-still spirit run, from common home/craft distilling
+  // best practice:
+  //   - Foreshots: discard ~50 mL per gallon of wash (methanol/acetone —
+  //     identify by smell, never taste).
+  //   - Heads ~20–30% of the collected spirit; Hearts ~35–45%; Tails the rest.
+  //   - Make the hearts→tails cut around 55–60% ABV (start checking by ~65%);
+  //     tails run below ~40% ABV and are saved for the next stripping run.
+  // Sources: homedistiller.org wiki (Cuts and fractions), learntomoonshine.com,
+  // scienceinsights.org, stillspirits.com — corroborated July 2026.
+  function suggestCuts(run, fallbackAbv) {
+    run = run || {};
+    const washML = toML(run.wash_volume, run.volume_unit);
+    let abv = washABV(run);
+    if (abv === null && fallbackAbv != null && fallbackAbv !== "") abv = num(fallbackAbv);
+    const washGal = washML === null ? null : washML / ML_PER_GALLON;
+    const foreshotsML = washGal === null ? null : Math.round(50 * washGal);
+    const laaL = (washML !== null && abv !== null) ? (washML / ML_PER_LITER) * (abv / 100) : null;
+    const proofGal = (washGal !== null && abv !== null) ? washGal * (abv * 2) / 100 : null;
+    return {
+      abv, washGal, foreshotsML, laaL, proofGal,
+      foreshotsMlPerGal: 50,
+      headsPct: [20, 30], heartsPct: [35, 45], tailsPct: [25, 45],
+      heartsCutAbv: [55, 60], watchAbv: 65, tailsAbv: 40
+    };
+  }
+
   // Convenience: derive the run's effective wash ABV. Use the measured value
   // if present, otherwise estimate it from OG/FG.
   function washABV(run) {
@@ -157,8 +196,8 @@ window.DISTILL = (function () {
   }
 
   return {
-    num, toML, abvFromGravity, attenuation, proof, proofGallons, laaLiters,
-    alcoholML, heartsRecovery, totalRecovery, washABV, round,
+    num, toML, abvFromGravity, potentialABV, attenuation, proof, proofGallons, laaLiters,
+    alcoholML, heartsRecovery, totalRecovery, washABV, suggestCuts, round,
     toDate, sortedReadings, readingSpan,
     ML_PER_GALLON, ML_PER_LITER
   };
