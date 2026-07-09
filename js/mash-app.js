@@ -1,3 +1,6 @@
+// v1.10.2 (2026-07-09): stored wash ABV of 0 treated as "not measured" so OG–FG
+// auto-calcs; backend datetime strings shown as MM/DD/YYYY & hh:mm in the run
+// editor, cards and compare table.
 // v1.10.1 (2026-07-09): run editor no longer clobbers a manually-entered OG/FG
 // with older gravity-log values on open; Wash ABV stat shows its source
 // (measured vs OG–FG) and the field's placeholder shows the live auto value.
@@ -200,7 +203,7 @@
         </div>` : "";
       return `<div class="run-item" data-run="${escapeHTML(run.run_id)}">
         <div class="run-item-head">
-          <div class="run-date">${escapeHTML(run.run_date || "(no date)")}${run.still_used ? ` · <span class="muted">${escapeHTML(run.still_used)}</span>` : ""}</div>
+          <div class="run-date">${escapeHTML(normDate(run.run_date) || "(no date)")}${run.still_used ? ` · <span class="muted">${escapeHTML(run.still_used)}</span>` : ""}</div>
           <div class="run-actions">
             <button class="ghost run-edit" data-run="${escapeHTML(run.run_id)}">Edit</button>
             <button class="ghost run-del" data-run="${escapeHTML(run.run_id)}">Delete</button>
@@ -276,7 +279,7 @@
         : `<span class="muted">—</span>`;
       const dataItems = tweakItems.map(i => i.toLowerCase()).join("|");
       return `<tr data-items="${escapeHTML(dataItems)}">
-        <td class="c-date">${escapeHTML(run.run_date || "—")}</td>
+        <td class="c-date">${escapeHTML(normDate(run.run_date) || "—")}</td>
         <td>${escapeHTML(ogfg)}</td>
         <td>${abv === null ? "—" : fmt(abv) + "%"}</td>
         <td>${escapeHTML(phValue(span))}</td>
@@ -648,7 +651,8 @@
     // Show the live auto value in the Wash ABV field's placeholder, and label
     // the stat with its source so a typed (measured) value overriding the
     // OG–FG calc is obvious.
-    const measured = D.num(run.wash_abv) !== null;
+    const measuredVal = D.num(run.wash_abv);
+    const measured = measuredVal !== null && measuredVal > 0;
     $("r-wash-abv").placeholder = gravAbv === null
       ? "auto from OG–FG if blank"
       : "auto ≈ " + fmt(gravAbv, 1) + "% from OG–FG";
@@ -669,14 +673,38 @@
   }
   Object.keys(RUN_MAP).forEach(dom => $(dom).addEventListener("input", updateRunCalc));
 
+  // Display normalizers for values coming back from the backend, which stores
+  // dates/times as spreadsheet cells and returns them as full datetime strings
+  // (dates as ISO like "2026-07-09T05:00:00.000Z", times as 1899-epoch strings).
+  function normDate(v) {
+    const s = String(v ?? "").trim();
+    if (!s || /^\d{1,2}\/\d{1,2}\/\d{4}$/.test(s)) return s;
+    const d = new Date(s);
+    if (isNaN(d.getTime())) return s;
+    const pad = n => String(n).padStart(2, "0");
+    return pad(d.getMonth() + 1) + "/" + pad(d.getDate()) + "/" + d.getFullYear();
+  }
+  function normTime(v) {
+    const s = String(v ?? "").trim();
+    if (!s || /^\d{1,2}:\d{2}$/.test(s)) return s;
+    const d = new Date(s);
+    if (isNaN(d.getTime())) return s;
+    const pad = n => String(n).padStart(2, "0");
+    return pad(d.getHours()) + ":" + pad(d.getMinutes());
+  }
+
   function openRunModal(runId) {
     editingRunId = runId || null;
     const run = runId ? mash.runs.find(r => String(r.run_id) === String(runId)) || {} : {};
     $("run-modal-title").textContent = runId ? "Edit run" : "Log a run";
     Object.entries(RUN_MAP).forEach(([dom, key]) => { $(dom).value = run[key] != null ? run[key] : ""; });
+    // Backend date cells come back as raw datetime strings — show them cleanly.
+    ["r-run-date", "r-barrel-date"].forEach(dom => { $(dom).value = normDate($(dom).value); });
+    // A stored wash ABV of 0 means "not measured" — leave blank so OG–FG auto-calcs.
+    if (D.num($("r-wash-abv").value) === 0) $("r-wash-abv").value = "";
     // Deep-copy this run's gravity log so edits can be cancelled cleanly.
     currentReadings = (run.readings || []).map(r => ({
-      reading_date: r.reading_date || "", reading_time: r.reading_time || "",
+      reading_date: normDate(r.reading_date), reading_time: normTime(r.reading_time),
       gravity: r.gravity ?? "", temp: r.temp ?? "", ph: r.ph ?? "", notes: r.notes || ""
     }));
     currentAdditions = (run.additions || []).map(a => ({

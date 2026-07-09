@@ -1,3 +1,6 @@
+// v1.10.2 (2026-07-09): washABV treats a stored 0 as "not measured" (falls back
+// to OG–FG); recovery calcs use the effective wash ABV; readings sort by full
+// date+time (handles backend-serialized datetime strings).
 // v1.8.0 (2026-07-07): + suggestCuts (best-practice foreshots/heads/hearts/tails).
 // v1.7.0 (2026-07-07): + potentialABV (predicted ABV from OG).
 // v1.5.0 (2026-07-07): readingSpan now also summarizes pH (phRange/first/last).
@@ -92,7 +95,7 @@ window.DISTILL = (function () {
   // Answers "what fraction of the alcohol in the wash ended up in my hearts?"
   function heartsRecovery(run) {
     const heartsAlc = alcoholML(run.hearts_volume, run.volume_unit, run.hearts_abv);
-    const washAlc = alcoholML(run.wash_volume, run.volume_unit, run.wash_abv);
+    const washAlc = alcoholML(run.wash_volume, run.volume_unit, washABV(run));
     if (heartsAlc === null || washAlc === null || washAlc === 0) return null;
     return (heartsAlc / washAlc) * 100;
   }
@@ -100,7 +103,7 @@ window.DISTILL = (function () {
   // Total pure-alcohol recovery across all named cuts vs the wash (a sanity
   // check — should be reasonably high if measurements are good).
   function totalRecovery(run) {
-    const washAlc = alcoholML(run.wash_volume, run.volume_unit, run.wash_abv);
+    const washAlc = alcoholML(run.wash_volume, run.volume_unit, washABV(run));
     if (washAlc === null || washAlc === 0) return null;
     let out = 0;
     ["heads", "hearts", "tails"].forEach(cut => {
@@ -137,10 +140,12 @@ window.DISTILL = (function () {
   }
 
   // Convenience: derive the run's effective wash ABV. Use the measured value
-  // if present, otherwise estimate it from OG/FG.
+  // if present, otherwise estimate it from OG/FG. A measured value of 0 (or
+  // less) is treated as "not measured" — spreadsheet backends sometimes store
+  // empty numeric cells as 0, and a 0% wash is meaningless anyway.
   function washABV(run) {
     const measured = num(run.wash_abv);
-    if (measured !== null) return measured;
+    if (measured !== null && measured > 0) return measured;
     return abvFromGravity(run.ferment_og, run.ferment_fg);
   }
 
@@ -151,11 +156,28 @@ window.DISTILL = (function () {
     return isNaN(d.getTime()) ? null : d;
   }
 
-  // Readings sorted chronologically, with numeric gravity attached. Non-numeric
-  // gravities are dropped.
+  // Full timestamp for a reading: reading_date plus reading_time when one is
+  // present. Accepts "hh:mm" strings and full datetime strings (spreadsheet
+  // backends serialize time-only cells as 1899-epoch datetimes).
+  function readingTimestamp(r) {
+    const d = toDate(r.reading_date);
+    if (!d) return null;
+    const s = String(r.reading_time == null ? "" : r.reading_time).trim();
+    if (s) {
+      let h = null, m = null;
+      const hm = s.match(/^(\d{1,2}):(\d{2})/);
+      if (hm) { h = +hm[1]; m = +hm[2]; }
+      else { const t = toDate(s); if (t) { h = t.getHours(); m = t.getMinutes(); } }
+      if (h !== null) { const out = new Date(d.getTime()); out.setHours(h, m, 0, 0); return out; }
+    }
+    return d;
+  }
+
+  // Readings sorted chronologically (date + time), with numeric gravity
+  // attached. Non-numeric gravities are dropped.
   function sortedReadings(readings) {
     return (readings || [])
-      .map(r => ({ ref: r, g: num(r.gravity), d: toDate(r.reading_date) }))
+      .map(r => ({ ref: r, g: num(r.gravity), d: readingTimestamp(r) }))
       .filter(r => r.g !== null)
       .sort((a, b) => (a.d && b.d) ? a.d - b.d : 0);
   }
@@ -198,7 +220,7 @@ window.DISTILL = (function () {
   return {
     num, toML, abvFromGravity, potentialABV, attenuation, proof, proofGallons, laaLiters,
     alcoholML, heartsRecovery, totalRecovery, washABV, suggestCuts, round,
-    toDate, sortedReadings, readingSpan,
+    toDate, readingTimestamp, sortedReadings, readingSpan,
     ML_PER_GALLON, ML_PER_LITER
   };
 })();

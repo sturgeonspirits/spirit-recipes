@@ -3,6 +3,20 @@
 All notable changes to this project are logged here. Each code file also
 carries a one-line version header at the top pointing back to this file.
 
+## v1.10.2 - 2026-07-09
+- **Fix: Wash ABV showed nothing (or 0) when the run had a stored wash ABV of 0.**
+  The backend stores empty numeric cells as 0 in some cases; a 0 "measured"
+  wash ABV was winning over the OG–FG auto-calc. `washABV` now treats ≤0 as
+  "not measured" and falls back to OG–FG, the run editor blanks a stored 0, and
+  the recovery calcs use the same effective wash ABV (so they too auto-calc
+  from OG–FG when no measured value exists). (`js/distill.js`, `js/mash-app.js`)
+- **Fix: raw datetime strings in the run editor.** Reading dates/times (and run
+  and barrel dates) returned by the backend as serialized datetimes (e.g.
+  `2026-07-09T05:00:00.000Z`, times as 1899-epoch strings) are now shown as
+  `MM/DD/YYYY` and `hh:mm` in the editor, run cards, and compare table.
+- **Readings now sort by date + time** (was date only), so same-day readings
+  order correctly when deriving OG/FG. (`js/distill.js`)
+
 ## v1.10.1 - 2026-07-09
 - **Fix: run editor kept stale OG/FG (and Wash ABV) on open.** Opening Edit on a
   distillation run overwrote the Original/Final gravity fields with the gravity
