@@ -3,6 +3,20 @@
 All notable changes to this project are logged here. Each code file also
 carries a one-line version header at the top pointing back to this file.
 
+## v1.10.1 - 2026-07-09
+- **Fix: run editor kept stale OG/FG (and Wash ABV) on open.** Opening Edit on a
+  distillation run overwrote the Original/Final gravity fields with the gravity
+  log's first/last readings — so an OG or FG typed in by hand (e.g. a
+  hydrometer-measured final gravity newer than the log) was silently replaced,
+  and the Wash ABV auto-calc used the older figures. The editor now fills OG/FG
+  from the log only when the field is blank; editing or importing readings still
+  updates both, as before.
+- **Wash ABV source made obvious.** The live Wash ABV stat on the run form is
+  now labeled "(measured)" or "(OG–FG)" — and when a typed value overrides a
+  differing OG–FG calc, the calc is shown alongside. The Wash ABV % field's
+  placeholder shows the live auto value (e.g. "auto ≈ 7.6% from OG–FG").
+  Front-end only (`js/mash-app.js`) — no backend change, no redeploy needed.
+
 ## v1.10.0 - 2026-07-07
 - **Click-through field definitions.** Every field on the mash recipe page (and
   the Expected ABV / Attenuation / Batch stats) now has a small "?" button that

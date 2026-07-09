@@ -1,4 +1,7 @@
-// v1.10.0 (2026-07-07): additions/tweaks AND gravity-reading editors rebuilt as
+// v1.10.1 (2026-07-09): run editor no longer clobbers a manually-entered OG/FG
+// with older gravity-log values on open; Wash ABV stat shows its source
+// (measured vs OG–FG) and the field's placeholder shows the live auto value.
+// v1.10.0: additions/tweaks AND gravity-reading editors rebuilt as
 // labeled cards so they're readable on a phone (were cramped grids). v1.8.0: + suggested-cuts panel (best-practice foreshots/heads/
 // hearts/tails guidance with foreshots mL + expected pure alcohol) on the run
 // form. v1.7.0: + Compare runs table with tweak highlighter, and a live
@@ -475,12 +478,16 @@
   }
 
   // Auto-fill OG/FG from the log's first/last reading and draw the curve.
-  function updateReadingDerived() {
+  // opts.fillBlanksOnly: only fill OG/FG when the field is empty — used on
+  // modal open so a manually-entered (latest) OG/FG isn't clobbered by an
+  // older gravity log. Reading edits/imports still overwrite both.
+  function updateReadingDerived(opts) {
+    const fillBlanksOnly = !!(opts && opts.fillBlanksOnly);
     const span = D.readingSpan(currentReadings);
     const chart = $("gravity-chart");
     if (span) {
-      $("r-og").value = span.og;
-      $("r-fg").value = span.fg;
+      if (!fillBlanksOnly || $("r-og").value === "") $("r-og").value = span.og;
+      if (!fillBlanksOnly || $("r-fg").value === "") $("r-fg").value = span.fg;
       const svg = fermChart(span.gravities, span.temps, 280, 64, { showTemp: span.hasTemp, showDots: true });
       const tempCap = span.tempRange ? ` · temp ${D.round(span.tempRange.min, 0)}–${D.round(span.tempRange.max, 0)}°` : "";
       const phCap = phText(span);
@@ -637,12 +644,23 @@
     updatePredictedABV(run);
     updateCutSuggest(run);
     const washAbv = D.washABV(run);
+    const gravAbv = D.abvFromGravity(run.ferment_og, run.ferment_fg);
+    // Show the live auto value in the Wash ABV field's placeholder, and label
+    // the stat with its source so a typed (measured) value overriding the
+    // OG–FG calc is obvious.
+    const measured = D.num(run.wash_abv) !== null;
+    $("r-wash-abv").placeholder = gravAbv === null
+      ? "auto from OG–FG if blank"
+      : "auto ≈ " + fmt(gravAbv, 1) + "% from OG–FG";
+    const washLabel = washAbv === null ? "Wash ABV" : (measured ? "Wash ABV (measured)" : "Wash ABV (OG–FG)");
+    const washNote = (measured && gravAbv !== null && Math.abs(gravAbv - washAbv) >= 0.1)
+      ? ` <span class="muted">(OG–FG ⇒ ${fmt(gravAbv, 1)}%)</span>` : "";
     const pg = D.proofGallons(run.hearts_volume, run.volume_unit, run.hearts_abv);
     const laa = D.laaLiters(run.hearts_volume, run.volume_unit, run.hearts_abv);
     const rec = D.heartsRecovery(run);
     const tot = D.totalRecovery(run);
     $("run-calc").innerHTML = `
-      ${runStat("Wash ABV", washAbv === null ? "—" : fmt(washAbv) + "%")}
+      ${runStat(washLabel, washAbv === null ? "—" : fmt(washAbv) + "%" + washNote)}
       ${runStat("Proof gal (hearts)", pg === null ? "—" : fmt(pg))}
       ${runStat("LAA L (hearts)", laa === null ? "—" : fmt(laa))}
       ${runStat("Hearts recovery", rec === null ? "—" : fmt(rec, 0) + "%")}
@@ -673,7 +691,9 @@
       if (!$("r-og").value) $("r-og").value = mash.target_og || "";
       if (!$("r-fg").value) $("r-fg").value = mash.target_fg || "";
     }
-    updateReadingDerived();
+    // Fill blanks only: keep the run's saved OG/FG (they may be newer than the
+    // gravity log, e.g. a hand-measured final gravity typed in directly).
+    updateReadingDerived({ fillBlanksOnly: true });
     modal.hidden = false;
     document.body.style.overflow = "hidden";
   }
