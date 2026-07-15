@@ -426,6 +426,31 @@ details.section > .section-body { padding: 0 16px 16px; }
 .tool-row button { flex-shrink: 0; }
 .hint { color: var(--muted); font-size: 13px; margin: 10px 0 0; }
 
+/* Scale calculator preview (read-only — separate from the recipe itself) */
+.scale-result {
+  margin-top: 14px;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: 12px;
+  background: var(--accent-light);
+}
+.scale-result-head {
+  display: flex; justify-content: space-between; align-items: center;
+  gap: 10px; margin-bottom: 6px;
+}
+#scale-factor-label { font-weight: 700; font-size: 14px; }
+.scale-result-head .secondary { padding: 4px 12px; min-height: 0; }
+.scaled-row {
+  display: flex; justify-content: space-between; gap: 10px;
+  padding: 6px 0; font-size: 14px;
+  border-bottom: 1px dashed var(--border);
+}
+.scaled-row:last-child { border-bottom: none; }
+.scaled-row .amt { font-weight: 600; white-space: nowrap; }
+.scaled-row .was { font-weight: 400; color: var(--muted); font-size: 12px; }
+.scale-apply-row { margin-top: 10px; }
+.scale-apply-row button { width: 100%; }
+
 /* Click-through field definitions (info tooltips) */
 .info-btn {
   display: inline-flex; align-items: center; justify-content: center;

@@ -1,4 +1,4 @@
-// v1.2.0 (2026-07-06): added Make mode (read-only production view w/ scaler + check-off). Full history: CHANGELOG.md
+// v1.11.1 (2026-07-15): Target ABV solve is now a non-destructive preview (like the scale calculator). Full history: CHANGELOG.md
 (async function () {
   const params = new URLSearchParams(location.search);
   const id = params.get("id");
@@ -116,6 +116,7 @@
       });
       listEl.appendChild(card);
     });
+    populateScaleIngredients();
   }
 
   function updateABV() {
@@ -125,6 +126,8 @@
     const el = document.getElementById("abv-live");
     el.textContent = (abv === null || isNaN(abv)) ? "—" : abv.toFixed(2) + "%";
     document.getElementById("abv-warning").textContent = recipe._targetAbvWarning || "";
+    renderScalePreview();  // keep the scale-calculator preview in sync with edits
+    renderTargetPreview(); // re-solve the target-ABV preview against the edited recipe
   }
 
   document.getElementById("f-batch-size").addEventListener("input", updateABV);
@@ -138,34 +141,232 @@
     if (inputs.length) inputs[inputs.length - 1].focus();
   });
 
-  document.getElementById("scale-apply").addEventListener("click", () => {
-    const size = Number(document.getElementById("scale-size").value);
-    const unit = document.getElementById("scale-unit").value || recipe.batch_unit;
-    if (!size) { alert("Enter a new batch size first."); return; }
-    try {
-      const scaled = window.ABV.scaleToBatchSize(recipe, size, unit);
-      recipe.batch_size = scaled.batch_size;
-      recipe.batch_unit = scaled.batch_unit;
-      recipe.ingredients = scaled.ingredients;
-      document.getElementById("f-batch-size").value = recipe.batch_size;
-      document.getElementById("f-batch-unit").value = recipe.batch_unit;
-      renderIngredients();
-      updateABV();
-      showToast("Batch scaled — press Save to keep it.");
-    } catch (err) { alert(err.message); }
+  // ===== Scale calculator: non-destructive preview (by batch size or by ingredient) =====
+  const scaleUI = {
+    size: document.getElementById("scale-size"),
+    unit: document.getElementById("scale-unit"),
+    ingSel: document.getElementById("scale-ing"),
+    ingAmt: document.getElementById("scale-ing-amount"),
+    ingUnit: document.getElementById("scale-ing-unit"),
+    result: document.getElementById("scale-result"),
+    factorLabel: document.getElementById("scale-factor-label"),
+    output: document.getElementById("scale-output"),
+    clear: document.getElementById("scale-clear"),
+    writeBack: document.getElementById("scale-write-back"),
+  };
+  let scaleMode = null;        // "size" | "ingredient" | null
+  let lastScaled = null;       // last previewed result, for optional write-back
+
+  function fmtAmt(n) {
+    if (n === "" || n == null || isNaN(n)) return "";
+    return String(Math.round(Number(n) * 1000) / 1000);
+  }
+
+  function populateScaleIngredients() {
+    const prev = scaleUI.ingSel.value;
+    scaleUI.ingSel.innerHTML = '<option value="">— choose —</option>';
+    recipe.ingredients.forEach((ing, idx) => {
+      const opt = document.createElement("option");
+      opt.value = String(idx);
+      opt.textContent = ing.name || `Ingredient ${idx + 1}`;
+      scaleUI.ingSel.appendChild(opt);
+    });
+    if (prev !== "" && recipe.ingredients[Number(prev)]) scaleUI.ingSel.value = prev;
+    syncScaleIngUnit();
+  }
+
+  function syncScaleIngUnit() {
+    const ing = recipe.ingredients[Number(scaleUI.ingSel.value)];
+    scaleUI.ingUnit.textContent = ing && ing.unit ? `(${ing.unit})` : "";
+  }
+
+  function computeScaleFactor() {
+    if (scaleMode === "size") {
+      const size = Number(scaleUI.size.value);
+      if (!size || size <= 0) return null;
+      const unit = scaleUI.unit.value.trim() || recipe.batch_unit || "";
+      const cur = window.ABV.toML(recipe.batch_size, recipe.batch_unit);
+      const tgt = window.ABV.toML(size, unit);
+      if (cur && tgt) return { factor: tgt / cur, size, unit };
+      if (Number(recipe.batch_size) &&
+          String(unit).trim().toLowerCase() === String(recipe.batch_unit || "").trim().toLowerCase()) {
+        return { factor: size / Number(recipe.batch_size), size, unit };
+      }
+      return { error: "Units must match the recipe's batch unit or both be convertible volumes (mL, oz, gal…)." };
+    }
+    if (scaleMode === "ingredient") {
+      const ing = recipe.ingredients[Number(scaleUI.ingSel.value)];
+      const amt = Number(scaleUI.ingAmt.value);
+      if (!ing || !amt || amt <= 0) return null;
+      if (!Number(ing.amount)) return { error: "That ingredient has no current amount to scale from." };
+      return { factor: amt / Number(ing.amount) };
+    }
+    return null;
+  }
+
+  function renderScalePreview() {
+    const res = computeScaleFactor();
+    if (!res) { scaleUI.result.hidden = true; lastScaled = null; return; }
+    if (res.error) {
+      scaleUI.factorLabel.textContent = res.error;
+      scaleUI.output.innerHTML = "";
+      scaleUI.writeBack.disabled = true;
+      scaleUI.result.hidden = false;
+      lastScaled = null;
+      return;
+    }
+    const scaled = window.ABV.scaleByFactor(recipe, res.factor);
+    if (res.size) { scaled.batch_size = res.size; scaled.batch_unit = res.unit; }
+    lastScaled = scaled;
+
+    const batchStr = scaled.batch_size
+      ? `${fmtAmt(scaled.batch_size)}${scaled.batch_unit ? " " + scaled.batch_unit : ""}` : "—";
+    scaleUI.factorLabel.textContent =
+      `×${fmtAmt(res.factor)} — batch: ${batchStr}`;
+
+    scaleUI.output.innerHTML = "";
+    scaled.ingredients.forEach(ing => {
+      const row = document.createElement("div");
+      row.className = "scaled-row";
+      const name = document.createElement("span");
+      name.textContent = ing.name || "—";
+      const amt = document.createElement("span");
+      amt.className = "amt";
+      amt.textContent = `${fmtAmt(ing.amount)}${ing.unit ? " " + ing.unit : ""}`;
+      row.append(name, amt);
+      scaleUI.output.appendChild(row);
+    });
+    scaleUI.writeBack.disabled = false;
+    scaleUI.result.hidden = false;
+  }
+
+  function clearScaleCalc() {
+    scaleMode = null;
+    lastScaled = null;
+    scaleUI.size.value = "";
+    scaleUI.unit.value = "";
+    scaleUI.ingSel.value = "";
+    scaleUI.ingAmt.value = "";
+    syncScaleIngUnit();
+    scaleUI.result.hidden = true;
+  }
+
+  [scaleUI.size, scaleUI.unit].forEach(el => el.addEventListener("input", () => {
+    scaleMode = "size";
+    scaleUI.ingSel.value = "";
+    scaleUI.ingAmt.value = "";
+    syncScaleIngUnit();
+    renderScalePreview();
+  }));
+  scaleUI.ingSel.addEventListener("change", () => {
+    scaleMode = "ingredient";
+    scaleUI.size.value = "";
+    scaleUI.unit.value = "";
+    syncScaleIngUnit();
+    renderScalePreview();
+  });
+  scaleUI.ingAmt.addEventListener("input", () => {
+    scaleMode = "ingredient";
+    scaleUI.size.value = "";
+    scaleUI.unit.value = "";
+    renderScalePreview();
+  });
+  scaleUI.clear.addEventListener("click", clearScaleCalc);
+
+  // Explicit opt-in: copy the previewed amounts into the recipe (still needs Save).
+  scaleUI.writeBack.addEventListener("click", () => {
+    if (!lastScaled) return;
+    recipe.batch_size = lastScaled.batch_size;
+    recipe.batch_unit = lastScaled.batch_unit;
+    recipe.ingredients = lastScaled.ingredients;
+    document.getElementById("f-batch-size").value = recipe.batch_size;
+    document.getElementById("f-batch-unit").value = recipe.batch_unit;
+    clearScaleCalc();
+    renderIngredients();
+    updateABV();
+    showToast("Recipe overwritten with scaled amounts — press Save to keep it.");
   });
 
-  document.getElementById("target-apply").addEventListener("click", () => {
-    const target = Number(document.getElementById("target-abv").value);
-    if (!target) { alert("Enter a target ABV first."); return; }
+  // ===== Target ABV: non-destructive solve preview =====
+  const targetUI = {
+    input: document.getElementById("target-abv"),
+    result: document.getElementById("target-result"),
+    label: document.getElementById("target-factor-label"),
+    warning: document.getElementById("target-warning"),
+    output: document.getElementById("target-output"),
+    clear: document.getElementById("target-clear"),
+    writeBack: document.getElementById("target-write-back"),
+  };
+  let lastSolved = null;
+  let targetActive = false; // preview only shows after an explicit Solve
+
+  function clearTargetPreview() {
+    targetActive = false;
+    lastSolved = null;
+    targetUI.result.hidden = true;
+  }
+
+  function renderTargetPreview() {
+    if (!targetActive) { targetUI.result.hidden = true; return; }
+    const target = Number(targetUI.input.value);
+    if (!target) { clearTargetPreview(); return; }
+    let solved;
     try {
-      const solved = window.ABV.solveForTargetABV(recipe, target);
-      recipe.ingredients = solved.ingredients;
-      recipe._targetAbvWarning = solved._targetAbvWarning || "";
-      renderIngredients();
-      updateABV();
-      showToast("Solved — press Save to keep it.");
-    } catch (err) { alert(err.message); }
+      solved = window.ABV.solveForTargetABV(recipe, target);
+    } catch (err) {
+      lastSolved = null;
+      targetUI.label.textContent = err.message;
+      targetUI.warning.hidden = true;
+      targetUI.output.innerHTML = "";
+      targetUI.writeBack.disabled = true;
+      targetUI.result.hidden = false;
+      return;
+    }
+    lastSolved = solved;
+    targetUI.label.textContent =
+      `Solved: ${solved._solvedABV == null || isNaN(solved._solvedABV) ? "—" : solved._solvedABV.toFixed(2) + "%"} ABV`;
+    targetUI.warning.textContent = solved._targetAbvWarning || "";
+    targetUI.warning.hidden = !solved._targetAbvWarning;
+
+    targetUI.output.innerHTML = "";
+    solved.ingredients.forEach((ing, idx) => {
+      const row = document.createElement("div");
+      row.className = "scaled-row";
+      const name = document.createElement("span");
+      name.textContent = ing.name || "—";
+      const amt = document.createElement("span");
+      amt.className = "amt";
+      amt.textContent = `${fmtAmt(ing.amount)}${ing.unit ? " " + ing.unit : ""}`;
+      const before = recipe.ingredients[idx];
+      if (before && Number(before.amount) !== Number(ing.amount)) {
+        const was = document.createElement("span");
+        was.className = "was";
+        was.textContent = ` (was ${fmtAmt(before.amount)})`;
+        amt.appendChild(was);
+      }
+      row.append(name, amt);
+      targetUI.output.appendChild(row);
+    });
+    targetUI.writeBack.disabled = false;
+    targetUI.result.hidden = false;
+  }
+
+  document.getElementById("target-apply").addEventListener("click", () => {
+    if (!Number(targetUI.input.value)) { alert("Enter a target ABV first."); return; }
+    targetActive = true;
+    renderTargetPreview();
+  });
+  targetUI.clear.addEventListener("click", clearTargetPreview);
+
+  // Explicit opt-in: copy the solved amounts into the recipe (still needs Save).
+  targetUI.writeBack.addEventListener("click", () => {
+    if (!lastSolved) return;
+    recipe.ingredients = lastSolved.ingredients;
+    recipe._targetAbvWarning = lastSolved._targetAbvWarning || "";
+    clearTargetPreview();
+    renderIngredients();
+    updateABV();
+    showToast("Recipe overwritten with solved amounts — press Save to keep it.");
   });
 
   const saveBtn = document.getElementById("save-btn");

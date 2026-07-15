@@ -107,6 +107,7 @@ window.ABV = (function () {
     const newSpiritAmount = fromML(targetSpiritML, ingredients[alcoholIdx].unit);
     ingredients[alcoholIdx].amount = round4(newSpiritAmount);
 
+    let warning = "";
     if (waterIdx !== -1) {
       const currentWaterML = toML(ingredients[waterIdx].amount, ingredients[waterIdx].unit);
       const newWaterML = currentWaterML - deltaML;
@@ -114,10 +115,11 @@ window.ABV = (function () {
       ingredients[waterIdx].amount = round4(fromML(newWaterML, ingredients[waterIdx].unit));
     } else {
       // no water to compensate with -- total volume will drift by deltaML
-      recipe._targetAbvWarning = "No ingredient named “Water” was found, so total batch volume will shift slightly instead of staying fixed.";
+      warning = "No ingredient named “Water” was found, so total batch volume will shift slightly instead of staying fixed.";
     }
 
-    const updated = { ...recipe, ingredients };
+    // Pure: never touches the passed-in recipe; warning rides on the returned copy.
+    const updated = { ...recipe, ingredients, _targetAbvWarning: warning };
     updated._solvedABV = computeABV(updated);
     return updated;
   }

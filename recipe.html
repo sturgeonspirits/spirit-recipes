@@ -1,4 +1,4 @@
-<!-- v1.2.0 (2026-07-06): added full-screen Make mode (production view). Full history: CHANGELOG.md -->
+<!-- v1.11.1 (2026-07-15): Target ABV is now a non-destructive preview too. Full history: CHANGELOG.md -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -46,23 +46,56 @@
     <button class="btn-add" id="add-ingredient">+ Add ingredient</button>
   </div>
 
-  <details class="section">
-    <summary>Scale this batch</summary>
+  <details class="section" id="scale-section">
+    <summary>Scale calculator</summary>
     <div class="section-body">
+      <p class="hint" style="margin:0 0 12px">Preview a scaled batch without changing the recipe — the amounts above stay as-is. Scale by batch size, or by one ingredient and everything else follows.</p>
       <div class="tool-row">
         <div class="grow"><label>New batch size</label>
           <input type="number" id="scale-size" step="any" inputmode="decimal"></div>
         <div class="grow"><label>Unit</label>
-          <input type="text" id="scale-unit" placeholder="cups, mL, gal…"></div>
-        <button id="scale-apply">Scale</button>
+          <input type="text" id="scale-unit" placeholder="same as recipe"></div>
       </div>
-      <div class="tool-divider">or</div>
+      <div class="tool-divider">or by ingredient</div>
+      <div class="tool-row">
+        <div class="grow"><label>Ingredient</label>
+          <select id="scale-ing"></select></div>
+        <div class="grow"><label>New amount <span id="scale-ing-unit" class="muted"></span></label>
+          <input type="number" id="scale-ing-amount" step="any" inputmode="decimal"></div>
+      </div>
+      <div id="scale-result" class="scale-result" hidden>
+        <div class="scale-result-head">
+          <span id="scale-factor-label"></span>
+          <button type="button" class="secondary" id="scale-clear">Clear</button>
+        </div>
+        <div id="scale-output" class="scaled-list"></div>
+        <div class="scale-apply-row">
+          <button type="button" class="secondary" id="scale-write-back">Overwrite recipe with these amounts</button>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <details class="section">
+    <summary>Target ABV</summary>
+    <div class="section-body">
+      <p class="hint" style="margin:0 0 12px">Preview the alcohol and "Water" amounts needed to hit a target ABV, keeping batch size fixed. The recipe isn't changed unless you choose to overwrite it below.</p>
       <div class="tool-row">
         <div class="grow"><label>Target ABV %</label>
           <input type="number" id="target-abv" step="any" inputmode="decimal" placeholder="e.g. 5.0"></div>
         <button id="target-apply">Solve for ABV</button>
       </div>
-      <p class="hint">Solving for ABV adjusts the alcohol and "Water" amounts, keeping batch size fixed. Scaling only updates the screen — press Save to write it back.</p>
+      <div id="target-result" class="scale-result" hidden>
+        <div class="scale-result-head">
+          <span id="target-factor-label"></span>
+          <button type="button" class="secondary" id="target-clear">Clear</button>
+        </div>
+        <p id="target-warning" class="hint" style="margin:0 0 6px" hidden></p>
+        <div id="target-output" class="scaled-list"></div>
+        <div class="scale-apply-row">
+          <button type="button" class="secondary" id="target-write-back">Overwrite recipe with these amounts</button>
+        </div>
+      </div>
     </div>
   </details>
 

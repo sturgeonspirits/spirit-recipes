@@ -3,6 +3,33 @@
 All notable changes to this project are logged here. Each code file also
 carries a one-line version header at the top pointing back to this file.
 
+## v1.11.1 - 2026-07-15
+- **Target ABV no longer edits the recipe either.** "Solve for ABV" now renders
+  its result in a read-only preview panel (solved ABV, every ingredient with
+  changed amounts marked "(was X)", plus the no-Water warning when relevant).
+  The recipe is only modified via the explicit "Overwrite recipe with these
+  amounts" button (then Save). The preview re-solves live as the recipe is
+  edited. `solveForTargetABV` (`js/abv.js`) is now side-effect-free: it returns
+  its warning on the result copy instead of writing it onto the live recipe.
+
+## v1.11.0 - 2026-07-15
+- **Scale tool rebuilt as a non-destructive calculator.** The old "Scale this
+  batch" section rewrote the recipe's ingredient amounts in place; the new
+  "Scale calculator" (`recipe.html`, `js/recipe-app.js`, `styles.css`) previews
+  a scaled batch in its own panel without touching the core recipe.
+  - Scale **by batch size** (new size + unit; converts across volume units, or
+    a plain ratio when the unit matches a non-volume batch unit) **or by a
+    single ingredient** (pick one, type its new amount — everything else
+    follows proportionally).
+  - Results (factor, scaled batch size, every ingredient's scaled amount) show
+    live in a read-only preview and stay in sync as the recipe is edited;
+    Clear resets it.
+  - Writing the scaled amounts back into the recipe is now an explicit
+    "Overwrite recipe with these amounts" button inside the preview (still
+    requires Save, as before).
+  - "Solve for ABV" moved to its own "Target ABV" section, labeled clearly as
+    a tool that does edit the recipe.
+
 ## v1.10.2 - 2026-07-09
 - **Fix: Wash ABV showed nothing (or 0) when the run had a stored wash ABV of 0.**
   The backend stores empty numeric cells as 0 in some cases; a 0 "measured"
