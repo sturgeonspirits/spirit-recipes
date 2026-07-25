@@ -3,6 +3,44 @@
 All notable changes to this project are logged here. Each code file also
 carries a one-line version header at the top pointing back to this file.
 
+## v1.13.0 - 2026-07-24
+- **Target ABV: new "add alcohol to a base mix" mode.** For recipes built as a
+  fixed non-alcoholic mix (e.g. apple pie liqueur: cider + juice + sugar) with
+  a spirit poured in afterward, the old solver required a fixed batch size and
+  an ingredient literally named "Water" to top up — wrong shape for this case.
+  The Target ABV section now has a **Mode** selector: "Fixed batch size" is the
+  original water-top-up solve; "Add alcohol to a base mix" instead treats every
+  other ingredient's amount as fixed, uses the same type/Vol.% contribution
+  model as the ABV estimator to size the base mix, and solves for how much of
+  the Alcohol-toggled ingredient to add so the base + spirit together hit the
+  target ABV — batch size grows to fit rather than staying pinned. The preview
+  shows the resulting final volume, and "Overwrite recipe" carries that new
+  total into the batch size field. New `solveAddAlcohol` in `js/abv.js`.
+
+## v1.12.0 - 2026-07-15
+- **ABV estimator now models what solids actually add to the liquid.** The old
+  estimate counted every convertible volume at face value — 4 cups of cherries
+  contributed 946 mL — badly understating ABV for infusions (maraschino read
+  ~22% when reality is ~28%). Each ingredient now has a **Type** with a default
+  volume contribution: Liquid 100%, Sugar (dry) 53% (dissolves into ~125 mL per
+  cup), Fruit (strained) 55% (its water content; solids removed), Herb/spice/
+  zest 5% — plus an editable **Vol. %** override (blank = type default, shown
+  as the placeholder). Types are auto-guessed from ingredient names on load
+  ("orange juice" → liquid, "orange peel" → botanical, "oranges" → fruit).
+  - A "Ingredient model" line under the Live ABV hero shows the modeled ABV and
+    estimated final volume; if a declared batch size disagrees by >10% it says
+    so. A measured batch size still wins for the headline number. Ethanol is
+    counted at full volume — liquid soaked up by strained solids lowers yield,
+    not ABV.
+  - New `Ingredients` columns `ing_type` and `volume_contribution` (seed CSVs
+    updated); `replace_ingredients` (`apps-script/Code.gs`) now writes by header
+    name and persists them when the columns exist. New helpers in `js/abv.js`:
+    `ING_TYPES`, `guessIngredientType`, `contributionOf`, `estimateFinalVolumeML`,
+    `computeModeledABV`.
+
+  > Deploy: append `ing_type` and `volume_contribution` to the Ingredients tab
+  > header and redeploy `Code.gs`. See README.
+
 ## v1.11.1 - 2026-07-15
 - **Target ABV no longer edits the recipe either.** "Solve for ABV" now renders
   its result in a read-only preview panel (solved ABV, every ingredient with

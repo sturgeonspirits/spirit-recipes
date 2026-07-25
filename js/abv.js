@@ -34,29 +34,85 @@ window.ABV = (function () {
     return ml / factor;
   }
 
-  // Compute ABV of a recipe from its ingredient list + declared batch size.
-  // Falls back to summing convertible ingredient volumes if batch_size/unit is missing.
-  function computeABV(recipe) {
-    const ingredients = recipe.ingredients || [];
-    let totalML = toML(recipe.batch_size, recipe.batch_unit);
-    if (totalML === null || !totalML) {
-      totalML = 0;
-      ingredients.forEach(ing => {
-        const v = toML(ing.amount, ing.unit);
-        if (v !== null) totalML += v;
-      });
-    }
-    if (!totalML) return null;
+  // ---------- Ingredient volume-contribution model ----------
+  // Solids don't contribute their measured volume to the finished liquid:
+  // dry sugar dissolves into ~53% of its dry bulk volume (198 g/cup ≈ 125 mL
+  // added), strained fresh fruit contributes roughly its water content (~55%
+  // of its measured volume; solids removed), herbs/spices/zest ~nothing.
+  const ING_TYPES = {
+    liquid:    { label: "Liquid",              factor: 1 },
+    sugar:     { label: "Sugar (dry)",         factor: 0.53 },
+    fruit:     { label: "Fruit (strained)",    factor: 0.55 },
+    botanical: { label: "Herb / spice / zest", factor: 0.05 },
+  };
 
+  const LIQUID_RE = /juice|syrup|water|milk|cream|wine|beer|cider|vodka|rum\b|whisk|bourbon|brandy|\bgin\b|tequila|liqueur|spirit|alcohol|extract|glycerin/i;
+  const BOTANICAL_RE = /zest|peel|spice|cinnamon|clove|vanilla|anise|ginger|pepper|herb|\btea\b|coffee|cacao|nib|juniper|coriander|cardamom|nutmeg|allspice|bark|root|seed|leaf|leaves|flower|hibiscus|lavender|chamomile|wormwood|hops?\b/i;
+  const SUGAR_RE = /sugar|sweetener/i;
+  const FRUIT_RE = /cherr|berr|fruit|orange|lemon|lime|grape|apple|peach|plum|apricot|mango|pineapple|banana|melon|pear|\bfig|date|raisin|currant|rhubarb/i;
+
+  // Best-guess type from the ingredient's name (order matters: "orange juice"
+  // is a liquid and "orange peel" a botanical before "orange" reads as fruit).
+  function guessIngredientType(name) {
+    const n = String(name || "");
+    if (!n) return "liquid";
+    if (LIQUID_RE.test(n)) return "liquid";
+    if (BOTANICAL_RE.test(n)) return "botanical";
+    if (SUGAR_RE.test(n)) return "sugar";
+    if (FRUIT_RE.test(n)) return "fruit";
+    return "liquid";
+  }
+
+  // Fraction (0–1) of the ingredient's measured volume that reaches the final
+  // liquid. An explicit volume_contribution (percent) overrides the type default.
+  function contributionOf(ing) {
+    const explicit = ing.volume_contribution;
+    if (explicit !== "" && explicit != null && !isNaN(Number(explicit))) {
+      return Math.max(0, Number(explicit)) / 100;
+    }
+    const type = ing.ing_type && ING_TYPES[ing.ing_type] ? ing.ing_type : guessIngredientType(ing.name);
+    return ING_TYPES[type].factor;
+  }
+
+  // Modeled final volume: every convertible ingredient's effective contribution.
+  function estimateFinalVolumeML(recipe) {
+    let total = 0, any = false;
+    (recipe.ingredients || []).forEach(ing => {
+      const v = toML(ing.amount, ing.unit);
+      if (v !== null) { total += v * contributionOf(ing); any = true; }
+    });
+    return any ? total : null;
+  }
+
+  // Pure ethanol in the recipe. Full measured volume counts: liquid soaked up
+  // by strained solids removes ethanol and water in proportion, so it lowers
+  // yield but not ABV.
+  function totalAlcoholML_(recipe) {
     let alcoholML = 0;
-    ingredients.forEach(ing => {
+    (recipe.ingredients || []).forEach(ing => {
       if (!ing.is_alcohol) return;
       const v = toML(ing.amount, ing.unit);
       const pct = Number(ing.abv_percent) || 0;
       if (v !== null) alcoholML += v * (pct / 100);
     });
+    return alcoholML;
+  }
 
-    return (alcoholML / totalML) * 100;
+  // Compute ABV of a recipe. A declared (measured) batch size wins; otherwise
+  // the total is modeled from ingredient volume contributions.
+  function computeABV(recipe) {
+    let totalML = toML(recipe.batch_size, recipe.batch_unit);
+    if (totalML === null || !totalML) totalML = estimateFinalVolumeML(recipe);
+    if (!totalML) return null;
+    return (totalAlcoholML_(recipe) / totalML) * 100;
+  }
+
+  // ABV strictly from the ingredient model, ignoring any declared batch size —
+  // shown alongside so a stale/optimistic batch size is easy to spot.
+  function computeModeledABV(recipe) {
+    const totalML = estimateFinalVolumeML(recipe);
+    if (!totalML) return null;
+    return (totalAlcoholML_(recipe) / totalML) * 100;
   }
 
   // Proportional scale: every ingredient amount (and the batch size) is multiplied
@@ -124,7 +180,56 @@ window.ABV = (function () {
     return updated;
   }
 
+  // Solve for how much of the alcohol ingredient to ADD to an already-fixed
+  // base mix (cider + juice + sugar, etc.) to hit a target ABV. Unlike
+  // solveForTargetABV, batch size is NOT held fixed and no "Water" ingredient
+  // is required -- final volume is simply base + alcohol added, mirroring the
+  // real production step of pouring spirit into a finished non-alcoholic mix.
+  function solveAddAlcohol(recipe, targetABVPercent) {
+    const ingredients = (recipe.ingredients || []).map(i => ({ ...i }));
+    const alcoholIdx = ingredients.findIndex(i => i.is_alcohol);
+    if (alcoholIdx === -1) throw new Error("No alcohol ingredient found in this recipe to solve for -- add one and check its Alcohol toggle.");
+    const spirit = ingredients[alcoholIdx];
+    const spiritABV = Number(spirit.abv_percent) || 0;
+    if (!spiritABV) throw new Error("The alcohol ingredient needs an ABV% set before solving.");
+    const target = Number(targetABVPercent);
+    if (!target) throw new Error("Enter a target ABV.");
+    if (target >= spiritABV) throw new Error("Target ABV must be lower than the added alcohol's ABV%.");
+
+    // Effective volume + ethanol already contributed by every OTHER ingredient
+    // (the base mix) -- reuses the same type/Vol.% contribution model as the
+    // ABV estimator, so dry sugar and strained fruit are handled consistently.
+    let baseML = 0, baseAlcoholML = 0;
+    ingredients.forEach((ing, idx) => {
+      if (idx === alcoholIdx) return;
+      const v = toML(ing.amount, ing.unit);
+      if (v === null) return;
+      baseML += v * contributionOf(ing);
+      if (ing.is_alcohol) baseAlcoholML += v * ((Number(ing.abv_percent) || 0) / 100);
+    });
+    if (!baseML) throw new Error("Add the base-mix ingredients (cider, juice, sugar, etc.) with amounts first.");
+
+    // target% * (base + spirit) = baseAlcoholML + spirit * spiritABV%
+    const spiritFrac = spiritABV / 100, targetFrac = target / 100;
+    const spiritML = (targetFrac * baseML - baseAlcoholML) / (spiritFrac - targetFrac);
+    if (spiritML < 0) throw new Error("Base mix is already at or above the target ABV -- lower the target or check ingredient ABVs.");
+
+    const newSpiritAmount = fromML(spiritML, spirit.unit);
+    if (newSpiritAmount === null) throw new Error("The alcohol ingredient's unit needs to be a convertible volume (mL, oz, gal, etc).");
+    ingredients[alcoholIdx].amount = round4(newSpiritAmount);
+
+    const finalML = baseML + spiritML;
+    const updated = { ...recipe, ingredients };
+    updated._addAlcoholFinalML = finalML;
+    updated._solvedABV = ((baseAlcoholML + spiritML * spiritFrac) / finalML) * 100;
+    return updated;
+  }
+
   function round4(n) { return Math.round(n * 10000) / 10000; }
 
-  return { ML_PER_UNIT, isVolumeUnit, toML, fromML, computeABV, scaleByFactor, scaleToBatchSize, solveForTargetABV };
+  return {
+    ML_PER_UNIT, isVolumeUnit, toML, fromML,
+    ING_TYPES, guessIngredientType, contributionOf, estimateFinalVolumeML,
+    computeABV, computeModeledABV, scaleByFactor, scaleToBatchSize, solveForTargetABV, solveAddAlcohol
+  };
 })();

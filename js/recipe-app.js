@@ -1,4 +1,4 @@
-// v1.11.1 (2026-07-15): Target ABV solve is now a non-destructive preview (like the scale calculator). Full history: CHANGELOG.md
+// v1.13.0 (2026-07-24): Target ABV supports "add alcohol to a base mix" mode. Full history: CHANGELOG.md
 (async function () {
   const params = new URLSearchParams(location.search);
   const id = params.get("id");
@@ -21,11 +21,17 @@
     document.getElementById("recipe-title").textContent = "Recipe not found";
     return;
   }
-  recipe.ingredients = (recipe.ingredients || []).map(i => ({
-    ...i,
-    name: i.name || i.ingredient_name || "",
-    is_alcohol: i.is_alcohol === true || i.is_alcohol === "yes" || i.is_alcohol === "TRUE"
-  }));
+  recipe.ingredients = (recipe.ingredients || []).map(i => {
+    const name = i.name || i.ingredient_name || "";
+    return {
+      ...i,
+      name,
+      is_alcohol: i.is_alcohol === true || i.is_alcohol === "yes" || i.is_alcohol === "TRUE",
+      // Volume model: type defaults from the name; blank contribution = use type default.
+      ing_type: i.ing_type && window.ABV.ING_TYPES[i.ing_type] ? i.ing_type : window.ABV.guessIngredientType(name),
+      volume_contribution: i.volume_contribution === 0 || i.volume_contribution ? i.volume_contribution : ""
+    };
+  });
 
   document.getElementById("recipe-title").textContent = recipe.name;
   document.title = recipe.name + " — Sturgeon Spirits";
@@ -69,6 +75,8 @@
       empty.textContent = "No ingredients yet — add the first one below.";
       listEl.appendChild(empty);
     }
+    const typeOptions = Object.entries(window.ABV.ING_TYPES)
+      .map(([key, t]) => `<option value="${key}">${t.label}</option>`).join("");
     recipe.ingredients.forEach((ing, idx) => {
       const card = document.createElement("div");
       card.className = "ing-card";
@@ -81,6 +89,10 @@
           <input type="number" step="any" inputmode="decimal" data-f="amount"></div>
         <div class="mini"><label>Unit</label>
           <input type="text" data-f="unit" placeholder="mL, oz…"></div>
+        <div class="mini ing-type-field"><label>Type</label>
+          <select data-f="ing_type">${typeOptions}</select></div>
+        <div class="mini ing-vol-field"><label>Vol. %</label>
+          <input type="number" step="any" inputmode="decimal" min="0" max="100" data-f="volume_contribution"></div>
         <div class="mini ing-abv-field"><label>ABV %</label>
           <input type="number" step="any" inputmode="decimal" data-f="abv_percent"></div>
         <label class="alc-toggle"><input type="checkbox" data-f="is_alcohol"><span class="dot"></span>Alcohol</label>
@@ -90,6 +102,8 @@
       card.querySelector('[data-f="unit"]').value = ing.unit || "";
       card.querySelector('[data-f="is_alcohol"]').checked = !!ing.is_alcohol;
       card.querySelector('[data-f="abv_percent"]').value = ing.abv_percent || "";
+      card.querySelector('[data-f="ing_type"]').value = ing.ing_type || "liquid";
+      card.querySelector('[data-f="volume_contribution"]').value = ing.volume_contribution ?? "";
 
       const abvField = card.querySelector(".ing-abv-field");
       function syncAbvField() {
@@ -97,15 +111,32 @@
       }
       syncAbvField();
 
-      card.querySelectorAll("input").forEach(input => {
-        const evt = input.type === "checkbox" ? "change" : "input";
+      // Blank Vol.% = "use the type's default" — surface that default as placeholder.
+      const volInput = card.querySelector('[data-f="volume_contribution"]');
+      function syncVolPlaceholder() {
+        const t = window.ABV.ING_TYPES[recipe.ingredients[idx].ing_type] || window.ABV.ING_TYPES.liquid;
+        volInput.placeholder = "auto " + Math.round(t.factor * 100);
+      }
+      syncVolPlaceholder();
+
+      card.querySelectorAll("input, select").forEach(input => {
+        const evt = (input.type === "checkbox" || input.tagName === "SELECT") ? "change" : "input";
         input.addEventListener(evt, () => {
           const f = input.dataset.f;
           let v = input.value;
-          if (f === "amount" || f === "abv_percent") v = v === "" ? "" : Number(v);
+          if (f === "amount" || f === "abv_percent" || f === "volume_contribution") v = v === "" ? "" : Number(v);
           if (f === "is_alcohol") v = input.checked;
           recipe.ingredients[idx][f] = v;
           if (f === "is_alcohol") syncAbvField();
+          if (f === "ing_type") { recipe.ingredients[idx]._typeTouched = true; syncVolPlaceholder(); }
+          // Until the user picks a type by hand, keep it in sync with the name
+          // (typing "Cherries" flips the type to Fruit automatically).
+          if (f === "name" && !recipe.ingredients[idx]._typeTouched) {
+            const guessed = window.ABV.guessIngredientType(v);
+            recipe.ingredients[idx].ing_type = guessed;
+            card.querySelector('[data-f="ing_type"]').value = guessed;
+            syncVolPlaceholder();
+          }
           updateABV();
         });
       });
@@ -126,6 +157,24 @@
     const el = document.getElementById("abv-live");
     el.textContent = (abv === null || isNaN(abv)) ? "—" : abv.toFixed(2) + "%";
     document.getElementById("abv-warning").textContent = recipe._targetAbvWarning || "";
+
+    // Ingredient-model readout: modeled final volume + the ABV it implies.
+    // When a batch size is entered the hero uses it, so a big gap between the
+    // two numbers means the declared batch size is off (or the model needs tuning).
+    const hintEl = document.getElementById("abv-model-hint");
+    const estML = window.ABV.estimateFinalVolumeML(recipe);
+    const modeled = window.ABV.computeModeledABV(recipe);
+    if (estML && modeled !== null && !isNaN(modeled)) {
+      const declaredML = window.ABV.toML(recipe.batch_size, recipe.batch_unit);
+      let txt = `Ingredient model: ~${modeled.toFixed(1)}% ABV · est. final volume ${Math.round(estML)} mL`;
+      if (declaredML && Math.abs(declaredML - estML) / estML > 0.10) {
+        txt += ` — differs from your batch size (${Math.round(declaredML)} mL); the big number uses the batch size.`;
+      }
+      hintEl.textContent = txt;
+      hintEl.hidden = false;
+    } else {
+      hintEl.hidden = true;
+    }
     renderScalePreview();  // keep the scale-calculator preview in sync with edits
     renderTargetPreview(); // re-solve the target-ABV preview against the edited recipe
   }
@@ -134,7 +183,7 @@
   document.getElementById("f-batch-unit").addEventListener("input", updateABV);
 
   document.getElementById("add-ingredient").addEventListener("click", () => {
-    recipe.ingredients.push({ name: "", amount: "", unit: "", is_alcohol: false, abv_percent: "" });
+    recipe.ingredients.push({ name: "", amount: "", unit: "", is_alcohol: false, abv_percent: "", ing_type: "liquid", volume_contribution: "" });
     renderIngredients();
     // focus the new ingredient's name field
     const inputs = listEl.querySelectorAll('[data-f="name"]');
@@ -288,7 +337,16 @@
   });
 
   // ===== Target ABV: non-destructive solve preview =====
+  // Two modes:
+  //  "fixed" — batch size stays fixed; the alcohol ingredient is set to hit the
+  //            target and an ingredient named "Water" absorbs the difference.
+  //  "add"   — for recipes built as a fixed base mix (cider + juice + sugar…)
+  //            that alcohol gets poured into afterward. Batch size isn't fixed;
+  //            this solves how much of the alcohol ingredient to add so the
+  //            base + alcohol together land on the target ABV.
   const targetUI = {
+    mode: document.getElementById("target-mode"),
+    modeHint: document.getElementById("target-mode-hint"),
     input: document.getElementById("target-abv"),
     result: document.getElementById("target-result"),
     label: document.getElementById("target-factor-label"),
@@ -297,8 +355,21 @@
     clear: document.getElementById("target-clear"),
     writeBack: document.getElementById("target-write-back"),
   };
+  const TARGET_MODE_HINTS = {
+    fixed: 'Preview the alcohol and "Water" amounts needed to hit a target ABV, keeping batch size fixed. The recipe isn\'t changed unless you choose to overwrite it below.',
+    add: 'For a recipe that\'s a fixed base mix (cider + juice + sugar…) with alcohol added afterward. Preview how much of the alcohol ingredient to pour in to hit the target ABV — batch size grows to fit. The recipe isn\'t changed unless you choose to overwrite it below.',
+  };
   let lastSolved = null;
   let targetActive = false; // preview only shows after an explicit Solve
+
+  function syncTargetModeHint() {
+    targetUI.modeHint.textContent = TARGET_MODE_HINTS[targetUI.mode.value] || TARGET_MODE_HINTS.fixed;
+  }
+  syncTargetModeHint();
+  targetUI.mode.addEventListener("change", () => {
+    syncTargetModeHint();
+    renderTargetPreview();
+  });
 
   function clearTargetPreview() {
     targetActive = false;
@@ -310,9 +381,12 @@
     if (!targetActive) { targetUI.result.hidden = true; return; }
     const target = Number(targetUI.input.value);
     if (!target) { clearTargetPreview(); return; }
+    const mode = targetUI.mode.value;
     let solved;
     try {
-      solved = window.ABV.solveForTargetABV(recipe, target);
+      solved = mode === "add"
+        ? window.ABV.solveAddAlcohol(recipe, target)
+        : window.ABV.solveForTargetABV(recipe, target);
     } catch (err) {
       lastSolved = null;
       targetUI.label.textContent = err.message;
@@ -323,8 +397,15 @@
       return;
     }
     lastSolved = solved;
-    targetUI.label.textContent =
-      `Solved: ${solved._solvedABV == null || isNaN(solved._solvedABV) ? "—" : solved._solvedABV.toFixed(2) + "%"} ABV`;
+    let label = `Solved: ${solved._solvedABV == null || isNaN(solved._solvedABV) ? "—" : solved._solvedABV.toFixed(2) + "%"} ABV`;
+    if (mode === "add" && solved._addAlcoholFinalML) {
+      const unit = recipe.batch_unit || "mL";
+      const finalInUnit = window.ABV.fromML(solved._addAlcoholFinalML, unit);
+      label += finalInUnit !== null
+        ? ` — final volume ≈ ${fmtAmt(finalInUnit)} ${unit}`
+        : ` — final volume ≈ ${Math.round(solved._addAlcoholFinalML)} mL`;
+    }
+    targetUI.label.textContent = label;
     targetUI.warning.textContent = solved._targetAbvWarning || "";
     targetUI.warning.hidden = !solved._targetAbvWarning;
 
@@ -363,6 +444,18 @@
     if (!lastSolved) return;
     recipe.ingredients = lastSolved.ingredients;
     recipe._targetAbvWarning = lastSolved._targetAbvWarning || "";
+    // "add" mode grows the batch — carry the new total into batch_size so the
+    // Live ABV hero and saved recipe agree with what was just solved for.
+    if (targetUI.mode.value === "add" && lastSolved._addAlcoholFinalML) {
+      const unit = recipe.batch_unit || "mL";
+      const finalInUnit = window.ABV.fromML(lastSolved._addAlcoholFinalML, unit);
+      recipe.batch_size = finalInUnit !== null
+        ? Math.round(finalInUnit * 1000) / 1000
+        : Math.round(lastSolved._addAlcoholFinalML);
+      if (finalInUnit === null) recipe.batch_unit = "mL";
+      document.getElementById("f-batch-size").value = recipe.batch_size;
+      document.getElementById("f-batch-unit").value = recipe.batch_unit;
+    }
     clearTargetPreview();
     renderIngredients();
     updateABV();

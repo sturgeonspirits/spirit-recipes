@@ -1,4 +1,4 @@
-<!-- v1.11.1 (2026-07-15): Target ABV is now a non-destructive preview too. Full history: CHANGELOG.md -->
+<!-- v1.13.0 (2026-07-24): Target ABV supports "add alcohol to a base mix" mode. Full history: CHANGELOG.md -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -39,11 +39,13 @@
     </div>
   </div>
   <div id="abv-warning" class="abv-warning"></div>
+  <div id="abv-model-hint" class="abv-model-hint" hidden></div>
 
   <div class="card">
     <h2>Ingredients <span id="f-category" class="category-pill" style="float:right"></span></h2>
     <div id="ingredients-body" class="ing-list"></div>
     <button class="btn-add" id="add-ingredient">+ Add ingredient</button>
+    <p class="hint">Type &amp; Vol.&nbsp;% control how much of each ingredient's measured volume counts toward the finished liquid — dry sugar dissolves to ~53%, strained fruit contributes ~55% (its juice/water), herbs and zest ~5%. Leave Vol.&nbsp;% blank to use the type's default.</p>
   </div>
 
   <details class="section" id="scale-section">
@@ -79,7 +81,15 @@
   <details class="section">
     <summary>Target ABV</summary>
     <div class="section-body">
-      <p class="hint" style="margin:0 0 12px">Preview the alcohol and "Water" amounts needed to hit a target ABV, keeping batch size fixed. The recipe isn't changed unless you choose to overwrite it below.</p>
+      <div class="tool-row">
+        <div class="grow"><label>Mode</label>
+          <select id="target-mode">
+            <option value="fixed">Fixed batch size — top up with "Water"</option>
+            <option value="add">Add alcohol to a base mix — batch grows</option>
+          </select>
+        </div>
+      </div>
+      <p class="hint" id="target-mode-hint" style="margin:0 0 12px">Preview the alcohol and "Water" amounts needed to hit a target ABV, keeping batch size fixed. The recipe isn't changed unless you choose to overwrite it below.</p>
       <div class="tool-row">
         <div class="grow"><label>Target ABV %</label>
           <input type="number" id="target-abv" step="any" inputmode="decimal" placeholder="e.g. 5.0"></div>
