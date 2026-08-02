@@ -729,6 +729,56 @@ function doPost(e) {
 // list looks right, run SETUP_clearBottleBatchSizes(). Every clear is recorded
 // in the changelog tab with its old value, so this is reversible.
 var BOTTLE_ML_ = [50, 100, 200, 375, 500, 750, 1000, 1750];
+// Unit spellings that mean millilitres, and truthy spellings of the
+// has_detailed_recipe flag. Both are matched loosely because these columns are
+// hand-edited in the sheet and drift ("ML", "milliliters", "TRUE", "y").
+var ML_SPELLINGS_ = ["ml", "milliliter", "milliliters", "millilitre", "millilitres"];
+function isMlUnit_(u) { return ML_SPELLINGS_.indexOf(String(u).trim().toLowerCase()) !== -1; }
+function isTruthyFlag_(v) {
+  const s = String(v).trim().toLowerCase();
+  return s === "yes" || s === "true" || s === "y" || s === "1" || s === "x";
+}
+
+// Diagnostic: dump exactly what the cleanup sees, so a "would clear 0" result
+// can be traced to the data rather than guessed at. Logs the Recipes header row
+// and every distinct batch_size / batch_unit combination with its JS type —
+// text-formatted numbers, unit spellings other than "mL", and a missing
+// has_detailed_recipe flag all show up here.
+function SETUP_diagnoseBatchSizes() {
+  const sheet = getSheet_(RECIPES_SHEET);
+  const values = sheet.getDataRange().getValues();
+  const headers = values[0];
+  const cSize = headers.indexOf("batch_size");
+  const cUnit = headers.indexOf("batch_unit");
+  const cDetail = headers.indexOf("has_detailed_recipe");
+  const out = ["Recipes headers: " + headers.join(" | "),
+    "rows: " + (values.length - 1),
+    "batch_size col: " + cSize + "   batch_unit col: " + cUnit + "   has_detailed_recipe col: " + cDetail];
+
+  const combos = {}, units = {}, detail = {};
+  for (let i = 1; i < values.length; i++) {
+    const row = values[i];
+    const size = cSize === -1 ? "" : row[cSize];
+    const unit = cUnit === -1 ? "" : row[cUnit];
+    const det = cDetail === -1 ? "(no column)" : row[cDetail];
+    const key = JSON.stringify(size) + " [" + (typeof size) + "]  +  " + JSON.stringify(unit);
+    combos[key] = (combos[key] || 0) + 1;
+    units[JSON.stringify(unit)] = (units[JSON.stringify(unit)] || 0) + 1;
+    detail[JSON.stringify(det)] = (detail[JSON.stringify(det)] || 0) + 1;
+  }
+  out.push("\n-- distinct batch_unit values --");
+  Object.keys(units).forEach(k => out.push("   " + k + "  x" + units[k]));
+  out.push("\n-- distinct has_detailed_recipe values --");
+  Object.keys(detail).forEach(k => out.push("   " + k + "  x" + detail[k]));
+  out.push("\n-- distinct batch_size + unit combinations --");
+  Object.keys(combos).sort(function (a, b) { return combos[b] - combos[a]; })
+    .slice(0, 40).forEach(k => out.push("   " + k + "  x" + combos[k]));
+  out.push("\n-- what the cleanup rule matches --");
+  out.push("   bottle sizes: " + BOTTLE_ML_.join(", ") + " with unit 'mL'");
+  out.push("   matched: " + clearBottleBatchSizes_(true).length);
+  Logger.log(out.join("\n"));
+  return out.join("\n");
+}
 
 function SETUP_reportBottleBatchSizes() { return clearBottleBatchSizes_(true); }
 function SETUP_clearBottleBatchSizes() { return clearBottleBatchSizes_(false); }
@@ -751,12 +801,9 @@ function clearBottleBatchSizes_(dryRun) {
     const row = fitRow_(values[i], width);
     // Only recipes that actually have an ingredient list — without one there's
     // no model to fall back on, so a declared size is all there is.
-    const hasIng = cDetail === -1 || String(row[cDetail]).trim().toLowerCase() === "yes";
-    const size = Number(row[cSize]);
-    const isBottle = hasIng
-      && String(row[cUnit]).trim().toLowerCase() === "ml"
-      && size
-      && BOTTLE_ML_.indexOf(size) !== -1;
+    const hasIng = cDetail === -1 || isTruthyFlag_(row[cDetail]);
+    const size = Number(String(row[cSize]).replace(/,/g, "").trim());
+    const isBottle = hasIng && isMlUnit_(row[cUnit]) && size && BOTTLE_ML_.indexOf(size) !== -1;
     if (isBottle) {
       hits.push((cName === -1 ? row[cId] : row[cName]) + " — was " + size + " mL");
       if (!dryRun) {
