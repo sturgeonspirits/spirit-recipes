@@ -3,6 +3,31 @@
 All notable changes to this project are logged here. Each code file also
 carries a one-line version header at the top pointing back to this file.
 
+## v1.15.0 - 2026-08-02
+- **Save is roughly 7× cheaper.** Pressing Save on a recipe used to fire one
+  HTTP request *per field* — 13 of them, sequentially, each re-reading the whole
+  Recipes tab to write a single cell — plus a 14th for the ingredients. It's now
+  2 requests, sent in parallel (they write to different tabs). Measured on a
+  12-ingredient recipe in a book of 50: **14 requests → 2, ~81 Sheets service
+  calls → 11.**
+- **New batched actions** `update_recipe_fields` / `update_mash_fields` write a
+  whole row in one `setValues` and log only the fields that actually changed —
+  so the changelog records real edits instead of 13 identical rows per save.
+  The single-field actions remain, and the client falls back to them if the
+  Apps Script deployment hasn't been updated, so the frontend can ship first.
+- **Wholesale replaces no longer go row-at-a-time.** `replace_ingredients`,
+  `replace_mash_components`, `replace_readings` and `replace_additions` each
+  called `deleteRow` per existing row and `appendRow` per new one — and
+  `appendObject_` re-read the entire sheet for every single row it appended. All
+  four now share `replaceRowsById_`, which rewrites the tab in three calls (read,
+  clear, write) no matter how many rows move. Deletes use the same path.
+- **Handles are memoized per execution** — `getSheet_` re-opened the spreadsheet
+  by id on every call, so one `?mash=` read did five redundant `openById`s.
+- **The home page stops downloading the whole ingredient table.** The recipe list
+  renders from recipe fields only (it never touches the nested ingredient rows),
+  but the default read shipped every ingredient in the book. New `?list=1`.
+- Mash detail's linked-product dropdown uses the same lightweight read.
+
 ## v1.14.0 - 2026-08-02
 - **Make mode: switch display units without touching the recipe.** A new
   **Units** row sits under the scale buttons: *As written · Auto · Metric · US*.

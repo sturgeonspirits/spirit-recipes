@@ -1,4 +1,4 @@
-// v1.14.0 (2026-08-02): Make mode can display amounts in different units. Full history: CHANGELOG.md
+// v1.15.0 (2026-08-02): batched save (2 requests instead of 14). Full history: CHANGELOG.md
 (async function () {
   const params = new URLSearchParams(location.search);
   const id = params.get("id");
@@ -482,10 +482,12 @@
     saveBtn.disabled = true;
     saveBtn.textContent = "Saving…";
     try {
-      for (const [field, value] of Object.entries(fields)) {
-        await window.API.updateRecipeField(recipe.recipe_id, field, value);
-      }
-      await window.API.replaceIngredients(recipe.recipe_id, recipe.ingredients);
+      // One request for all the fields, one for the ingredients, in parallel —
+      // they write to different tabs. This used to be 14 sequential round-trips.
+      await Promise.all([
+        window.API.updateRecipeFields(recipe.recipe_id, fields),
+        window.API.replaceIngredients(recipe.recipe_id, recipe.ingredients),
+      ]);
       showToast("Saved ✓");
     } catch (err) {
       showToast(err.message);

@@ -1,4 +1,4 @@
-// v1.10.2 (2026-07-09): stored wash ABV of 0 treated as "not measured" so OG–FG
+// v1.15.0 (2026-08-02): batched save; mash editor writes fields in one request. Full history: CHANGELOG.md
 // auto-calcs; backend datetime strings shown as MM/DD/YYYY & hh:mm in the run
 // editor, cards and compare table.
 // v1.10.1 (2026-07-09): run editor no longer clobbers a manually-entered OG/FG
@@ -789,10 +789,12 @@
     Object.entries(FIELD_MAP).forEach(([dom, key]) => { fields[key] = $(dom).value; });
     saveBtn.disabled = true; saveBtn.textContent = "Saving…";
     try {
-      for (const [field, value] of Object.entries(fields)) {
-        await window.API.updateMashField(mash.mash_id, field, value);
-      }
-      await window.API.replaceMashComponents(mash.mash_id, mash.components);
+      // One request for the fields, one for the components, in parallel —
+      // different tabs. This used to be one round-trip per field.
+      await Promise.all([
+        window.API.updateMashFields(mash.mash_id, fields),
+        window.API.replaceMashComponents(mash.mash_id, mash.components),
+      ]);
       showToast("Saved ✓");
     } catch (err) {
       showToast(err.message);
