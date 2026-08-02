@@ -3,6 +3,26 @@
 All notable changes to this project are logged here. Each code file also
 carries a one-line version header at the top pointing back to this file.
 
+## v1.14.0 - 2026-08-02
+- **Make mode: switch display units without touching the recipe.** A new
+  **Units** row sits under the scale buttons: *As written · Auto · Metric · US*.
+  It is display-only — the saved recipe, the ABV math and every export keep the
+  original units; only what's on the Make screen changes. Sizing is decided per
+  ingredient rather than per recipe, so 10 tsp reads as "1⅔ fl oz" and never as
+  a fraction of a gallon, while 5 gal stays 5 gal instead of becoming 3840 tsp.
+  *Auto* keeps each amount in its own measurement system and just picks the
+  friendliest rung of the ladder; *Metric* and *US* force the system. US amounts
+  render as fractions (½, ⅔, ⅛…) when that's honest to within 0.5%, decimals
+  otherwise. Whenever an amount has been converted, the recipe's own figure is
+  shown beneath it in small type so it can be cross-checked against the written
+  recipe. Non-convertible units ("parts", "each", blank) are left alone. The
+  chosen mode is remembered between sessions.
+- **Weight units convert too** — g/kg and lb/oz wt. Note that a bare "oz" still
+  means fluid ounces, as it always has in this app; weight ounces must be
+  written "oz wt" so existing recipes can't be silently reinterpreted.
+- New `js/units.js` (`window.UNITS`), independent of `window.ABV` — the ABV
+  model still works entirely in mL and is unaffected by display units.
+
 ## v1.13.0 - 2026-07-24
 - **Target ABV: new "add alcohol to a base mix" mode.** For recipes built as a
   fixed non-alcoholic mix (e.g. apple pie liqueur: cider + juice + sugar) with

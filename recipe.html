@@ -1,4 +1,4 @@
-<!-- v1.13.0 (2026-07-24): Target ABV supports "add alcohol to a base mix" mode. Full history: CHANGELOG.md -->
+<!-- v1.14.0 (2026-08-02): Make mode can display amounts in different units. Full history: CHANGELOG.md -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -190,6 +190,17 @@
       <input type="number" id="make-mult-input" step="any" inputmode="decimal" placeholder="custom &times;" aria-label="Custom multiplier">
     </div>
 
+    <div class="make-scaler make-units">
+      <span class="make-scaler-label">Units</span>
+      <div class="make-scaler-btns" id="make-unit-btns" role="group" aria-label="Display units">
+        <button type="button" data-unit-mode="as-written" class="active">As written</button>
+        <button type="button" data-unit-mode="auto">Auto</button>
+        <button type="button" data-unit-mode="metric">Metric</button>
+        <button type="button" data-unit-mode="us">US</button>
+      </div>
+    </div>
+    <p class="make-units-hint" id="make-units-hint" hidden>Display only — the saved recipe keeps its original units.</p>
+
     <div class="make-progress">
       <span id="make-progress-text">0 / 0 added</span>
       <button type="button" id="make-reset" class="make-reset">Reset</button>
@@ -222,6 +233,7 @@
 <script src="js/auth.js"></script>
 <script src="js/api.js"></script>
 <script src="js/abv.js"></script>
+<script src="js/units.js"></script>
 <script src="js/export.js"></script>
 <script src="js/recipe-app.js"></script>
 </body>

@@ -1,4 +1,4 @@
-// v1.13.0 (2026-07-24): Target ABV supports "add alcohol to a base mix" mode. Full history: CHANGELOG.md
+// v1.14.0 (2026-08-02): Make mode can display amounts in different units. Full history: CHANGELOG.md
 (async function () {
   const params = new URLSearchParams(location.search);
   const id = params.get("id");
@@ -556,8 +556,11 @@
     const resetBtn = document.getElementById("make-reset");
     const scalerBtns = document.getElementById("make-scaler-btns");
     const multInput = document.getElementById("make-mult-input");
+    const unitBtns = document.getElementById("make-unit-btns");
+    const unitsHint = document.getElementById("make-units-hint");
 
     let factor = 1;
+    let unitMode = "as-written"; // display only; never written back to the recipe
     const checked = new Set();       // indices of added ingredients
     let wakeLock = null;
 
@@ -574,10 +577,32 @@
       const size = Number(recipe.batch_size);
       const batchEl = document.getElementById("make-batch-value");
       if (size) {
-        batchEl.textContent = fmtNum(size * factor) + (recipe.batch_unit ? " " + recipe.batch_unit : "");
+        const d = displayAmount(size * factor, recipe.batch_unit);
+        batchEl.innerHTML = d.orig
+          ? `${d.text}<span class="make-orig">${d.orig}</span>` : d.text;
       } else {
         batchEl.textContent = "—";
       }
+    }
+
+    // Single place the unit mode is applied. Falls back to the recipe's own
+    // units whenever the unit isn't convertible ("parts", "each", blank).
+    function displayAmount(amount, unit) {
+      const blank = { num: "", unit: "", text: "", orig: "" };
+      if (amount === "" || amount == null || isNaN(Number(amount))) return blank;
+      const asWritten = fmtNum(amount) + (unit ? " " + unit : "");
+      if (unitMode === "as-written" || !window.UNITS || !window.UNITS.isConvertible(unit)) {
+        return { num: fmtNum(amount), unit: unit || "", text: asWritten, orig: "" };
+      }
+      const r = window.UNITS.convert(amount, unit, unitMode);
+      return {
+        num: r.text,
+        unit: r.unit || "",
+        text: r.unit ? `${r.text} ${r.unit}` : r.text,
+        // Keep the recipe's own figure visible so an operator can cross-check
+        // a converted number against the written recipe.
+        orig: r.converted ? asWritten : "",
+      };
     }
 
     function renderProgress() {
@@ -598,13 +623,16 @@
       recipe.ingredients.forEach((ing, idx) => {
         const li = document.createElement("li");
         if (checked.has(idx)) li.classList.add("done");
-        const amt = ing.amount === "" || ing.amount == null ? "" : fmtNum(Number(ing.amount) * factor);
-        const unit = ing.unit ? `<span class="make-unit">${ing.unit}</span>` : "";
+        const d = ing.amount === "" || ing.amount == null
+          ? { num: "", unit: "", orig: "" }
+          : displayAmount(Number(ing.amount) * factor, ing.unit);
+        const unit = d.unit ? `<span class="make-unit">${d.unit}</span>` : "";
+        const orig = d.orig ? `<span class="make-orig">${d.orig}</span>` : "";
         const alcTag = ing.is_alcohol
           ? `<span class="make-alc-tag">${ing.abv_percent ? ing.abv_percent + "%" : "alc"}</span>` : "";
         li.innerHTML = `
           <span class="make-check">✓</span>
-          <span class="make-amount">${amt}${unit}</span>
+          <span class="make-amount">${d.num}${unit}${orig}</span>
           <span class="make-ing-name">${(ing.name || "—")}${alcTag}</span>
         `;
         li.addEventListener("click", () => {
@@ -654,6 +682,22 @@
       }
     });
 
+    function setUnitMode(mode) {
+      unitMode = mode;
+      unitBtns.querySelectorAll("button").forEach(b => {
+        b.classList.toggle("active", b.dataset.unitMode === mode);
+      });
+      unitsHint.hidden = mode === "as-written";
+      try { localStorage.setItem("makeUnitMode", mode); } catch (_) { /* private mode — fine */ }
+      renderHero();
+      renderList();
+    }
+
+    unitBtns.addEventListener("click", (e) => {
+      const btn = e.target.closest("button");
+      if (btn) setUnitMode(btn.dataset.unitMode);
+    });
+
     resetBtn.addEventListener("click", () => {
       checked.clear();
       renderList();
@@ -678,6 +722,10 @@
       // Build fresh from whatever's currently on screen (edits/scaling included).
       setFactor(1);
       multInput.value = "";
+      // Unit preference is sticky between sessions; the scale multiplier isn't.
+      let saved = "as-written";
+      try { saved = localStorage.getItem("makeUnitMode") || "as-written"; } catch (_) {}
+      setUnitMode(window.UNITS && window.UNITS.MODES.some(m => m.id === saved) ? saved : "as-written");
       renderNotes();
       makeEl.hidden = false;
       document.body.style.overflow = "hidden";
