@@ -50,6 +50,16 @@
  * columns — ing_type and volume_contribution — persist. Add those two headers
  * to an existing Ingredients tab and redeploy; without them the app still works,
  * the fields just don't save. See CHANGELOG.md.
+ *
+ * v1.15.0 (2026-08-02): performance. Saving a recipe was 14 HTTP requests and
+ * ~80 Sheets service calls; it's now 2 and ~11. New batched `update_recipe_fields`
+ * and `update_mash_fields` actions write a whole row at once and log only the
+ * fields that actually changed. Every wholesale replace (ingredients, mash
+ * components, gravity readings, run additions) rewrites its tab in three calls
+ * instead of one deleteRow/appendRow per row. Spreadsheet and sheet handles are
+ * memoized per execution, and `?list=1` returns recipes without their nested
+ * ingredients for the home page. Older clients still work — the per-field
+ * actions remain. See CHANGELOG.md.
  */
 
 // The one and only database for this webapp. Bind explicitly by ID so the
@@ -89,11 +99,19 @@ DISTILL_HEADERS[GRAVITY_READINGS_SHEET] = ["reading_id","run_id","mash_id","read
 DISTILL_HEADERS[RUN_ADDITIONS_SHEET] = ["addition_id","run_id","mash_id","item","category","amount","unit","timing","notes"];
 DISTILL_HEADERS[USERS_SHEET] = ["username","salt","password_hash","display_name","active"];
 
+// Handles are memoized for the life of one execution (v1.15.0). Every
+// getSheet_ call used to re-open the spreadsheet by id; a single ?mash= read
+// touches five tabs, so that was five redundant openById round-trips.
+var SS_CACHE_ = null;
+var SHEET_CACHE_ = {};
+
 function getSpreadsheet_() {
-  return SpreadsheetApp.openById(SPREADSHEET_ID);
+  if (!SS_CACHE_) SS_CACHE_ = SpreadsheetApp.openById(SPREADSHEET_ID);
+  return SS_CACHE_;
 }
 
 function getSheet_(name) {
+  if (SHEET_CACHE_[name]) return SHEET_CACHE_[name];
   const ss = getSpreadsheet_();
   let sheet = ss.getSheetByName(name);
   // Tolerate tab-name casing differences (e.g. "changelog" vs "ChangeLog").
@@ -111,6 +129,7 @@ function getSheet_(name) {
     sheet = ss.insertSheet(name);
     sheet.appendRow(DISTILL_HEADERS[name]);
   }
+  if (sheet) SHEET_CACHE_[name] = sheet;
   return sheet;
 }
 
@@ -130,6 +149,30 @@ function findRowById_(sheet, idValue, idColName) {
 function appendObject_(sheet, obj) {
   const headers = sheet.getDataRange().getValues()[0];
   sheet.appendRow(headers.map(h => obj[h] !== undefined && obj[h] !== null ? obj[h] : ""));
+}
+
+// Set many fields on one already-located row in a single write (v1.15.0).
+// `found` comes from findRowById_/findRowByRecipeId_. Unchanged values are
+// skipped so the changelog stays a record of real edits; if nothing changed,
+// no write happens at all.
+function applyFields_(sheet, found, idValue, fields, source) {
+  const row = found.row.slice();
+  const logs = [];
+  const unknown = [];
+  Object.keys(fields || {}).forEach(function (f) {
+    const idx = found.headers.indexOf(f);
+    if (idx === -1) { unknown.push(f); return; }
+    const oldValue = row[idx];
+    const newValue = fields[f];
+    if (String(oldValue) === String(newValue)) return; // no-op
+    row[idx] = newValue;
+    logs.push([new Date(), idValue, f, oldValue, newValue, source]);
+  });
+  if (logs.length) {
+    sheet.getRange(found.rowIndex, 1, 1, row.length).setValues([row]);
+    logChanges_(logs);
+  }
+  return { changed: logs.length, unknown: unknown };
 }
 
 // Generic: set a single field on the row identified by idValue/idCol.
@@ -176,13 +219,62 @@ function nestAdditions_(allAdditions, runId) {
   return allAdditions.filter(a => String(a.run_id) === String(runId));
 }
 
-// Generic: delete every row whose idCol matches idValue (bottom-up).
-function deleteRowsById_(sheet, idValue, idCol) {
+// Pad/trim a row to the sheet's header width so setValues never rejects it.
+function fitRow_(row, width) {
+  const out = row.slice(0, width);
+  while (out.length < width) out.push("");
+  return out;
+}
+
+// Rewrite a whole tab in one shot: drop every row whose idCol matches idValue,
+// then append newRows. Three Sheets calls (read, clear, write) regardless of how
+// many rows move (v1.15.0).
+//
+// This replaces the old per-row deleteRow/appendRow loops. Row-at-a-time calls
+// are the classic Apps Script bottleneck — each one forces a flush, so a recipe
+// with a dozen ingredients cost two dozen round-trips to the Sheets service.
+// Rows keep their relative order; replaced rows land at the bottom, exactly as
+// the append-based version left them.
+function replaceRowsById_(sheet, idValue, idCol, newRows) {
   const values = sheet.getDataRange().getValues();
-  const col = values[0].indexOf(idCol);
-  for (let i = values.length - 1; i >= 1; i--) {
-    if (String(values[i][col]) === String(idValue)) sheet.deleteRow(i + 1);
+  if (!values.length) return { error: "empty sheet" };
+  const headers = values[0];
+  const width = headers.length;
+  const col = headers.indexOf(idCol);
+  if (col === -1) return { error: "missing column " + idCol };
+
+  const kept = [];
+  for (let i = 1; i < values.length; i++) {
+    const row = values[i];
+    if (row.every(function (c) { return c === "" || c === null; })) continue; // drop blanks
+    if (String(row[col]) !== String(idValue)) kept.push(fitRow_(row, width));
   }
+  const out = kept.concat((newRows || []).map(function (r) { return fitRow_(r, width); }));
+
+  const lastRow = sheet.getLastRow();
+  if (lastRow > 1) sheet.getRange(2, 1, lastRow - 1, width).clearContent();
+  if (out.length) sheet.getRange(2, 1, out.length, width).setValues(out);
+  return { ok: true, headers: headers, written: out.length };
+}
+
+// Generic: delete every row whose idCol matches idValue. Same single-rewrite
+// strategy as replaceRowsById_ — no per-row deleteRow.
+function deleteRowsById_(sheet, idValue, idCol) {
+  return replaceRowsById_(sheet, idValue, idCol, []);
+}
+
+// Object-shaped wrapper for replaceRowsById_ (v1.15.0). Reads the header row
+// once and aligns every object to it, instead of calling appendObject_ per row
+// — which re-read the whole sheet and appended one row at a time, two Sheets
+// calls for every reading or component being saved.
+function replaceObjectsById_(sheet, idValue, idCol, objs) {
+  const headers = sheet.getDataRange().getValues()[0] || [];
+  const rows = (objs || []).map(function (obj) {
+    return headers.map(function (h) {
+      return obj[h] !== undefined && obj[h] !== null ? obj[h] : "";
+    });
+  });
+  return replaceRowsById_(sheet, idValue, idCol, rows);
 }
 
 function sheetToObjects_(sheet) {
@@ -339,6 +431,16 @@ function doGet(e) {
       recipe.ingredients = ingredients.filter(i => String(i.recipe_id) === String(params.recipe));
       return jsonOut_(recipe);
     }
+    // Recipe list without ingredients (v1.15.0). The home page renders from
+    // recipe fields only (it uses has_detailed_recipe, never the ingredient
+    // rows), so the default read was shipping every ingredient in the book —
+    // thousands of rows — to draw a list of cards.
+    if (params.list) {
+      const rows = sheetToObjects_(getSheet_(RECIPES_SHEET));
+      rows.forEach(r => { r.ingredients = []; });
+      return jsonOut_({ recipes: rows });
+    }
+
     // default: everything, nested
     const recipes = sheetToObjects_(getSheet_(RECIPES_SHEET));
     const ingredients = sheetToObjects_(getSheet_(INGREDIENTS_SHEET));
@@ -354,8 +456,15 @@ function doGet(e) {
 }
 
 function logChange_(recipeId, field, oldValue, newValue, source) {
+  logChanges_([[new Date(), recipeId, field, oldValue, newValue, source || "webapp"]]);
+}
+
+// Append many changelog rows in a single write (v1.15.0). A batched save used to
+// append one row per field, 13 separate calls for one press of Save.
+function logChanges_(rows) {
+  if (!rows || !rows.length) return;
   const sheet = getSheet_(CHANGELOG_SHEET);
-  sheet.appendRow([new Date(), recipeId, field, oldValue, newValue, source || "webapp"]);
+  sheet.getRange(sheet.getLastRow() + 1, 1, rows.length, rows[0].length).setValues(rows);
 }
 
 function findRowByRecipeId_(sheet, recipeId, idColName) {
@@ -412,19 +521,24 @@ function doPost(e) {
       return jsonOut_({ ok: true });
     }
 
+    // Batched sibling of update_recipe_field (v1.15.0). The webapp's Save button
+    // sets 13 fields; one request per field meant 13 sheet reads, 13 single-cell
+    // writes and 13 changelog appends. This does one read, one row write and one
+    // changelog write, and skips fields whose value hasn't actually changed —
+    // so the changelog records edits instead of every press of Save.
+    if (action === "update_recipe_fields") {
+      const sheet = getSheet_(RECIPES_SHEET);
+      const found = findRowByRecipeId_(sheet, body.recipe_id, "recipe_id");
+      if (!found) return jsonOut_({ error: "recipe not found" });
+      const res = applyFields_(sheet, found, body.recipe_id, body.fields, "update_recipe_fields");
+      return jsonOut_({ ok: true, updated: res.changed, unknown_fields: res.unknown });
+    }
+
     if (action === "replace_ingredients") {
       const sheet = getSheet_(INGREDIENTS_SHEET);
-      const values = sheet.getDataRange().getValues();
-      const headers = values[0];
-      const idCol = headers.indexOf("recipe_id");
-      // remove existing rows for this recipe (bottom-up so row numbers stay valid)
-      for (let i = values.length - 1; i >= 1; i--) {
-        if (String(values[i][idCol]) === String(body.recipe_id)) {
-          sheet.deleteRow(i + 1);
-        }
-      }
-      // append fresh rows — mapped by header name so optional columns
-      // (ing_type, volume_contribution) persist when the sheet has them
+      const headers = sheet.getDataRange().getValues()[0];
+      // Rows are built by header name so optional columns (ing_type,
+      // volume_contribution) persist when the sheet has them.
       const colValue = {
         recipe_id: function () { return body.recipe_id; },
         ingredient_name: function (ing) { return ing.name; },
@@ -438,9 +552,10 @@ function doPost(e) {
           return (ing.volume_contribution === 0 || ing.volume_contribution) ? ing.volume_contribution : "";
         }
       };
-      (body.ingredients || []).forEach(ing => {
-        sheet.appendRow(headers.map(h => colValue[h] ? colValue[h](ing) : ""));
-      });
+      const rows = (body.ingredients || []).map(ing =>
+        headers.map(h => colValue[h] ? colValue[h](ing) : ""));
+      const res = replaceRowsById_(sheet, body.recipe_id, "recipe_id", rows);
+      if (res.error) return jsonOut_({ error: res.error });
       logChange_(body.recipe_id, "ingredients", "", JSON.stringify(body.ingredients), "replace_ingredients");
       return jsonOut_({ ok: true });
     }
@@ -493,15 +608,21 @@ function doPost(e) {
       return jsonOut_({ ok: true });
     }
 
+    // Batched sibling of update_mash_field (v1.15.0) — see update_recipe_fields.
+    if (action === "update_mash_fields") {
+      const sheet = getSheet_(MASH_RECIPES_SHEET);
+      const found = findRowById_(sheet, body.mash_id, "mash_id");
+      if (!found) return jsonOut_({ error: "mash recipe not found" });
+      const res = applyFields_(sheet, found, body.mash_id, body.fields, "update_mash_fields");
+      return jsonOut_({ ok: true, updated: res.changed, unknown_fields: res.unknown });
+    }
+
     if (action === "replace_mash_components") {
       const sheet = getSheet_(MASH_COMPONENTS_SHEET);
-      deleteRowsById_(sheet, body.mash_id, "mash_id");
-      (body.components || []).forEach(c => {
-        appendObject_(sheet, {
-          mash_id: body.mash_id, component: c.component, category: c.category,
-          amount: c.amount, unit: c.unit, timing: c.timing, notes: c.notes
-        });
-      });
+      replaceObjectsById_(sheet, body.mash_id, "mash_id", (body.components || []).map(c => ({
+        mash_id: body.mash_id, component: c.component, category: c.category,
+        amount: c.amount, unit: c.unit, timing: c.timing, notes: c.notes
+      })));
       logChange_(body.mash_id, "components", "", JSON.stringify(body.components), "replace_mash_components");
       return jsonOut_({ ok: true });
     }
@@ -551,15 +672,14 @@ function doPost(e) {
     if (action === "replace_readings") {
       // Wholesale replace a run's fermentation gravity log (like ingredients).
       const sheet = getSheet_(GRAVITY_READINGS_SHEET);
-      deleteRowsById_(sheet, body.run_id, "run_id");
-      (body.readings || []).forEach(function (rd, i) {
-        appendObject_(sheet, {
+      replaceObjectsById_(sheet, body.run_id, "run_id", (body.readings || []).map(function (rd, i) {
+        return {
           reading_id: rd.reading_id || (body.run_id + "_r" + (i + 1)),
           run_id: body.run_id, mash_id: body.mash_id,
           reading_date: rd.reading_date, reading_time: rd.reading_time,
           gravity: rd.gravity, temp: rd.temp, ph: rd.ph, notes: rd.notes
-        });
-      });
+        };
+      }));
       logChange_(body.mash_id || "", "readings " + body.run_id, "", JSON.stringify(body.readings), "replace_readings");
       return jsonOut_({ ok: true });
     }
@@ -567,15 +687,14 @@ function doPost(e) {
     if (action === "replace_additions") {
       // Wholesale replace a run's additions/tweaks list (like readings).
       const sheet = getSheet_(RUN_ADDITIONS_SHEET);
-      deleteRowsById_(sheet, body.run_id, "run_id");
-      (body.additions || []).forEach(function (ad, i) {
-        appendObject_(sheet, {
+      replaceObjectsById_(sheet, body.run_id, "run_id", (body.additions || []).map(function (ad, i) {
+        return {
           addition_id: ad.addition_id || (body.run_id + "_a" + (i + 1)),
           run_id: body.run_id, mash_id: body.mash_id,
           item: ad.item, category: ad.category, amount: ad.amount,
           unit: ad.unit, timing: ad.timing, notes: ad.notes
-        });
-      });
+        };
+      }));
       logChange_(body.mash_id || "", "additions " + body.run_id, "", JSON.stringify(body.additions), "replace_additions");
       return jsonOut_({ ok: true });
     }
