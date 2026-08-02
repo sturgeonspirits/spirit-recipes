@@ -61,14 +61,17 @@
  * ingredients for the home page. Older clients still work — the per-field
  * actions remain. See CHANGELOG.md.
  *
- * v1.16.0 (2026-08-02): the Recipes tab gains three optional columns —
- * label_abv, tested_abv, tested_date — holding the ABV the approved COLA
- * declares and the ABV the batch actually gauged at, kept separate from the
- * figure calculated off the ingredients. Add them to the header row; without
- * them the app still works, those fields just don't save. Also adds
- * SETUP_auditBatchSizes() — compares every stored batch_size against the
- * finished volume its ingredients model out to, which is how a batch_size
- * holding the base spirit's own volume gets caught (see bottom of this file).
+ * v1.16.0 (2026-08-02): ABV provenance. The Recipes tab gains four optional
+ * columns — ttb_abv, ttb_abv_source, tested_abv, tested_date — separating the
+ * ABV TTB approved (and whether that was on the formula, the label, or both)
+ * from the ABV a batch actually gauged at, and from the figure calculated off
+ * the ingredients. Add them to the header row; without them the app still
+ * works, those fields just don't save. The legacy abv_percent column is no
+ * longer read — SETUP_migrateAbvPercent() moves its values into ttb_abv.
+ * Reads now also return a computed abv_calc per recipe so the summary cards
+ * and the recipe page can't show different numbers. Also adds
+ * SETUP_auditBatchSizes(), which compares every stored batch_size against the
+ * volume its ingredients model out to (see bottom of this file).
  * See CHANGELOG.md.
  */
 
@@ -447,6 +450,8 @@ function doGet(e) {
     // thousands of rows — to draw a list of cards.
     if (params.list) {
       const rows = sheetToObjects_(getSheet_(RECIPES_SHEET));
+      const ings = sheetToObjects_(getSheet_(INGREDIENTS_SHEET));
+      attachCalcABV_(rows, ings);
       rows.forEach(r => { r.ingredients = []; });
       return jsonOut_({ recipes: rows });
     }
@@ -756,6 +761,74 @@ function SETUP_diagnoseBatchSizes() {
   return out.join("\n");
 }
 
+// ============ One-time migration: abv_percent -> ttb_abv ============
+// The legacy `abv_percent` column holds the ABV TTB approved for the product —
+// transcribed from an approved formula or an approved label, which is why the
+// values are clean declared figures (40.0, 35.0, 12.5) and why six of them read
+// "abt 20", straight off the label. It's authoritative data, so it's migrated
+// rather than discarded.
+//
+// The source is inferred from which approval the recipe actually has: a COLA id
+// means label, a formula number alone means formula, both means both. Anything
+// ambiguous is left blank for you to set by hand.
+//
+// SETUP_reportAbvMigration() — preview, changes nothing
+// SETUP_migrateAbvPercent()  — writes ttb_abv / ttb_abv_source, logs each one
+function SETUP_reportAbvMigration() { return migrateAbvPercent_(true); }
+function SETUP_migrateAbvPercent() { return migrateAbvPercent_(false); }
+
+function migrateAbvPercent_(dryRun) {
+  const sheet = getSheet_(RECIPES_SHEET);
+  const values = sheet.getDataRange().getValues();
+  const headers = values[0];
+  const width = headers.length;
+  const cId = headers.indexOf("recipe_id");
+  const cName = headers.indexOf("name");
+  const cOld = headers.indexOf("abv_percent");
+  const cNew = headers.indexOf("ttb_abv");
+  const cSrc = headers.indexOf("ttb_abv_source");
+  const cCola = headers.indexOf("ttb_label_cola_id");
+  const cFormula = headers.indexOf("ttb_formula_number");
+  if (cOld === -1) throw new Error("No abv_percent column found — nothing to migrate.");
+  if (cNew === -1 || cSrc === -1) {
+    throw new Error("Add the ttb_abv and ttb_abv_source columns to the Recipes header row first.");
+  }
+
+  const report = [], logs = [], rows = [], skipped = [];
+  for (let i = 1; i < values.length; i++) {
+    const row = fitRow_(values[i], width);
+    rows.push(row);
+    const raw = String(row[cOld] == null ? "" : row[cOld]).trim();
+    if (!raw) continue;
+    if (String(row[cNew]).trim() !== "") continue; // already migrated — never overwrite
+
+    // "abt 20", "abt 20%", "20% ALC/VOL" -> 20
+    const m = raw.match(/(\d+(?:\.\d+)?)/);
+    if (!m) { skipped.push((cName === -1 ? row[cId] : row[cName]) + " — couldn't read a number from " + JSON.stringify(raw)); continue; }
+    const val = Number(m[1]);
+
+    const hasCola = cCola !== -1 && String(row[cCola]).trim() !== "";
+    const hasFormula = cFormula !== -1 && String(row[cFormula]).trim() !== "";
+    const src = hasCola && hasFormula ? "both" : hasCola ? "label" : hasFormula ? "formula" : "";
+
+    report.push((cName === -1 ? row[cId] : row[cName]) + "  |  " + raw + " -> " + val +
+      "  |  source: " + (src || "(unknown — set by hand)"));
+    if (!dryRun) {
+      logs.push([new Date(), row[cId], "ttb_abv", "", val, "migrate_abv_percent"]);
+      row[cNew] = val;
+      row[cSrc] = src;
+    }
+  }
+  if (!dryRun && logs.length) {
+    sheet.getRange(2, 1, rows.length, width).setValues(rows);
+    logChanges_(logs);
+  }
+  Logger.log((dryRun ? "DRY RUN — would migrate " : "Migrated ") + report.length +
+    " values into ttb_abv:\n" + report.join("\n") +
+    (skipped.length ? "\n\nSKIPPED (unreadable):\n" + skipped.join("\n") : ""));
+  return report;
+}
+
 // ---- Volume model, kept in step with js/abv.js ----
 // Deliberate duplication: the browser needs it to draw Live ABV and the backend
 // needs it to audit stored batch sizes. If you change a factor or a regex here,
@@ -807,6 +880,28 @@ function isAlcohol_(ing) {
   const v = String(ing.is_alcohol).trim().toLowerCase();
   return v === "yes" || v === "true" || v === "y" || v === "1";
 }
+// Stamp a computed ABV onto each recipe so the summary cards show the same
+// number the recipe page does (v1.17.0). The list read strips nested ingredients
+// for speed, so the card can't work this out client-side — and the legacy
+// hand-typed `abv_percent` column it used to read was frozen at whatever someone
+// entered, drifting from the recipe underneath it.
+//
+// Same precedence as computeABV in js/abv.js: a declared batch size wins,
+// otherwise the modeled finished volume is used.
+function attachCalcABV_(recipes, ingredientRows) {
+  const byRecipe = {};
+  (ingredientRows || []).forEach(function (i) {
+    (byRecipe[i.recipe_id] = byRecipe[i.recipe_id] || []).push(i);
+  });
+  recipes.forEach(function (r) {
+    const m = byRecipe[r.recipe_id] ? modelRecipe_(byRecipe[r.recipe_id]) : null;
+    if (!m || !m.volML) { r.abv_calc = ""; return; }
+    const declaredML = toML_(r.batch_size, r.batch_unit);
+    const totalML = declaredML || m.volML;
+    r.abv_calc = Math.round((m.alcML / totalML) * 1000) / 10;
+  });
+}
+
 // Modeled finished volume and pure-ethanol volume for one recipe's ingredients.
 function modelRecipe_(rows) {
   let volML = 0, alcML = 0, any = false;

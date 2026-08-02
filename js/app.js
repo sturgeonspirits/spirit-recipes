@@ -1,4 +1,4 @@
-// v1.1.0 (2026-07-05): show last-produced date/volume on recipe cards. Full history: CHANGELOG.md
+// v1.16.0 (2026-08-02): card ABV badge reads ttb_abv + backend-computed abv_calc. Full history: CHANGELOG.md
 (async function () {
   const listEl = document.getElementById("recipe-rows");
   const search = document.getElementById("search");
@@ -28,6 +28,28 @@
     opt.value = c; opt.textContent = c;
     categoryFilter.appendChild(opt);
   });
+
+  function num(v) {
+    if (v === "" || v === undefined || v === null || isNaN(v)) return null;
+    return Number(v);
+  }
+
+  // Shows both numbers when they disagree, one when they don't (or when only
+  // one exists). The TTB-approved figure is the headline — it's what the product
+  // is approved to be — with the calculated figure alongside it so a recipe that
+  // has drifted away from its approval is visible from the list without opening
+  // it. `abv_calc` is computed by the backend, because the list read drops the
+  // nested ingredients the browser would need to work it out.
+  function abvBadge(r) {
+    const label = num(r.ttb_abv);
+    const calc = num(r.abv_calc);
+    if (label === null && calc === null) return "";
+    if (label === null) return `<span class="abv-badge calc-only">${calc.toFixed(1)}%<span class="abv-tag">calc</span></span>`;
+    if (calc === null) return `<span class="abv-badge">${label.toFixed(1)}%</span>`;
+    // Agreeing within the labeling tolerance isn't worth two numbers.
+    if (Math.abs(label - calc) <= 0.3) return `<span class="abv-badge">${label.toFixed(1)}%</span>`;
+    return `<span class="abv-badge split">${label.toFixed(1)}%<span class="abv-tag">calc ${calc.toFixed(1)}%</span></span>`;
+  }
 
   function ttbStatusClass(status) {
     if (!status) return "";
@@ -65,8 +87,7 @@
     }
 
     listEl.innerHTML = filtered.map(r => {
-      const abv = (r.abv_percent !== "" && r.abv_percent !== undefined && r.abv_percent !== null && !isNaN(r.abv_percent))
-        ? `<span class="abv-badge">${Number(r.abv_percent).toFixed(1)}%</span>` : "";
+      const abv = abvBadge(r);
       const formula = r.ttb_formula_number
         ? `<span>Formula ${escapeHTML(r.ttb_formula_number)} <span class="ttb-status ${ttbStatusClass(r.ttb_formula_status)}">${escapeHTML(r.ttb_formula_status || "")}</span></span>` : "";
       const label = r.ttb_label_cola_id

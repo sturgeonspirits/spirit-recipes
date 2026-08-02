@@ -4,45 +4,57 @@ All notable changes to this project are logged here. Each code file also
 carries a one-line version header at the top pointing back to this file.
 
 ## v1.16.0 - 2026-08-02
-- **Label ABV and Tested ABV are now recorded separately from the calculated
-  figure.** Three numbers get loosely called "the ABV" and they mean different
-  things: what the ingredients imply (calculated), what the approved COLA
-  declares (`label_abv`, in TTB tracking), and what the batch actually gauged at
-  (`tested_abv` + `tested_date`, in Production). A readout under Live ABV shows
-  all three side by side.
-- **TTB tolerance check.** Tested vs label is flagged against the ±0.3
-  percentage point labeling tolerance in 27 CFR 5.37(b) — green inside the
-  window, red outside, with the acceptable range spelled out. With no gauged
-  result yet, the calculated figure is compared instead and shown as an amber
-  "worth confirming" rather than a compliance failure, because a recipe estimate
-  isn't a measurement.
-- **New "Dilute down" solver mode** (`solveAddDiluent` in `js/abv.js`) for a mix
-  that came out too strong: pick which liquid to add — water, juice, cider — and
-  it solves how much it takes to reach the target, with batch size growing to
-  fit. It's the mirror of "add alcohol to a base mix", and it inverts the
-  ingredient's volume-contribution factor, so diluting with something that isn't
-  pure liquid still lands on the number.
-- **"Match label ABV" button** in Target ABV: fills the target from the label
-  figure and picks the direction automatically — add alcohol when the recipe is
-  under (the usual case for a liqueur that needs bringing up to proof), dilute
-  when it's over.
-- **Recipes tab needs three new columns** — `label_abv`, `tested_abv`,
-  `tested_date`. Until they're added the fields simply won't persist; nothing
-  else breaks.
-- **Batch-size audit.** `batch_size` means the finished volume of a batch, but
-  some recipes hold the base spirit's own volume instead — which makes Live ABV
-  divide the alcohol by itself and report the spirit's ABV (Triple Sec read 40%,
-  the vodka's figure, against a modeled ~16%). `SETUP_auditBatchSizes()` compares
-  every stored batch size against the volume its ingredients model out to and
-  reports the ones off by more than 10%, showing both ABVs so the effect is
-  visible. `SETUP_clearBadBatchSizes()` blanks the flagged ones — clearing rather
-  than guessing a replacement, since a blank falls back to the ingredient model,
-  which is what most recipes already do. Every clear is logged to the changelog
-  with its old value. `SETUP_diagnoseBatchSizes()` dumps the raw column values
-  for troubleshooting.
+- **One ABV was really three, and they disagreed.** A recipe's strength showed up
+  as a hand-typed `abv_percent` on the summary cards, a figure calculated from
+  ingredients ÷ declared batch size on the recipe page, and a third from the
+  ingredient model in the hint line — Coffee Liqueur read 35%, 59% and 31.6% in
+  the same app. These are now three *named* things with one source each.
+- **`ttb_abv` + `ttb_abv_source`** hold the alcohol content TTB approved, and
+  whether that came from the approved formula, the approved label/COLA, or both.
+  This is what the legacy `abv_percent` column always was — clean declared
+  figures like 40.0 and 12.5, with six reading "abt 20" straight off a label —
+  so `SETUP_migrateAbvPercent()` moves all 114 values across, parsing "abt 20"
+  to 20 and inferring the source from which approval each recipe actually holds.
+  It never overwrites an existing value, so it's safe to re-run, and anything
+  unparseable is reported rather than dropped.
+- **`tested_abv` + `tested_date`** record what a batch actually gauged at, which
+  TTB expects to be kept.
+- **Reconciliation readout under Live ABV** shows approved / tested / calculated
+  together. Tested against approved is checked to ±0.3 percentage points — cited
+  as 27 CFR 5.37(b) when the figure is on a label, and applied as plain drift
+  from the approved formula otherwise, since a recipe that no longer makes what
+  the formula says is a problem either way. With nothing gauged yet, the
+  calculated figure is compared instead and shown as an amber "worth confirming"
+  rather than a failure, because an estimate is not a measurement.
+- **Summary cards no longer show a stale number.** The badge shows the approved
+  ABV with the calculated one beside it when they've drifted apart, collapsing
+  to a single figure when they agree within 0.3. Recipes with no approval on
+  file show an outlined calculated-only badge. The list read strips nested
+  ingredients for speed, so the backend now computes `abv_calc` per recipe using
+  the same model — the card and the recipe page can't disagree by construction.
+- **New "Dilute down" solver mode** (`solveAddDiluent`) for a mix that came out
+  too strong: pick which liquid to add — water, juice, cider — and it solves how
+  much, with batch size growing to fit. Mirror of "add alcohol to a base mix",
+  and it inverts the ingredient's volume-contribution factor so diluting with
+  something that isn't pure liquid still lands on the number.
+- **"Match TTB ABV" button** fills the target from the approved figure and picks
+  the direction automatically — add alcohol when the recipe is under (the usual
+  case for a liqueur needing brought up to proof), dilute when it's over.
+- **Batch-size audit.** `batch_size` means finished batch volume, but some
+  recipes hold the base spirit's own volume, which makes Live ABV divide the
+  alcohol by itself and report the spirit's ABV. `SETUP_auditBatchSizes()`
+  compares every stored batch size against the volume its ingredients model out
+  to and reports anything off by more than 10%, showing both ABVs;
+  `SETUP_clearBadBatchSizes()` blanks the flagged ones so they fall back to the
+  model. Clears are logged to the changelog with their old values.
+  `SETUP_diagnoseBatchSizes()` dumps raw column values for troubleshooting.
 - This required porting the volume model into `Code.gs`, duplicating `js/abv.js`.
   New `test/verify_model_parity.js` generates 3000 random recipes and fails if
   the two implementations ever disagree, so the duplication can't drift silently.
+- **Recipes tab needs four new columns** — `ttb_abv`, `ttb_abv_source`,
+  `tested_abv`, `tested_date`. Until they're added those fields won't persist;
+  nothing else breaks. `abv_percent` stays in the sheet as history and is no
+  longer read by the app.
 
 ## v1.15.0 - 2026-08-02
 - **Save is roughly 7× cheaper.** Pressing Save on a recipe used to fire one

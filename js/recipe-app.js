@@ -1,4 +1,4 @@
-// v1.16.0 (2026-08-02): label/tested ABV fields, TTB tolerance check, dilute solver. Full history: CHANGELOG.md
+// v1.16.0 (2026-08-02): TTB/tested ABV reconciliation, dilute solver. Full history: CHANGELOG.md
 (async function () {
   const params = new URLSearchParams(location.search);
   const id = params.get("id");
@@ -55,7 +55,8 @@
   document.getElementById("f-label-date").value = recipe.ttb_label_date || "";
   document.getElementById("f-last-production-date").value = recipe.last_production_date || "";
   document.getElementById("f-volume-produced").value = recipe.volume_produced || "";
-  document.getElementById("f-label-abv").value = recipe.label_abv || "";
+  document.getElementById("f-ttb-abv").value = recipe.ttb_abv || "";
+  document.getElementById("f-ttb-abv-source").value = recipe.ttb_abv_source || "";
   document.getElementById("f-tested-abv").value = recipe.tested_abv || "";
   document.getElementById("f-tested-date").value = recipe.tested_date || "";
 
@@ -192,35 +193,50 @@
   // that disagrees is a recipe-accuracy signal, not a violation.
   function renderReconcile() {
     const el = document.getElementById("abv-reconcile");
-    const labelABV = document.getElementById("f-label-abv").value;
+    const ttbABV = document.getElementById("f-ttb-abv").value;
+    const source = document.getElementById("f-ttb-abv-source").value;
     const testedABV = document.getElementById("f-tested-abv").value;
     const calc = window.ABV.computeABV(recipe);
 
-    if (labelABV === "" && testedABV === "") { el.hidden = true; return; }
+    if (ttbABV === "" && testedABV === "") { el.hidden = true; return; }
+
+    // What the approved figure is called depends on where it was declared.
+    const SOURCE_NAME = { formula: "approved formula", label: "label", both: "approved formula and label" };
+    const what = SOURCE_NAME[source] || "TTB-approved figure";
+    // The ±0.3 tolerance is a *labeling* rule; for a formula-only product the
+    // same threshold is used to flag drift, but it isn't cited as 5.37(b).
+    const isLabel = source === "label" || source === "both";
+    const tolNote = isLabel
+      ? `the ±${window.ABV.ABV_TOLERANCE} point tolerance of 27 CFR 5.37(b)`
+      : `±${window.ABV.ABV_TOLERANCE} points of the approved formula`;
 
     const parts = [];
-    if (labelABV !== "") parts.push(`<span class="rec-item">Label <b>${Number(labelABV).toFixed(1)}%</b></span>`);
+    if (ttbABV !== "") {
+      const srcTag = source ? ` <span class="rec-src">${source === "both" ? "formula + label" : source}</span>` : "";
+      parts.push(`<span class="rec-item">TTB <b>${Number(ttbABV).toFixed(1)}%</b>${srcTag}</span>`);
+    }
     if (testedABV !== "") parts.push(`<span class="rec-item">Tested <b>${Number(testedABV).toFixed(1)}%</b></span>`);
     if (calc !== null && !isNaN(calc)) parts.push(`<span class="rec-item">Calculated <b>${calc.toFixed(1)}%</b></span>`);
 
-    // Compliance: tested against label, per 27 CFR 5.37(b).
     let verdict = "", cls = "";
-    const testedCmp = window.ABV.labelCompliance(testedABV, labelABV);
+    const testedCmp = window.ABV.abvCompliance(testedABV, ttbABV);
     if (testedCmp) {
       const off = Math.abs(testedCmp.delta).toFixed(2);
       if (testedCmp.within) {
         cls = "ok";
-        verdict = `Tested is within the ±${window.ABV.LABEL_ABV_TOLERANCE} point labeling tolerance (${testedCmp.low.toFixed(1)}–${testedCmp.high.toFixed(1)}%).`;
+        verdict = `Tested is within ${tolNote} (${testedCmp.low.toFixed(1)}–${testedCmp.high.toFixed(1)}%).`;
       } else {
         cls = "bad";
-        verdict = `Tested is ${off} points ${testedCmp.delta > 0 ? "above" : "below"} the label — outside the ±${window.ABV.LABEL_ABV_TOLERANCE} point tolerance of 27 CFR 5.37(b), which allows ${testedCmp.low.toFixed(1)}–${testedCmp.high.toFixed(1)}%.`;
+        verdict = `Tested is ${off} points ${testedCmp.delta > 0 ? "above" : "below"} the ${what} — outside ${tolNote}, which allows ${testedCmp.low.toFixed(1)}–${testedCmp.high.toFixed(1)}%.`;
       }
-    } else if (labelABV !== "" && calc !== null && !isNaN(calc)) {
-      // No gauged result yet — compare the recipe against the label instead.
-      const calcCmp = window.ABV.labelCompliance(calc, labelABV);
+    } else if (ttbABV !== "" && calc !== null && !isNaN(calc)) {
+      // No gauged result yet — compare the recipe against the approved figure.
+      // Drift here means the recipe no longer makes what TTB signed off on,
+      // which matters for a formula just as much as for a label.
+      const calcCmp = window.ABV.abvCompliance(calc, ttbABV);
       if (calcCmp && !calcCmp.within) {
         cls = "warn";
-        verdict = `The recipe calculates to ${Math.abs(calcCmp.delta).toFixed(1)} points ${calcCmp.delta > 0 ? "above" : "below"} the label. Gauge a batch to confirm, or use Target ABV to bring the recipe onto ${Number(labelABV).toFixed(1)}%.`;
+        verdict = `The recipe calculates to ${Math.abs(calcCmp.delta).toFixed(1)} points ${calcCmp.delta > 0 ? "above" : "below"} the ${what}. Gauge a batch to confirm, or use Target ABV to bring the recipe onto ${Number(ttbABV).toFixed(1)}%.`;
       }
     }
 
@@ -230,7 +246,7 @@
     el.hidden = false;
   }
 
-  ["f-label-abv", "f-tested-abv"].forEach(id => {
+  ["f-ttb-abv", "f-ttb-abv-source", "f-tested-abv"].forEach(id => {
     document.getElementById(id).addEventListener("input", () => {
       renderReconcile();
       syncUseLabelBtn();
@@ -462,12 +478,12 @@
 
   // "Match label ABV" — only offered when a label figure exists to match.
   function syncUseLabelBtn() {
-    const v = document.getElementById("f-label-abv").value;
+    const v = document.getElementById("f-ttb-abv").value;
     targetUI.useLabel.hidden = v === "";
-    targetUI.useLabel.textContent = v === "" ? "Match label ABV" : `Match label ABV (${Number(v).toFixed(1)}%)`;
+    targetUI.useLabel.textContent = v === "" ? "Match TTB ABV" : `Match TTB ABV (${Number(v).toFixed(1)}%)`;
   }
   targetUI.useLabel.addEventListener("click", () => {
-    const v = document.getElementById("f-label-abv").value;
+    const v = document.getElementById("f-ttb-abv").value;
     if (v === "") return;
     targetUI.input.value = v;
     // Pick the direction that actually applies: below the label, add alcohol;
@@ -595,7 +611,8 @@
       ttb_label_date: document.getElementById("f-label-date").value,
       last_production_date: document.getElementById("f-last-production-date").value,
       volume_produced: document.getElementById("f-volume-produced").value,
-      label_abv: document.getElementById("f-label-abv").value,
+      ttb_abv: document.getElementById("f-ttb-abv").value,
+      ttb_abv_source: document.getElementById("f-ttb-abv-source").value,
       tested_abv: document.getElementById("f-tested-abv").value,
       tested_date: document.getElementById("f-tested-date").value,
     };

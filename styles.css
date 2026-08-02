@@ -234,6 +234,25 @@ a.recipe-card:active { background: var(--accent-lighter); }
   font-weight: 700;
   white-space: nowrap;
 }
+/* Second figure inside the badge — the calculated ABV shown next to the
+   TTB-approved one when the two have drifted apart. */
+.abv-badge .abv-tag {
+  margin-left: 6px;
+  padding-left: 6px;
+  border-left: 1px solid rgba(255, 255, 255, 0.45);
+  font-weight: 600;
+  font-size: 11px;
+  opacity: 0.9;
+}
+/* No approved figure on file — the number shown is only an estimate, so the
+   badge is outlined rather than filled to keep it visually subordinate. */
+.abv-badge.calc-only {
+  background: transparent;
+  color: var(--accent);
+  border: 1.5px solid var(--accent);
+}
+.abv-badge.calc-only .abv-tag { border-left-color: rgba(0, 0, 0, 0.18); }
+
 .tag-empty {
   font-size: 12px;
   color: var(--muted);

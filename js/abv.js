@@ -287,21 +287,23 @@ window.ABV = (function () {
   // TTB labeling tolerance for distilled spirits: the actual alcohol content may
   // sit within ±0.3 percentage points of what the label declares (27 CFR
   // 5.37(b)). Note this is the labeling tolerance only — it never excuses a
-  // product falling outside the standard of identity for its class or type.
-  const LABEL_ABV_TOLERANCE = 0.3;
+  // product falling outside the standard of identity for its class or type, and
+  // a product also has to keep matching the formula TTB approved.
+  const ABV_TOLERANCE = 0.3;
 
-  // Compare a measured/calculated ABV against a declared label ABV.
-  // Returns null when either number is missing.
-  function labelCompliance(actualABV, labelABV) {
-    const a = Number(actualABV), l = Number(labelABV);
-    if (!isFinite(a) || !isFinite(l) || actualABV === "" || labelABV === "" ||
-        actualABV == null || labelABV == null) return null;
-    const delta = a - l;
+  // Compare a measured or calculated ABV against the TTB-declared figure —
+  // whether that came from an approved formula or an approved label. Returns
+  // null when either number is missing.
+  function abvCompliance(actualABV, declaredABV) {
+    const a = Number(actualABV), d = Number(declaredABV);
+    if (!isFinite(a) || !isFinite(d) || actualABV === "" || declaredABV === "" ||
+        actualABV == null || declaredABV == null) return null;
+    const delta = a - d;
     return {
       delta: delta,
-      within: Math.abs(delta) <= LABEL_ABV_TOLERANCE + 1e-9,
-      low: l - LABEL_ABV_TOLERANCE,
-      high: l + LABEL_ABV_TOLERANCE,
+      within: Math.abs(delta) <= ABV_TOLERANCE + 1e-9,
+      low: d - ABV_TOLERANCE,
+      high: d + ABV_TOLERANCE,
     };
   }
 
@@ -312,6 +314,6 @@ window.ABV = (function () {
     ING_TYPES, guessIngredientType, contributionOf, estimateFinalVolumeML,
     computeABV, computeModeledABV, scaleByFactor, scaleToBatchSize,
     solveForTargetABV, solveAddAlcohol, solveAddDiluent,
-    LABEL_ABV_TOLERANCE, labelCompliance
+    ABV_TOLERANCE, abvCompliance
   };
 })();

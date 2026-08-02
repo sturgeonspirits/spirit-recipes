@@ -1,4 +1,4 @@
-<!-- v1.16.0 (2026-08-02): label/tested ABV fields, TTB tolerance check, dilute solver. Full history: CHANGELOG.md -->
+<!-- v1.16.0 (2026-08-02): TTB/tested ABV reconciliation, dilute solver. Full history: CHANGELOG.md -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -99,7 +99,7 @@
           <input type="number" id="target-abv" step="any" inputmode="decimal" placeholder="e.g. 5.0"></div>
         <button id="target-apply">Solve for ABV</button>
       </div>
-      <p class="tool-inline-row"><button type="button" class="secondary" id="target-use-label" hidden>Match label ABV</button></p>
+      <p class="tool-inline-row"><button type="button" class="secondary" id="target-use-label" hidden>Match TTB ABV</button></p>
       <div id="target-result" class="scale-result" hidden>
         <div class="scale-result-head">
           <span id="target-factor-label"></span>
@@ -128,10 +128,20 @@
           <div class="field"><label>TTB Label / COLA ID</label><input type="text" id="f-label-id"></div>
           <div class="field"><label>Label Status</label><input type="text" id="f-label-status"></div>
           <div class="field"><label>Label Approval Date</label><input type="text" id="f-label-date"></div>
-          <div class="field"><label>Label ABV %</label>
-            <input type="number" step="any" inputmode="decimal" id="f-label-abv" placeholder="as printed, e.g. 20"></div>
         </div>
       </div>
+      <div class="grid-2">
+        <div class="field"><label>TTB ABV %</label>
+          <input type="number" step="any" inputmode="decimal" id="f-ttb-abv" placeholder="as approved, e.g. 20"></div>
+        <div class="field"><label>Declared on</label>
+          <select id="f-ttb-abv-source">
+            <option value="">—</option>
+            <option value="formula">Approved formula</option>
+            <option value="label">Approved label / COLA</option>
+            <option value="both">Both</option>
+          </select></div>
+      </div>
+      <p class="hint">The alcohol content TTB has approved for this product. Production has to keep matching it — for a label, within the ±0.3 percentage point tolerance of 27&nbsp;CFR&nbsp;5.37(b); for a formula, it's what the approved formula states.</p>
     </div>
   </details>
 
