@@ -1,4 +1,4 @@
-<!-- v1.14.0 (2026-08-02): Make mode can display amounts in different units. Full history: CHANGELOG.md -->
+<!-- v1.16.0 (2026-08-02): label/tested ABV fields, TTB tolerance check, dilute solver. Full history: CHANGELOG.md -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -40,6 +40,7 @@
   </div>
   <div id="abv-warning" class="abv-warning"></div>
   <div id="abv-model-hint" class="abv-model-hint" hidden></div>
+  <div id="abv-reconcile" class="abv-reconcile" hidden></div>
 
   <div class="card">
     <h2>Ingredients <span id="f-category" class="category-pill" style="float:right"></span></h2>
@@ -86,8 +87,11 @@
           <select id="target-mode">
             <option value="fixed">Fixed batch size — top up with "Water"</option>
             <option value="add">Add alcohol to a base mix — batch grows</option>
+            <option value="dilute">Dilute down — add a liquid, batch grows</option>
           </select>
         </div>
+        <div class="grow" id="target-diluent-field" hidden><label>Add which ingredient?</label>
+          <select id="target-diluent"></select></div>
       </div>
       <p class="hint" id="target-mode-hint" style="margin:0 0 12px">Preview the alcohol and "Water" amounts needed to hit a target ABV, keeping batch size fixed. The recipe isn't changed unless you choose to overwrite it below.</p>
       <div class="tool-row">
@@ -95,6 +99,7 @@
           <input type="number" id="target-abv" step="any" inputmode="decimal" placeholder="e.g. 5.0"></div>
         <button id="target-apply">Solve for ABV</button>
       </div>
+      <p class="tool-inline-row"><button type="button" class="secondary" id="target-use-label" hidden>Match label ABV</button></p>
       <div id="target-result" class="scale-result" hidden>
         <div class="scale-result-head">
           <span id="target-factor-label"></span>
@@ -123,6 +128,8 @@
           <div class="field"><label>TTB Label / COLA ID</label><input type="text" id="f-label-id"></div>
           <div class="field"><label>Label Status</label><input type="text" id="f-label-status"></div>
           <div class="field"><label>Label Approval Date</label><input type="text" id="f-label-date"></div>
+          <div class="field"><label>Label ABV %</label>
+            <input type="number" step="any" inputmode="decimal" id="f-label-abv" placeholder="as printed, e.g. 20"></div>
         </div>
       </div>
     </div>
@@ -134,7 +141,10 @@
       <div class="grid-2">
         <div class="field"><label>Date of Last Production</label><input type="text" id="f-last-production-date" placeholder="MM/DD/YYYY"></div>
         <div class="field"><label>Volume Produced <span id="volume-unit-hint" class="muted"></span></label><input type="number" step="any" inputmode="decimal" id="f-volume-produced" placeholder="e.g. 750"></div>
+        <div class="field"><label>Tested ABV %</label><input type="number" step="any" inputmode="decimal" id="f-tested-abv" placeholder="gauged, e.g. 19.8"></div>
+        <div class="field"><label>Date Tested</label><input type="text" id="f-tested-date" placeholder="MM/DD/YYYY"></div>
       </div>
+      <p class="hint">Tested ABV is the gauged result for the batch you actually made. TTB allows the label to differ from the real alcohol content by up to ±0.3 percentage points (27&nbsp;CFR&nbsp;5.37(b)); the readout under Live ABV flags anything outside that.</p>
     </div>
   </details>
 

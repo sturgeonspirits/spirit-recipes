@@ -1,3 +1,6 @@
+// v1.16.0 (2026-08-02): + solveAddDiluent and the 27 CFR 5.37(b) label
+// tolerance check. Full history: CHANGELOG.md
+//
 // Shared unit-conversion + ABV math. Kept dependency-free so it can be reused
 // (or unit tested) outside the browser too.
 window.ABV = (function () {
@@ -225,11 +228,90 @@ window.ABV = (function () {
     return updated;
   }
 
+  // Mirror image of solveAddAlcohol: solve how much of a chosen NON-alcoholic
+  // ingredient to add to bring a too-strong mix down to a target ABV. Batch size
+  // grows to fit, nothing else is touched. `diluentIdx` picks the ingredient that
+  // absorbs the change, so a recipe can be brought down with juice or cider
+  // rather than assuming water.
+  function solveAddDiluent(recipe, targetABVPercent, diluentIdx) {
+    const ingredients = (recipe.ingredients || []).map(i => ({ ...i }));
+    const idx = Number(diluentIdx);
+    const diluent = ingredients[idx];
+    if (!diluent) throw new Error("Choose which ingredient to add.");
+    if (diluent.is_alcohol) throw new Error("Pick a non-alcoholic ingredient to dilute with.");
+    if (!isVolumeUnit(diluent.unit)) {
+      throw new Error("The ingredient you're adding needs a convertible volume unit (mL, oz, cups, gal…).");
+    }
+    const target = Number(targetABVPercent);
+    if (!target) throw new Error("Enter a target ABV.");
+
+    // Everything except the diluent is fixed; the diluent's CURRENT amount is
+    // part of that base too — we're solving for how much MORE to add.
+    let baseML = 0, baseAlcoholML = 0;
+    ingredients.forEach(ing => {
+      const v = toML(ing.amount, ing.unit);
+      if (v === null) return;
+      baseML += v * contributionOf(ing);
+      if (ing.is_alcohol) baseAlcoholML += v * ((Number(ing.abv_percent) || 0) / 100);
+    });
+    if (!baseML) throw new Error("Add the recipe's ingredients with amounts first.");
+    if (!baseAlcoholML) throw new Error("This recipe has no alcohol to dilute.");
+
+    const currentABV = (baseAlcoholML / baseML) * 100;
+    if (target >= currentABV) {
+      throw new Error("Target must be lower than the current " + currentABV.toFixed(2) +
+        "% ABV — to raise it, use “add alcohol” instead.");
+    }
+
+    // target% * (base + added) = baseAlcohol  ->  added = baseAlcohol/target% - base
+    const addedEffectiveML = (baseAlcoholML / (target / 100)) - baseML;
+    // The solve is in EFFECTIVE volume; convert back through the ingredient's
+    // contribution factor so a diluent that isn't pure liquid still lands right.
+    const factor = contributionOf(diluent);
+    if (!factor) throw new Error("That ingredient contributes no volume, so it can't dilute the mix.");
+    const addedMeasuredML = addedEffectiveML / factor;
+
+    const currentML = toML(diluent.amount, diluent.unit) || 0;
+    const newAmount = fromML(currentML + addedMeasuredML, diluent.unit);
+    ingredients[idx].amount = round4(newAmount);
+
+    const finalML = baseML + addedEffectiveML;
+    const updated = { ...recipe, ingredients };
+    updated._addDiluentFinalML = finalML;
+    updated._addedAmount = round4(fromML(addedMeasuredML, diluent.unit));
+    updated._addedUnit = diluent.unit;
+    updated._solvedABV = (baseAlcoholML / finalML) * 100;
+    return updated;
+  }
+
+  // TTB labeling tolerance for distilled spirits: the actual alcohol content may
+  // sit within ±0.3 percentage points of what the label declares (27 CFR
+  // 5.37(b)). Note this is the labeling tolerance only — it never excuses a
+  // product falling outside the standard of identity for its class or type.
+  const LABEL_ABV_TOLERANCE = 0.3;
+
+  // Compare a measured/calculated ABV against a declared label ABV.
+  // Returns null when either number is missing.
+  function labelCompliance(actualABV, labelABV) {
+    const a = Number(actualABV), l = Number(labelABV);
+    if (!isFinite(a) || !isFinite(l) || actualABV === "" || labelABV === "" ||
+        actualABV == null || labelABV == null) return null;
+    const delta = a - l;
+    return {
+      delta: delta,
+      within: Math.abs(delta) <= LABEL_ABV_TOLERANCE + 1e-9,
+      low: l - LABEL_ABV_TOLERANCE,
+      high: l + LABEL_ABV_TOLERANCE,
+    };
+  }
+
   function round4(n) { return Math.round(n * 10000) / 10000; }
 
   return {
     ML_PER_UNIT, isVolumeUnit, toML, fromML,
     ING_TYPES, guessIngredientType, contributionOf, estimateFinalVolumeML,
-    computeABV, computeModeledABV, scaleByFactor, scaleToBatchSize, solveForTargetABV, solveAddAlcohol
+    computeABV, computeModeledABV, scaleByFactor, scaleToBatchSize,
+    solveForTargetABV, solveAddAlcohol, solveAddDiluent,
+    LABEL_ABV_TOLERANCE, labelCompliance
   };
 })();

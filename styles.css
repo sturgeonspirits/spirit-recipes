@@ -764,6 +764,40 @@ body.has-action-bar main { padding-bottom: 96px; }
 }
 /* The recipe's own figure, kept alongside a converted amount so it can be
    cross-checked against the written recipe at a glance. */
+/* Calculated vs label vs tested ABV, under the hero. */
+.abv-reconcile {
+  margin: -6px 0 14px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1.5px solid var(--border);
+  background: var(--card);
+}
+.abv-reconcile .rec-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+  font-size: 14px;
+  color: var(--muted);
+}
+.abv-reconcile .rec-item b {
+  color: var(--text);
+  font-size: 16px;
+  margin-left: 4px;
+  font-variant-numeric: tabular-nums;
+}
+.abv-reconcile .rec-verdict {
+  margin-top: 7px;
+  font-size: 13px;
+  line-height: 1.45;
+}
+.abv-reconcile.ok    { border-color: #3B7A57; }
+.abv-reconcile.ok    .rec-verdict { color: #2F6B48; }
+.abv-reconcile.warn  { border-color: #C08A2E; background: #FFF9EC; }
+.abv-reconcile.warn  .rec-verdict { color: #8A5F14; }
+.abv-reconcile.bad   { border-color: #B3452F; background: #FDF1EE; }
+.abv-reconcile.bad   .rec-verdict { color: #8E3423; font-weight: 600; }
+.tool-inline-row { margin: 0 0 12px; }
+
 .make-orig {
   display: block;
   font-size: 13px;

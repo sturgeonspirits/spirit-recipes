@@ -60,6 +60,14 @@
  * memoized per execution, and `?list=1` returns recipes without their nested
  * ingredients for the home page. Older clients still work — the per-field
  * actions remain. See CHANGELOG.md.
+ *
+ * v1.16.0 (2026-08-02): the Recipes tab gains three optional columns —
+ * label_abv, tested_abv, tested_date — holding the ABV the approved COLA
+ * declares and the ABV the batch actually gauged at, kept separate from the
+ * figure calculated off the ingredients. Add them to the header row; without
+ * them the app still works, those fields just don't save. Also adds the
+ * one-time SETUP_clearBottleBatchSizes() cleanup (see bottom of this file).
+ * See CHANGELOG.md.
  */
 
 // The one and only database for this webapp. Bind explicitly by ID so the
@@ -703,6 +711,68 @@ function doPost(e) {
   } catch (err) {
     return jsonOut_({ error: String(err) });
   }
+}
+
+// ============ One-time cleanup: bottle sizes in batch_size ============
+// batch_size means the FINISHED VOLUME OF A BATCH. A batch of recipes had a
+// standard bottle size stamped in it instead (mostly 750 mL), which made Live
+// ABV divide the alcohol by the spirit's own volume — so a liqueur that really
+// finishes around 16% displayed as 40%, the ABV of the vodka going into it.
+//
+// There is no measured yield to substitute (volume_produced is empty), so these
+// are cleared rather than replaced with a guess: a blank batch_size makes the
+// app fall back to its ingredient-volume model, which is what the majority of
+// recipes already do. Where a bottle size happened to be about right (a plain
+// 750 mL infusion), the model lands in the same place and nothing changes.
+//
+// HOW TO USE: run SETUP_reportBottleBatchSizes() first and read the log. If the
+// list looks right, run SETUP_clearBottleBatchSizes(). Every clear is recorded
+// in the changelog tab with its old value, so this is reversible.
+var BOTTLE_ML_ = [50, 100, 200, 375, 500, 750, 1000, 1750];
+
+function SETUP_reportBottleBatchSizes() { return clearBottleBatchSizes_(true); }
+function SETUP_clearBottleBatchSizes() { return clearBottleBatchSizes_(false); }
+
+function clearBottleBatchSizes_(dryRun) {
+  const sheet = getSheet_(RECIPES_SHEET);
+  const values = sheet.getDataRange().getValues();
+  if (values.length < 2) return [];
+  const headers = values[0];
+  const width = headers.length;
+  const cId = headers.indexOf("recipe_id");
+  const cName = headers.indexOf("name");
+  const cSize = headers.indexOf("batch_size");
+  const cUnit = headers.indexOf("batch_unit");
+  const cDetail = headers.indexOf("has_detailed_recipe");
+  if (cSize === -1 || cUnit === -1) throw new Error("Recipes tab is missing batch_size/batch_unit");
+
+  const hits = [], logs = [], rows = [];
+  for (let i = 1; i < values.length; i++) {
+    const row = fitRow_(values[i], width);
+    // Only recipes that actually have an ingredient list — without one there's
+    // no model to fall back on, so a declared size is all there is.
+    const hasIng = cDetail === -1 || String(row[cDetail]).trim().toLowerCase() === "yes";
+    const size = Number(row[cSize]);
+    const isBottle = hasIng
+      && String(row[cUnit]).trim().toLowerCase() === "ml"
+      && size
+      && BOTTLE_ML_.indexOf(size) !== -1;
+    if (isBottle) {
+      hits.push((cName === -1 ? row[cId] : row[cName]) + " — was " + size + " mL");
+      if (!dryRun) {
+        logs.push([new Date(), row[cId], "batch_size", row[cSize], "", "clear_bottle_batch_size"]);
+        row[cSize] = "";
+      }
+    }
+    rows.push(row);
+  }
+  if (!dryRun && logs.length) {
+    sheet.getRange(2, 1, rows.length, width).setValues(rows);
+    logChanges_(logs);
+  }
+  Logger.log((dryRun ? "DRY RUN — would clear " : "Cleared ") + hits.length +
+    " batch sizes:\n" + hits.join("\n"));
+  return hits;
 }
 
 // ================= Account setup (run from the editor) =================

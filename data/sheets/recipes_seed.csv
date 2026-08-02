@@ -1,4 +1,4 @@
-recipe_id,name,category,batch_size,batch_unit,abv_percent,label_serial_internal,ttb_formula_number,ttb_formula_status,ttb_formula_submitted,ttb_formula_approved,ttb_label_cola_id,ttb_label_status,ttb_label_date,has_detailed_recipe,notes,last_production_date,volume_produced
+recipe_id,name,category,batch_size,batch_unit,abv_percent,label_serial_internal,ttb_formula_number,ttb_formula_status,ttb_formula_submitted,ttb_formula_approved,ttb_label_cola_id,ttb_label_status,ttb_label_date,has_detailed_recipe,notes,last_production_date,volume_produced,label_abv,tested_abv,tested_date
 bitters_orange_thielen_style_bitters,Orange- Thielen Style Bitters (Bitters),Bitters,500,mL,93.0,230006.0,,,,,,,,yes,"Statement of composition: cloves, orange peels, allspice, coriander, cardamon | 93% alcohol base.",,
 bitters_grapefruit,Grapefruit (Bitters),Bitters,,,93.0,23GFB1,1667219,Approved,09/26/2025,11/13/2025,23264001000853,APPROVED,09/27/2023,no,Statement of composition: Grapefruit Bitters,,
 bitters_lemon,Lemon (Bitters),Bitters,,,,,,,,,,,,no,,,

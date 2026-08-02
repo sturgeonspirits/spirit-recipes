@@ -18,6 +18,13 @@ breakdowns, 51 have a TTB formula number, 41 have a label/COLA number.
    "Replace current sheet", select the `Recipes` tab first).
 4. Import `data/ingredients_seed.csv` into the **Ingredients** tab the same way.
 
+   > Adding to an already-deployed sheet (v1.16.0): the Recipes tab header needs
+   > three new columns appended — `label_abv`, `tested_abv` and `tested_date` —
+   > for the label-vs-tested ABV reconciliation. `label_abv` is the alcohol
+   > content printed on the approved COLA; `tested_abv` is what the batch gauged
+   > at. The app flags a gap wider than the ±0.3 point tolerance in
+   > 27 CFR 5.37(b). Without the columns the fields simply don't save.
+   >
    > Adding to an already-deployed sheet (v1.12.0): the Ingredients tab header
    > needs two new columns appended — `ing_type` and `volume_contribution` —
    > and the updated `apps-script/Code.gs` redeployed, so the per-ingredient

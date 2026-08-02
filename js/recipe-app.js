@@ -1,4 +1,4 @@
-// v1.15.0 (2026-08-02): batched save (2 requests instead of 14). Full history: CHANGELOG.md
+// v1.16.0 (2026-08-02): label/tested ABV fields, TTB tolerance check, dilute solver. Full history: CHANGELOG.md
 (async function () {
   const params = new URLSearchParams(location.search);
   const id = params.get("id");
@@ -55,6 +55,9 @@
   document.getElementById("f-label-date").value = recipe.ttb_label_date || "";
   document.getElementById("f-last-production-date").value = recipe.last_production_date || "";
   document.getElementById("f-volume-produced").value = recipe.volume_produced || "";
+  document.getElementById("f-label-abv").value = recipe.label_abv || "";
+  document.getElementById("f-tested-abv").value = recipe.tested_abv || "";
+  document.getElementById("f-tested-date").value = recipe.tested_date || "";
 
   function syncVolumeUnitHint() {
     const unit = document.getElementById("f-batch-unit").value || recipe.batch_unit || "";
@@ -175,9 +178,64 @@
     } else {
       hintEl.hidden = true;
     }
+    renderReconcile();     // calculated vs label vs tested
     renderScalePreview();  // keep the scale-calculator preview in sync with edits
     renderTargetPreview(); // re-solve the target-ABV preview against the edited recipe
   }
+
+  // ===== Calculated vs label vs tested =====
+  // Three different numbers that all get called "the ABV":
+  //   calculated — what the ingredients imply
+  //   label      — what the approved COLA declares
+  //   tested     — what the batch actually gauged at
+  // Only the tested-vs-label gap is a compliance question; a calculated figure
+  // that disagrees is a recipe-accuracy signal, not a violation.
+  function renderReconcile() {
+    const el = document.getElementById("abv-reconcile");
+    const labelABV = document.getElementById("f-label-abv").value;
+    const testedABV = document.getElementById("f-tested-abv").value;
+    const calc = window.ABV.computeABV(recipe);
+
+    if (labelABV === "" && testedABV === "") { el.hidden = true; return; }
+
+    const parts = [];
+    if (labelABV !== "") parts.push(`<span class="rec-item">Label <b>${Number(labelABV).toFixed(1)}%</b></span>`);
+    if (testedABV !== "") parts.push(`<span class="rec-item">Tested <b>${Number(testedABV).toFixed(1)}%</b></span>`);
+    if (calc !== null && !isNaN(calc)) parts.push(`<span class="rec-item">Calculated <b>${calc.toFixed(1)}%</b></span>`);
+
+    // Compliance: tested against label, per 27 CFR 5.37(b).
+    let verdict = "", cls = "";
+    const testedCmp = window.ABV.labelCompliance(testedABV, labelABV);
+    if (testedCmp) {
+      const off = Math.abs(testedCmp.delta).toFixed(2);
+      if (testedCmp.within) {
+        cls = "ok";
+        verdict = `Tested is within the ±${window.ABV.LABEL_ABV_TOLERANCE} point labeling tolerance (${testedCmp.low.toFixed(1)}–${testedCmp.high.toFixed(1)}%).`;
+      } else {
+        cls = "bad";
+        verdict = `Tested is ${off} points ${testedCmp.delta > 0 ? "above" : "below"} the label — outside the ±${window.ABV.LABEL_ABV_TOLERANCE} point tolerance of 27 CFR 5.37(b), which allows ${testedCmp.low.toFixed(1)}–${testedCmp.high.toFixed(1)}%.`;
+      }
+    } else if (labelABV !== "" && calc !== null && !isNaN(calc)) {
+      // No gauged result yet — compare the recipe against the label instead.
+      const calcCmp = window.ABV.labelCompliance(calc, labelABV);
+      if (calcCmp && !calcCmp.within) {
+        cls = "warn";
+        verdict = `The recipe calculates to ${Math.abs(calcCmp.delta).toFixed(1)} points ${calcCmp.delta > 0 ? "above" : "below"} the label. Gauge a batch to confirm, or use Target ABV to bring the recipe onto ${Number(labelABV).toFixed(1)}%.`;
+      }
+    }
+
+    el.className = "abv-reconcile" + (cls ? " " + cls : "");
+    el.innerHTML = `<div class="rec-row">${parts.join("")}</div>` +
+      (verdict ? `<div class="rec-verdict">${verdict}</div>` : "");
+    el.hidden = false;
+  }
+
+  ["f-label-abv", "f-tested-abv"].forEach(id => {
+    document.getElementById(id).addEventListener("input", () => {
+      renderReconcile();
+      syncUseLabelBtn();
+    });
+  });
 
   document.getElementById("f-batch-size").addEventListener("input", updateABV);
   document.getElementById("f-batch-unit").addEventListener("input", updateABV);
@@ -354,21 +412,75 @@
     output: document.getElementById("target-output"),
     clear: document.getElementById("target-clear"),
     writeBack: document.getElementById("target-write-back"),
+    diluentField: document.getElementById("target-diluent-field"),
+    diluent: document.getElementById("target-diluent"),
+    useLabel: document.getElementById("target-use-label"),
   };
   const TARGET_MODE_HINTS = {
     fixed: 'Preview the alcohol and "Water" amounts needed to hit a target ABV, keeping batch size fixed. The recipe isn\'t changed unless you choose to overwrite it below.',
     add: 'For a recipe that\'s a fixed base mix (cider + juice + sugar…) with alcohol added afterward. Preview how much of the alcohol ingredient to pour in to hit the target ABV — batch size grows to fit. The recipe isn\'t changed unless you choose to overwrite it below.',
+    dilute: 'For a mix that\'s come out too strong. Pick the liquid to add — water, juice, cider — and preview how much it takes to bring the batch down to the target ABV. Batch size grows to fit. The recipe isn\'t changed unless you choose to overwrite it below.',
   };
   let lastSolved = null;
   let targetActive = false; // preview only shows after an explicit Solve
 
   function syncTargetModeHint() {
     targetUI.modeHint.textContent = TARGET_MODE_HINTS[targetUI.mode.value] || TARGET_MODE_HINTS.fixed;
+    targetUI.diluentField.hidden = targetUI.mode.value !== "dilute";
+    if (targetUI.mode.value === "dilute") populateDiluents();
   }
+
+  // Only non-alcoholic ingredients in a convertible volume unit can act as a
+  // diluent — you can't dilute with 4 lb of cherries.
+  function populateDiluents() {
+    const prev = targetUI.diluent.value;
+    targetUI.diluent.innerHTML = "";
+    let any = false;
+    recipe.ingredients.forEach((ing, idx) => {
+      if (ing.is_alcohol || !window.ABV.isVolumeUnit(ing.unit)) return;
+      const opt = document.createElement("option");
+      opt.value = String(idx);
+      opt.textContent = ing.name || `Ingredient ${idx + 1}`;
+      targetUI.diluent.appendChild(opt);
+      any = true;
+    });
+    if (!any) {
+      const opt = document.createElement("option");
+      opt.value = "";
+      opt.textContent = "— no liquid ingredient to add —";
+      targetUI.diluent.appendChild(opt);
+    }
+    if (prev !== "" && recipe.ingredients[Number(prev)]) targetUI.diluent.value = prev;
+  }
+
   syncTargetModeHint();
   targetUI.mode.addEventListener("change", () => {
     syncTargetModeHint();
     renderTargetPreview();
+  });
+  targetUI.diluent.addEventListener("change", renderTargetPreview);
+
+  // "Match label ABV" — only offered when a label figure exists to match.
+  function syncUseLabelBtn() {
+    const v = document.getElementById("f-label-abv").value;
+    targetUI.useLabel.hidden = v === "";
+    targetUI.useLabel.textContent = v === "" ? "Match label ABV" : `Match label ABV (${Number(v).toFixed(1)}%)`;
+  }
+  targetUI.useLabel.addEventListener("click", () => {
+    const v = document.getElementById("f-label-abv").value;
+    if (v === "") return;
+    targetUI.input.value = v;
+    // Pick the direction that actually applies: below the label, add alcohol;
+    // above it, dilute.
+    const calc = window.ABV.computeABV(recipe);
+    if (calc !== null && !isNaN(calc)) {
+      targetUI.mode.value = calc > Number(v) ? "dilute" : "add";
+      syncTargetModeHint();
+    }
+    targetActive = true;
+    renderTargetPreview();
+    const res = document.getElementById("target-result");
+    if (res.scrollIntoView) res.scrollIntoView({ block: "nearest" });
   });
 
   function clearTargetPreview() {
@@ -384,8 +496,8 @@
     const mode = targetUI.mode.value;
     let solved;
     try {
-      solved = mode === "add"
-        ? window.ABV.solveAddAlcohol(recipe, target)
+      solved = mode === "add" ? window.ABV.solveAddAlcohol(recipe, target)
+        : mode === "dilute" ? window.ABV.solveAddDiluent(recipe, target, targetUI.diluent.value)
         : window.ABV.solveForTargetABV(recipe, target);
     } catch (err) {
       lastSolved = null;
@@ -398,12 +510,16 @@
     }
     lastSolved = solved;
     let label = `Solved: ${solved._solvedABV == null || isNaN(solved._solvedABV) ? "—" : solved._solvedABV.toFixed(2) + "%"} ABV`;
-    if (mode === "add" && solved._addAlcoholFinalML) {
+    const finalML = solved._addAlcoholFinalML || solved._addDiluentFinalML;
+    if (finalML) {
       const unit = recipe.batch_unit || "mL";
-      const finalInUnit = window.ABV.fromML(solved._addAlcoholFinalML, unit);
+      const finalInUnit = window.ABV.fromML(finalML, unit);
       label += finalInUnit !== null
         ? ` — final volume ≈ ${fmtAmt(finalInUnit)} ${unit}`
-        : ` — final volume ≈ ${Math.round(solved._addAlcoholFinalML)} mL`;
+        : ` — final volume ≈ ${Math.round(finalML)} mL`;
+    }
+    if (mode === "dilute" && solved._addedAmount) {
+      label += ` · add ${fmtAmt(solved._addedAmount)} ${solved._addedUnit}`;
     }
     targetUI.label.textContent = label;
     targetUI.warning.textContent = solved._targetAbvWarning || "";
@@ -444,14 +560,15 @@
     if (!lastSolved) return;
     recipe.ingredients = lastSolved.ingredients;
     recipe._targetAbvWarning = lastSolved._targetAbvWarning || "";
-    // "add" mode grows the batch — carry the new total into batch_size so the
-    // Live ABV hero and saved recipe agree with what was just solved for.
-    if (targetUI.mode.value === "add" && lastSolved._addAlcoholFinalML) {
+    // "add" and "dilute" both grow the batch — carry the new total into
+    // batch_size so the Live ABV hero and saved recipe agree with the solve.
+    const grownML = lastSolved._addAlcoholFinalML || lastSolved._addDiluentFinalML;
+    if (grownML) {
       const unit = recipe.batch_unit || "mL";
-      const finalInUnit = window.ABV.fromML(lastSolved._addAlcoholFinalML, unit);
+      const finalInUnit = window.ABV.fromML(grownML, unit);
       recipe.batch_size = finalInUnit !== null
         ? Math.round(finalInUnit * 1000) / 1000
-        : Math.round(lastSolved._addAlcoholFinalML);
+        : Math.round(grownML);
       if (finalInUnit === null) recipe.batch_unit = "mL";
       document.getElementById("f-batch-size").value = recipe.batch_size;
       document.getElementById("f-batch-unit").value = recipe.batch_unit;
@@ -478,6 +595,9 @@
       ttb_label_date: document.getElementById("f-label-date").value,
       last_production_date: document.getElementById("f-last-production-date").value,
       volume_produced: document.getElementById("f-volume-produced").value,
+      label_abv: document.getElementById("f-label-abv").value,
+      tested_abv: document.getElementById("f-tested-abv").value,
+      tested_date: document.getElementById("f-tested-date").value,
     };
     saveBtn.disabled = true;
     saveBtn.textContent = "Saving…";
@@ -747,5 +867,6 @@
   })();
 
   renderIngredients();
+  syncUseLabelBtn();
   updateABV();
 })();

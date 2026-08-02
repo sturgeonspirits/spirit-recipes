@@ -3,6 +3,39 @@
 All notable changes to this project are logged here. Each code file also
 carries a one-line version header at the top pointing back to this file.
 
+## v1.16.0 - 2026-08-02
+- **Label ABV and Tested ABV are now recorded separately from the calculated
+  figure.** Three numbers get loosely called "the ABV" and they mean different
+  things: what the ingredients imply (calculated), what the approved COLA
+  declares (`label_abv`, in TTB tracking), and what the batch actually gauged at
+  (`tested_abv` + `tested_date`, in Production). A readout under Live ABV shows
+  all three side by side.
+- **TTB tolerance check.** Tested vs label is flagged against the ±0.3
+  percentage point labeling tolerance in 27 CFR 5.37(b) — green inside the
+  window, red outside, with the acceptable range spelled out. With no gauged
+  result yet, the calculated figure is compared instead and shown as an amber
+  "worth confirming" rather than a compliance failure, because a recipe estimate
+  isn't a measurement.
+- **New "Dilute down" solver mode** (`solveAddDiluent` in `js/abv.js`) for a mix
+  that came out too strong: pick which liquid to add — water, juice, cider — and
+  it solves how much it takes to reach the target, with batch size growing to
+  fit. It's the mirror of "add alcohol to a base mix", and it inverts the
+  ingredient's volume-contribution factor, so diluting with something that isn't
+  pure liquid still lands on the number.
+- **"Match label ABV" button** in Target ABV: fills the target from the label
+  figure and picks the direction automatically — add alcohol when the recipe is
+  under (the usual case for a liqueur that needs bringing up to proof), dilute
+  when it's over.
+- **Recipes tab needs three new columns** — `label_abv`, `tested_abv`,
+  `tested_date`. Until they're added the fields simply won't persist; nothing
+  else breaks.
+- One-time `SETUP_clearBottleBatchSizes()` maintenance function in `Code.gs`:
+  `batch_size` means finished batch volume, but a standard bottle size (mostly
+  750 mL) had been stamped into ~35 recipes, which made Live ABV divide the
+  alcohol by the spirit's own volume — Triple Sec read 40% (the vodka's ABV)
+  instead of ~16%. Run `SETUP_reportBottleBatchSizes()` first to review; clears
+  are logged to the changelog with their old values.
+
 ## v1.15.0 - 2026-08-02
 - **Save is roughly 7× cheaper.** Pressing Save on a recipe used to fire one
   HTTP request *per field* — 13 of them, sequentially, each re-reading the whole
