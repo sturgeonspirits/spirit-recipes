@@ -17,6 +17,12 @@ breakdowns, 51 have a TTB formula number, 41 have a label/COLA number.
 3. Import `data/recipes_seed.csv` into the **Recipes** tab (File > Import > Upload,
    "Replace current sheet", select the `Recipes` tab first).
 4. Import `data/ingredients_seed.csv` into the **Ingredients** tab the same way.
+
+   > Adding to an already-deployed sheet (v1.12.0): the Ingredients tab header
+   > needs two new columns appended — `ing_type` and `volume_contribution` —
+   > and the updated `apps-script/Code.gs` redeployed, so the per-ingredient
+   > volume model (sugar/fruit/botanical types + Vol. % override) persists.
+   > Without them the app still works; the two fields just won't save.
 5. Leave `ChangeLog` empty — the app creates its header row automatically the
    first time something is edited.
 

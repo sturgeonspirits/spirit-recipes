@@ -1,4 +1,4 @@
-recipe_id,ingredient_name,amount,unit,is_alcohol,abv_percent
+recipe_id,ingredient_name,amount,unit,is_alcohol,abv_percent,ing_type,volume_contribution
 bitters_orange_thielen_style_bitters,Alcohol (93%),500,mL,yes,93
 bitters_orange_thielen_style_bitters,"Oranges (peeled, dehydrated)",4,each,no,
 bitters_orange_thielen_style_bitters,Allspice,1,tbsp,no,

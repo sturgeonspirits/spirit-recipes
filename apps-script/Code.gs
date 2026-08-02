@@ -43,6 +43,13 @@
  * salted SHA-256 hashes only); `login` returns a token, `logout` revokes it, and
  * tokens live in Script Properties with a 14-day expiry. Bootstrap the first
  * account with SETUP_createUser() from the editor, then redeploy. See README.md.
+ *
+ * v1.12.0 (2026-07-15): per-ingredient volume model. `replace_ingredients` used
+ * to append a hardcoded 6-column row, which silently dropped any extra column;
+ * it now builds each row by header name, so the two new optional Ingredients
+ * columns — ing_type and volume_contribution — persist. Add those two headers
+ * to an existing Ingredients tab and redeploy; without them the app still works,
+ * the fields just don't save. See CHANGELOG.md.
  */
 
 // The one and only database for this webapp. Bind explicitly by ID so the
@@ -366,7 +373,7 @@ function findRowByRecipeId_(sheet, recipeId, idColName) {
  *
  * { action: "update_recipe_field", recipe_id, field, value }
  * { action: "update_ingredient", recipe_id, ingredient_name, field, value }
- * { action: "replace_ingredients", recipe_id, ingredients: [{name, amount, unit, is_alcohol, abv_percent}, ...] }
+ * { action: "replace_ingredients", recipe_id, ingredients: [{name, amount, unit, is_alcohol, abv_percent, ing_type, volume_contribution}, ...] }
  * { action: "add_recipe", recipe: {...} }
  * { action: "delete_recipe", recipe_id }
  */
@@ -416,12 +423,23 @@ function doPost(e) {
           sheet.deleteRow(i + 1);
         }
       }
-      // append fresh rows
+      // append fresh rows — mapped by header name so optional columns
+      // (ing_type, volume_contribution) persist when the sheet has them
+      const colValue = {
+        recipe_id: function () { return body.recipe_id; },
+        ingredient_name: function (ing) { return ing.name; },
+        name: function (ing) { return ing.name; },
+        amount: function (ing) { return ing.amount; },
+        unit: function (ing) { return ing.unit; },
+        is_alcohol: function (ing) { return ing.is_alcohol ? "yes" : "no"; },
+        abv_percent: function (ing) { return ing.abv_percent || ""; },
+        ing_type: function (ing) { return ing.ing_type || ""; },
+        volume_contribution: function (ing) {
+          return (ing.volume_contribution === 0 || ing.volume_contribution) ? ing.volume_contribution : "";
+        }
+      };
       (body.ingredients || []).forEach(ing => {
-        sheet.appendRow([
-          body.recipe_id, ing.name, ing.amount, ing.unit,
-          ing.is_alcohol ? "yes" : "no", ing.abv_percent || ""
-        ]);
+        sheet.appendRow(headers.map(h => colValue[h] ? colValue[h](ing) : ""));
       });
       logChange_(body.recipe_id, "ingredients", "", JSON.stringify(body.ingredients), "replace_ingredients");
       return jsonOut_({ ok: true });
