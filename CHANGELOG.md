@@ -3,6 +3,28 @@
 All notable changes to this project are logged here. Each code file also
 carries a one-line version header at the top pointing back to this file.
 
+## v1.17.0 - 2026-08-02
+- **Brand palette.** Colors now come from
+  `SturgeonSpirits_BrandGuide_051122_Final.pdf` (Quill Creative Studio, May
+  2022) rather than the placeholder green, which matched neither the guide nor
+  the app's own copper/charcoal icon. The six brand colors are declared as
+  `--brand-*` variables and everything else derives from them, so the whole app
+  — recipe list, detail, Make mode, distilling, login — changes from one block.
+- Mapped per the guide's usage rules: cream `#F1F1E7` page background with white
+  cards, black `#242622` body text, brown `#7E613F` for chrome and secondary
+  text, tan `#C8BCA4` borders. The two accents stay *sparing* and carry meaning
+  rather than decoration — olive `#87A67F` for pass states, rust `#96321F` for
+  failures and destructive actions. Text on dark backgrounds is cream, not
+  white, as the guide specifies.
+- Olive and rust are darkened slightly where they carry small text, so the
+  status verdicts stay legible. Every foreground/background pair in the app was
+  checked against WCAG AA — the weakest is 5.04:1 against a 4.5:1 requirement.
+- `theme-color` updated on all five pages, and the select-chevron SVG (which had
+  the old green baked into a data URI) redrawn in brand brown.
+- Typography is unchanged for now: the guide's display faces (Prohibition, Trade
+  Gothic LT Std) are licensed and not available as webfonts. Vollkorn — the
+  guide's paragraph face — is on Google Fonts if we want it later.
+
 ## v1.16.0 - 2026-08-02
 - **One ABV was really three, and they disagreed.** A recipe's strength showed up
   as a hand-typed `abv_percent` on the summary cards, a figure calculated from
