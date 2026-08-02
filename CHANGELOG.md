@@ -29,12 +29,20 @@ carries a one-line version header at the top pointing back to this file.
 - **Recipes tab needs three new columns** — `label_abv`, `tested_abv`,
   `tested_date`. Until they're added the fields simply won't persist; nothing
   else breaks.
-- One-time `SETUP_clearBottleBatchSizes()` maintenance function in `Code.gs`:
-  `batch_size` means finished batch volume, but a standard bottle size (mostly
-  750 mL) had been stamped into ~35 recipes, which made Live ABV divide the
-  alcohol by the spirit's own volume — Triple Sec read 40% (the vodka's ABV)
-  instead of ~16%. Run `SETUP_reportBottleBatchSizes()` first to review; clears
-  are logged to the changelog with their old values.
+- **Batch-size audit.** `batch_size` means the finished volume of a batch, but
+  some recipes hold the base spirit's own volume instead — which makes Live ABV
+  divide the alcohol by itself and report the spirit's ABV (Triple Sec read 40%,
+  the vodka's figure, against a modeled ~16%). `SETUP_auditBatchSizes()` compares
+  every stored batch size against the volume its ingredients model out to and
+  reports the ones off by more than 10%, showing both ABVs so the effect is
+  visible. `SETUP_clearBadBatchSizes()` blanks the flagged ones — clearing rather
+  than guessing a replacement, since a blank falls back to the ingredient model,
+  which is what most recipes already do. Every clear is logged to the changelog
+  with its old value. `SETUP_diagnoseBatchSizes()` dumps the raw column values
+  for troubleshooting.
+- This required porting the volume model into `Code.gs`, duplicating `js/abv.js`.
+  New `test/verify_model_parity.js` generates 3000 random recipes and fails if
+  the two implementations ever disagree, so the duplication can't drift silently.
 
 ## v1.15.0 - 2026-08-02
 - **Save is roughly 7× cheaper.** Pressing Save on a recipe used to fire one

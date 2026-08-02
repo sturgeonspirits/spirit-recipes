@@ -65,8 +65,10 @@
  * label_abv, tested_abv, tested_date — holding the ABV the approved COLA
  * declares and the ABV the batch actually gauged at, kept separate from the
  * figure calculated off the ingredients. Add them to the header row; without
- * them the app still works, those fields just don't save. Also adds the
- * one-time SETUP_clearBottleBatchSizes() cleanup (see bottom of this file).
+ * them the app still works, those fields just don't save. Also adds
+ * SETUP_auditBatchSizes() — compares every stored batch_size against the
+ * finished volume its ingredients model out to, which is how a batch_size
+ * holding the base spirit's own volume gets caught (see bottom of this file).
  * See CHANGELOG.md.
  */
 
@@ -713,32 +715,6 @@ function doPost(e) {
   }
 }
 
-// ============ One-time cleanup: bottle sizes in batch_size ============
-// batch_size means the FINISHED VOLUME OF A BATCH. A batch of recipes had a
-// standard bottle size stamped in it instead (mostly 750 mL), which made Live
-// ABV divide the alcohol by the spirit's own volume — so a liqueur that really
-// finishes around 16% displayed as 40%, the ABV of the vodka going into it.
-//
-// There is no measured yield to substitute (volume_produced is empty), so these
-// are cleared rather than replaced with a guess: a blank batch_size makes the
-// app fall back to its ingredient-volume model, which is what the majority of
-// recipes already do. Where a bottle size happened to be about right (a plain
-// 750 mL infusion), the model lands in the same place and nothing changes.
-//
-// HOW TO USE: run SETUP_reportBottleBatchSizes() first and read the log. If the
-// list looks right, run SETUP_clearBottleBatchSizes(). Every clear is recorded
-// in the changelog tab with its old value, so this is reversible.
-var BOTTLE_ML_ = [50, 100, 200, 375, 500, 750, 1000, 1750];
-// Unit spellings that mean millilitres, and truthy spellings of the
-// has_detailed_recipe flag. Both are matched loosely because these columns are
-// hand-edited in the sheet and drift ("ML", "milliliters", "TRUE", "y").
-var ML_SPELLINGS_ = ["ml", "milliliter", "milliliters", "millilitre", "millilitres"];
-function isMlUnit_(u) { return ML_SPELLINGS_.indexOf(String(u).trim().toLowerCase()) !== -1; }
-function isTruthyFlag_(v) {
-  const s = String(v).trim().toLowerCase();
-  return s === "yes" || s === "true" || s === "y" || s === "1" || s === "x";
-}
-
 // Diagnostic: dump exactly what the cleanup sees, so a "would clear 0" result
 // can be traced to the data rather than guessed at. Logs the Recipes header row
 // and every distinct batch_size / batch_unit combination with its JS type —
@@ -773,53 +749,142 @@ function SETUP_diagnoseBatchSizes() {
   out.push("\n-- distinct batch_size + unit combinations --");
   Object.keys(combos).sort(function (a, b) { return combos[b] - combos[a]; })
     .slice(0, 40).forEach(k => out.push("   " + k + "  x" + combos[k]));
-  out.push("\n-- what the cleanup rule matches --");
-  out.push("   bottle sizes: " + BOTTLE_ML_.join(", ") + " with unit 'mL'");
-  out.push("   matched: " + clearBottleBatchSizes_(true).length);
+  out.push("\n-- batch sizes that disagree with their ingredients --");
+  out.push("   flagged: " + auditBatchSizes_(true).length +
+    " (run SETUP_auditBatchSizes for the detail)");
   Logger.log(out.join("\n"));
   return out.join("\n");
 }
 
-function SETUP_reportBottleBatchSizes() { return clearBottleBatchSizes_(true); }
-function SETUP_clearBottleBatchSizes() { return clearBottleBatchSizes_(false); }
+// ---- Volume model, kept in step with js/abv.js ----
+// Deliberate duplication: the browser needs it to draw Live ABV and the backend
+// needs it to audit stored batch sizes. If you change a factor or a regex here,
+// change it in js/abv.js too — test/verify_model_parity.js checks the two agree
+// across 3000 generated recipes and fails the moment they drift.
+var ML_PER_UNIT_ = {
+  ml: 1, milliliter: 1, milliliters: 1, millilitre: 1, millilitres: 1,
+  l: 1000, liter: 1000, liters: 1000,
+  cup: 236.588, cups: 236.588,
+  tbsp: 14.7868, tbs: 14.7868, tablespoon: 14.7868, tablespoons: 14.7868,
+  tsp: 4.92892, teaspoon: 4.92892, teaspoons: 4.92892,
+  oz: 29.5735, "fl oz": 29.5735,
+  gal: 3785.41, gallon: 3785.41, gallons: 3785.41,
+  qt: 946.353, quart: 946.353, quarts: 946.353,
+  pt: 473.176, pint: 473.176, pints: 473.176,
+  parts: 1
+};
+var ING_FACTORS_ = { liquid: 1, sugar: 0.53, fruit: 0.55, botanical: 0.05 };
+var LIQUID_RE_ = /juice|syrup|water|milk|cream|wine|beer|cider|vodka|rum\b|whisk|bourbon|brandy|\bgin\b|tequila|liqueur|spirit|alcohol|extract|glycerin/i;
+var BOTANICAL_RE_ = /zest|peel|spice|cinnamon|clove|vanilla|anise|ginger|pepper|herb|\btea\b|coffee|cacao|nib|juniper|coriander|cardamom|nutmeg|allspice|bark|root|seed|leaf|leaves|flower|hibiscus|lavender|chamomile|wormwood|hops?\b/i;
+var SUGAR_RE_ = /sugar|sweetener/i;
+var FRUIT_RE_ = /cherr|berr|fruit|orange|lemon|lime|grape|apple|peach|plum|apricot|mango|pineapple|banana|melon|pear|\bfig|date|raisin|currant|rhubarb/i;
 
-function clearBottleBatchSizes_(dryRun) {
+function toML_(amount, unit) {
+  const f = ML_PER_UNIT_[String(unit || "").trim().toLowerCase()];
+  if (f === undefined) return null;
+  const n = Number(String(amount).replace(/,/g, "").trim());
+  return isNaN(n) ? null : n * f;
+}
+function guessType_(name) {
+  const n = String(name || "");
+  if (!n) return "liquid";
+  if (LIQUID_RE_.test(n)) return "liquid";
+  if (BOTANICAL_RE_.test(n)) return "botanical";
+  if (SUGAR_RE_.test(n)) return "sugar";
+  if (FRUIT_RE_.test(n)) return "fruit";
+  return "liquid";
+}
+function contributionOf_(ing) {
+  const explicit = ing.volume_contribution;
+  if (explicit !== "" && explicit != null && !isNaN(Number(explicit))) {
+    return Math.max(0, Number(explicit)) / 100;
+  }
+  const t = ing.ing_type && ING_FACTORS_[ing.ing_type] !== undefined
+    ? ing.ing_type : guessType_(ing.ingredient_name || ing.name);
+  return ING_FACTORS_[t];
+}
+function isAlcohol_(ing) {
+  const v = String(ing.is_alcohol).trim().toLowerCase();
+  return v === "yes" || v === "true" || v === "y" || v === "1";
+}
+// Modeled finished volume and pure-ethanol volume for one recipe's ingredients.
+function modelRecipe_(rows) {
+  let volML = 0, alcML = 0, any = false;
+  rows.forEach(function (ing) {
+    const v = toML_(ing.amount, ing.unit);
+    if (v === null) return;
+    any = true;
+    volML += v * contributionOf_(ing);
+    if (isAlcohol_(ing)) alcML += v * ((Number(ing.abv_percent) || 0) / 100);
+  });
+  return any ? { volML: volML, alcML: alcML } : null;
+}
+
+// ---- Audit stored batch sizes against the ingredient model ----
+// The real defect isn't a particular number, it's a batch_size that doesn't
+// describe the finished batch — most often because it holds the volume of the
+// base spirit, which makes Live ABV divide the alcohol by itself and report the
+// spirit's own ABV. This compares every declared batch size to the modeled
+// finished volume and lists the ones that disagree.
+//
+// SETUP_auditBatchSizes()      — report only, changes nothing
+// SETUP_clearBadBatchSizes()   — clear the ones flagged, logged to changelog
+var BATCH_TOLERANCE_ = 0.10; // 10% — wider than rounding, narrower than a real error
+
+function SETUP_auditBatchSizes() { return auditBatchSizes_(true); }
+function SETUP_clearBadBatchSizes() { return auditBatchSizes_(false); }
+
+function auditBatchSizes_(dryRun) {
   const sheet = getSheet_(RECIPES_SHEET);
   const values = sheet.getDataRange().getValues();
-  if (values.length < 2) return [];
   const headers = values[0];
   const width = headers.length;
   const cId = headers.indexOf("recipe_id");
   const cName = headers.indexOf("name");
   const cSize = headers.indexOf("batch_size");
   const cUnit = headers.indexOf("batch_unit");
-  const cDetail = headers.indexOf("has_detailed_recipe");
-  if (cSize === -1 || cUnit === -1) throw new Error("Recipes tab is missing batch_size/batch_unit");
 
-  const hits = [], logs = [], rows = [];
+  // Group ingredients by recipe in one pass.
+  const ingRows = sheetToObjects_(getSheet_(INGREDIENTS_SHEET));
+  const byRecipe = {};
+  ingRows.forEach(function (i) {
+    (byRecipe[i.recipe_id] = byRecipe[i.recipe_id] || []).push(i);
+  });
+
+  const report = [], logs = [], rows = [];
   for (let i = 1; i < values.length; i++) {
     const row = fitRow_(values[i], width);
-    // Only recipes that actually have an ingredient list — without one there's
-    // no model to fall back on, so a declared size is all there is.
-    const hasIng = cDetail === -1 || isTruthyFlag_(row[cDetail]);
-    const size = Number(String(row[cSize]).replace(/,/g, "").trim());
-    const isBottle = hasIng && isMlUnit_(row[cUnit]) && size && BOTTLE_ML_.indexOf(size) !== -1;
-    if (isBottle) {
-      hits.push((cName === -1 ? row[cId] : row[cName]) + " — was " + size + " mL");
-      if (!dryRun) {
-        logs.push([new Date(), row[cId], "batch_size", row[cSize], "", "clear_bottle_batch_size"]);
-        row[cSize] = "";
-      }
-    }
     rows.push(row);
+    const id = row[cId];
+    const declaredML = toML_(row[cSize], row[cUnit]);
+    const m = byRecipe[id] ? modelRecipe_(byRecipe[id]) : null;
+    if (!declaredML || !m || !m.volML) continue; // nothing to compare
+
+    const off = Math.abs(declaredML - m.volML) / m.volML;
+    if (off <= BATCH_TOLERANCE_) continue;
+
+    const liveABV = (m.alcML / declaredML) * 100;
+    const modelABV = (m.alcML / m.volML) * 100;
+    report.push([
+      (cName === -1 ? id : row[cName]),
+      "declared " + Math.round(declaredML) + " mL",
+      "modeled " + Math.round(m.volML) + " mL",
+      "off " + (off * 100).toFixed(0) + "%",
+      "live " + liveABV.toFixed(1) + "% vs model " + modelABV.toFixed(1) + "%"
+    ].join("  |  "));
+    if (!dryRun) {
+      logs.push([new Date(), id, "batch_size", row[cSize], "", "clear_bad_batch_size"]);
+      row[cSize] = "";
+    }
   }
   if (!dryRun && logs.length) {
     sheet.getRange(2, 1, rows.length, width).setValues(rows);
     logChanges_(logs);
   }
-  Logger.log((dryRun ? "DRY RUN — would clear " : "Cleared ") + hits.length +
-    " batch sizes:\n" + hits.join("\n"));
-  return hits;
+  Logger.log((dryRun ? "AUDIT — " : "CLEARED — ") + report.length +
+    " recipes whose batch size disagrees with their ingredients by more than " +
+    (BATCH_TOLERANCE_ * 100) + "%:\n" + report.join("\n"));
+  return report;
 }
 
 // ================= Account setup (run from the editor) =================
