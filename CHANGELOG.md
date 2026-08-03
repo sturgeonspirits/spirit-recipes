@@ -3,6 +3,56 @@
 All notable changes to this project are logged here. Each code file also
 carries a one-line version header at the top pointing back to this file.
 
+## v1.19.0 - 2026-08-02
+- **Weighed ingredients now count toward the modelled volume.** The volume model
+  only understood volume units, so anything measured in g/kg/lb contributed
+  nothing at all — silently understating finished volume and overstating ABV.
+  This affected **40 ingredient rows across 17 recipes**. Coconut Cream Liqueur
+  showed 19.90% against a corrected 16.13%; Cranberry Vodka showed 40.00% (the
+  base spirit's own strength, because its 5.75 kg of concentrate was invisible)
+  against 15.88%.
+- Each ingredient type gains an `mlPerGram` alongside its volume `factor`. The
+  two are deliberately separate estimates: a weight carries no information about
+  how loosely something was packed, which is exactly what the volume factor has
+  to guess at. Sugar's 0.63 mL/g is its crystal density and reconciles with the
+  0.53 factor (198 g/cup ÷ 1.59 = 125 mL of a measured 237 mL).
+- **Strained solids are handled correctly on the weight path.** Fruit gives up
+  ~0.6 mL of juice per gram, not the ~0.95 its bulk would displace, because the
+  pulp is removed; botanicals give up ~0.02. Without this, weighing 400 g of
+  rhubarb would have added twice the liquid it really contributes. Weighed
+  botanicals now barely move a recipe (Aquavit 39.46% → 39.36%), which is the
+  physically right answer.
+- **"Dried milk" is no longer a liquid.** `milk` sits in the liquid pattern, so
+  `Dry Whole Milk` and `No-Fat Dry Milk` were modelled at 100%. A dry-form check
+  now runs first: dried/dry/powdered/instant/nonfat milk, cream, buttermilk and
+  whey read as powders, while `Whole Milk`, `Coconut Milk`, `Evaporated Milk` and
+  `Sweetened Condensed Milk` stay liquids.
+- **Concentrates are liquids.** `Cranberry Concentrate` was matching the fruit
+  pattern on "berr" and being treated as strained pulp, when it's a liquid that
+  stays entirely in the bottle. `concentrate`, `purée` and `nectar` now read as
+  liquid.
+- Sodium caseinate and tri-sodium citrate match as powders.
+- Weight units mirror `js/units.js`: a bare `oz` still means fluid ounces, so
+  weight ounces must be written `oz wt`.
+
+## v1.18.0 - 2026-08-02
+- **New "Dry powder" ingredient type at 25%.** Cocoa powder was being modelled as
+  a liquid contributing 100% of its measured volume, because the name matcher
+  recognised "cacao" but not "cocoa" or "chocolate" and fell through to the
+  default. A fine powder that stays suspended only displaces the volume of the
+  solid itself: cocoa is ~85 g/cup as bulk powder and cocoa solids are ~1.4
+  g/cm³, so ~61 mL of a measured 237 mL reaches the bottle — the same arithmetic
+  behind sugar's 53% (198 g/cup ÷ 1.59). Also matches malt, matcha and
+  cornstarch.
+- Order matters in the matcher: "chocolate syrup" still reads as a liquid and
+  "cacao nibs" as a botanical (they're strained out), because those patterns are
+  tested first. Powder is checked before sugar so "malt sugar powder" lands on
+  the powder factor.
+- Effect on Chocolate (Liqueur), which uses ¼ cup cocoa: modelled ABV 15.87% →
+  16.70%. Small here, but it scales with how much cocoa a recipe uses.
+- Recipes with a `ing_type` already saved keep it; ones with the column blank
+  pick the new type up automatically on next load.
+
 ## v1.17.0 - 2026-08-02
 - **Brand palette.** Colors now come from
   `SturgeonSpirits_BrandGuide_051122_Final.pdf` (Quill Creative Studio, May

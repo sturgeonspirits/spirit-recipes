@@ -73,6 +73,17 @@
  * SETUP_auditBatchSizes(), which compares every stored batch_size against the
  * volume its ingredients model out to (see bottom of this file).
  * See CHANGELOG.md.
+ *
+ * v1.18.0 (2026-08-02): the volume model gains a "powder" ingredient type at
+ * 25% (cocoa, malt, matcha). Mirrors js/abv.js — test/verify_model_parity.js
+ * checks the two stay identical. See CHANGELOG.md.
+ *
+ * v1.19.0 (2026-08-02): ingredients measured by weight (g/kg/lb) now count
+ * toward the modelled volume via a per-type mL-per-gram figure — they used to
+ * contribute nothing, understating volume and overstating ABV on 17 recipes.
+ * Strained solids give up only their juice on that path. "Dried milk" reads as
+ * a powder rather than a liquid, and concentrates read as liquids rather than
+ * strained fruit. Mirrors js/abv.js. See CHANGELOG.md.
  */
 
 // The one and only database for this webapp. Bind explicitly by ID so the
@@ -846,11 +857,40 @@ var ML_PER_UNIT_ = {
   pt: 473.176, pint: 473.176, pints: 473.176,
   parts: 1
 };
-var ING_FACTORS_ = { liquid: 1, sugar: 0.53, fruit: 0.55, botanical: 0.05 };
-var LIQUID_RE_ = /juice|syrup|water|milk|cream|wine|beer|cider|vodka|rum\b|whisk|bourbon|brandy|\bgin\b|tequila|liqueur|spirit|alcohol|extract|glycerin/i;
-var BOTANICAL_RE_ = /zest|peel|spice|cinnamon|clove|vanilla|anise|ginger|pepper|herb|\btea\b|coffee|cacao|nib|juniper|coriander|cardamom|nutmeg|allspice|bark|root|seed|leaf|leaves|flower|hibiscus|lavender|chamomile|wormwood|hops?\b/i;
+var ING_FACTORS_ = { liquid: 1, sugar: 0.53, fruit: 0.55, powder: 0.25, botanical: 0.05 };
+// g/cm3 of the solid itself, for ingredients measured by weight rather than
+// volume. Mass / density is the volume displaced — no bulk-density guesswork.
+var ING_ML_PER_G_ = { liquid: 1.00, sugar: 0.63, fruit: 0.60, powder: 0.71, botanical: 0.02 };
+var G_PER_UNIT_ = {
+  g: 1, gram: 1, grams: 1,
+  kg: 1000, kilogram: 1000, kilograms: 1000,
+  "oz wt": 28.3495, ozwt: 28.3495, "wt oz": 28.3495,
+  lb: 453.592, lbs: 453.592, pound: 453.592, pounds: 453.592
+};
+var LIQUID_RE_ = /juice|concentrate|pur[eé]e|nectar|syrup|water|milk|cream|wine|beer|cider|vodka|rum\b|whisk|bourbon|brandy|\bgin\b|tequila|liqueur|spirit|alcohol|extract|glycerin/i;
+var BOTANICAL_RE_ = /zest|peel|spice|cinnamon|clove|vanilla|anise|ginger|pepper|herb|\btea\b|coffee|nib|juniper|coriander|cardamom|nutmeg|allspice|bark|root|seed|leaf|leaves|flower|hibiscus|lavender|chamomile|wormwood|hops?\b/i;
 var SUGAR_RE_ = /sugar|sweetener/i;
+var POWDER_RE_ = /cocoa|cacao|chocolate|powder|malt\b|matcha|\bcorn ?starch|caseinate|citrate/i;
+var DRY_FORM_RE_ = /\b(dried|dry|powdered|instant|non-?fat|nonfat|no-?fat|skim(med)?)\b[^,]*\b(milk|cream|buttermilk|whey)\b|\b(milk|cream|buttermilk|whey)\b[^,]*\bpowder\b/i;
 var FRUIT_RE_ = /cherr|berr|fruit|orange|lemon|lime|grape|apple|peach|plum|apricot|mango|pineapple|banana|melon|pear|\bfig|date|raisin|currant|rhubarb/i;
+
+function toGrams_(amount, unit) {
+  const f = G_PER_UNIT_[String(unit || "").trim().toLowerCase()];
+  if (f === undefined) return null;
+  const n = Number(String(amount).replace(/,/g, "").trim());
+  return isNaN(n) ? null : n * f;
+}
+// Volume this ingredient contributes, whether it was measured by volume or
+// weighed. Mirrors contributionML in js/abv.js.
+function contributionML_(ing) {
+  const v = toML_(ing.amount, ing.unit);
+  if (v !== null) return v * contributionOf_(ing);
+  const g = toGrams_(ing.amount, ing.unit);
+  if (g === null) return null;
+  const t = ing.ing_type && ING_ML_PER_G_[ing.ing_type] !== undefined
+    ? ing.ing_type : guessType_(ing.ingredient_name || ing.name);
+  return g * (ING_ML_PER_G_[t] != null ? ING_ML_PER_G_[t] : 1);
+}
 
 function toML_(amount, unit) {
   const f = ML_PER_UNIT_[String(unit || "").trim().toLowerCase()];
@@ -861,8 +901,10 @@ function toML_(amount, unit) {
 function guessType_(name) {
   const n = String(name || "");
   if (!n) return "liquid";
+  if (DRY_FORM_RE_.test(n)) return "powder";
   if (LIQUID_RE_.test(n)) return "liquid";
   if (BOTANICAL_RE_.test(n)) return "botanical";
+  if (POWDER_RE_.test(n)) return "powder";
   if (SUGAR_RE_.test(n)) return "sugar";
   if (FRUIT_RE_.test(n)) return "fruit";
   return "liquid";
@@ -906,10 +948,10 @@ function attachCalcABV_(recipes, ingredientRows) {
 function modelRecipe_(rows) {
   let volML = 0, alcML = 0, any = false;
   rows.forEach(function (ing) {
-    const v = toML_(ing.amount, ing.unit);
+    const v = contributionML_(ing);
     if (v === null) return;
     any = true;
-    volML += v * contributionOf_(ing);
+    volML += v;
     if (isAlcohol_(ing)) alcML += v * ((Number(ing.abv_percent) || 0) / 100);
   });
   return any ? { volML: volML, alcML: alcML } : null;

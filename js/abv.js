@@ -1,5 +1,5 @@
-// v1.16.0 (2026-08-02): + solveAddDiluent and the 27 CFR 5.37(b) label
-// tolerance check. Full history: CHANGELOG.md
+// v1.19.0 (2026-08-02): weighed ingredients count toward volume (mL/gram per type).
+// v1.16.0: + solveAddDiluent and the 27 CFR 5.37(b) label tolerance check.
 //
 // Shared unit-conversion + ABV math. Kept dependency-free so it can be reused
 // (or unit tested) outside the browser too.
@@ -42,16 +42,39 @@ window.ABV = (function () {
   // dry sugar dissolves into ~53% of its dry bulk volume (198 g/cup ≈ 125 mL
   // added), strained fresh fruit contributes roughly its water content (~55%
   // of its measured volume; solids removed), herbs/spices/zest ~nothing.
+  // `factor`    — fraction of a VOLUME-measured amount that reaches the liquid.
+  //               The rest is air between particles, or solids strained out.
+  // `mlPerGram` — mL reaching the liquid per gram, when an ingredient is WEIGHED.
+  //
+  // Two separate estimates, because weighing and measuring tell you different
+  // things — a weight carries no information about how loosely the stuff was
+  // packed, which is exactly what `factor` has to guess at.
+  //
+  // mlPerGram already accounts for what stays in. Sugar dissolves completely, so
+  // it's 1/1.59 = its crystal density (and that reconciles with the 0.53 factor:
+  // 198 g/cup ÷ 1.59 = 125 mL of a measured 237 mL). Powders stay suspended, so
+  // 1/1.40. Fruit is the important exception — the pulp is strained out and only
+  // the released juice stays, roughly 0.6 mL per gram of fruit, NOT the ~0.95
+  // its bulk would displace. Botanicals give up almost nothing.
   const ING_TYPES = {
-    liquid:    { label: "Liquid",              factor: 1 },
-    sugar:     { label: "Sugar (dry)",         factor: 0.53 },
-    fruit:     { label: "Fruit (strained)",    factor: 0.55 },
-    botanical: { label: "Herb / spice / zest", factor: 0.05 },
+    liquid:    { label: "Liquid",              factor: 1,    mlPerGram: 1.00 },
+    sugar:     { label: "Sugar (dry)",         factor: 0.53, mlPerGram: 0.63 },
+    fruit:     { label: "Fruit (strained)",    factor: 0.55, mlPerGram: 0.60 },
+    powder:    { label: "Dry powder",          factor: 0.25, mlPerGram: 0.71 },
+    botanical: { label: "Herb / spice / zest", factor: 0.05, mlPerGram: 0.02 },
   };
 
-  const LIQUID_RE = /juice|syrup|water|milk|cream|wine|beer|cider|vodka|rum\b|whisk|bourbon|brandy|\bgin\b|tequila|liqueur|spirit|alcohol|extract|glycerin/i;
-  const BOTANICAL_RE = /zest|peel|spice|cinnamon|clove|vanilla|anise|ginger|pepper|herb|\btea\b|coffee|cacao|nib|juniper|coriander|cardamom|nutmeg|allspice|bark|root|seed|leaf|leaves|flower|hibiscus|lavender|chamomile|wormwood|hops?\b/i;
+  const LIQUID_RE = /juice|concentrate|pur[eé]e|nectar|syrup|water|milk|cream|wine|beer|cider|vodka|rum\b|whisk|bourbon|brandy|\bgin\b|tequila|liqueur|spirit|alcohol|extract|glycerin/i;
+  const BOTANICAL_RE = /zest|peel|spice|cinnamon|clove|vanilla|anise|ginger|pepper|herb|\btea\b|coffee|nib|juniper|coriander|cardamom|nutmeg|allspice|bark|root|seed|leaf|leaves|flower|hibiscus|lavender|chamomile|wormwood|hops?\b/i;
   const SUGAR_RE = /sugar|sweetener/i;
+  // Fine dry powders that stay suspended in the finished liquid rather than
+  // being strained out. Only the solid itself displaces liquid — a cup of cocoa
+  // powder is ~85 g of solids at ~1.4 g/cm³, so ~61 mL of the 237 mL measured
+  // reaches the bottle. Same arithmetic as sugar's 53% (198 g/cup ÷ 1.59).
+  const POWDER_RE = /cocoa|cacao|chocolate|powder|malt\b|matcha|\bcorn ?starch|caseinate|citrate/i;
+  // Dry forms of things whose names would otherwise read as liquids — "dried
+  // milk" is a powder, "whole milk" is not. Checked BEFORE the liquid pattern.
+  const DRY_FORM_RE = /\b(dried|dry|powdered|instant|non-?fat|nonfat|no-?fat|skim(med)?)\b[^,]*\b(milk|cream|buttermilk|whey)\b|\b(milk|cream|buttermilk|whey)\b[^,]*\bpowder\b/i;
   const FRUIT_RE = /cherr|berr|fruit|orange|lemon|lime|grape|apple|peach|plum|apricot|mango|pineapple|banana|melon|pear|\bfig|date|raisin|currant|rhubarb/i;
 
   // Best-guess type from the ingredient's name (order matters: "orange juice"
@@ -59,8 +82,14 @@ window.ABV = (function () {
   function guessIngredientType(name) {
     const n = String(name || "");
     if (!n) return "liquid";
+    // Dry form first: "dry whole milk" is a powder even though "milk" is in the
+    // liquid list. "Whole milk" and "coconut milk" still read as liquids.
+    if (DRY_FORM_RE.test(n)) return "powder";
     if (LIQUID_RE.test(n)) return "liquid";
     if (BOTANICAL_RE.test(n)) return "botanical";
+    // Powder before sugar: "cocoa powder" is a powder, but so is "malt sugar
+    // powder" — the powder form is what decides how much volume it contributes.
+    if (POWDER_RE.test(n)) return "powder";
     if (SUGAR_RE.test(n)) return "sugar";
     if (FRUIT_RE.test(n)) return "fruit";
     return "liquid";
@@ -77,12 +106,45 @@ window.ABV = (function () {
     return ING_TYPES[type].factor;
   }
 
+  // Grams per 1 unit, for weight units only. A bare "oz" stays FLUID ounces
+  // everywhere in this app, so weight ounces have to be written "oz wt".
+  const G_PER_UNIT = {
+    g: 1, gram: 1, grams: 1,
+    kg: 1000, kilogram: 1000, kilograms: 1000,
+    "oz wt": 28.3495, ozwt: 28.3495, "wt oz": 28.3495,
+    lb: 453.592, lbs: 453.592, pound: 453.592, pounds: 453.592,
+  };
+  function isWeightUnit(unit) {
+    return Object.prototype.hasOwnProperty.call(G_PER_UNIT, String(unit || "").trim().toLowerCase());
+  }
+  function toGrams(amount, unit) {
+    const f = G_PER_UNIT[String(unit || "").trim().toLowerCase()];
+    if (f === undefined) return null;
+    const n = Number(amount);
+    return isNaN(n) ? null : n * f;
+  }
+
+  // Volume an ingredient contributes to the finished liquid, in mL.
+  // Two paths, because the two ways of measuring carry different information:
+  //   measured by volume — take `factor` of it; the rest is air between particles
+  //   measured by weight — mL per gram, which already accounts for what stays in
+  // An explicit Vol.% override applies to the volume path only; there's no
+  // "percent of a gram" to take.
+  function contributionML(ing) {
+    const v = toML(ing.amount, ing.unit);
+    if (v !== null) return v * contributionOf(ing);
+    const g = toGrams(ing.amount, ing.unit);
+    if (g === null) return null;
+    const type = ing.ing_type && ING_TYPES[ing.ing_type] ? ing.ing_type : guessIngredientType(ing.name);
+    return g * (ING_TYPES[type].mlPerGram != null ? ING_TYPES[type].mlPerGram : 1);
+  }
+
   // Modeled final volume: every convertible ingredient's effective contribution.
   function estimateFinalVolumeML(recipe) {
     let total = 0, any = false;
     (recipe.ingredients || []).forEach(ing => {
-      const v = toML(ing.amount, ing.unit);
-      if (v !== null) { total += v * contributionOf(ing); any = true; }
+      const v = contributionML(ing);
+      if (v !== null) { total += v; any = true; }
     });
     return any ? total : null;
   }
@@ -94,7 +156,9 @@ window.ABV = (function () {
     let alcoholML = 0;
     (recipe.ingredients || []).forEach(ing => {
       if (!ing.is_alcohol) return;
-      const v = toML(ing.amount, ing.unit);
+      // Ethanol rides on the liquid's own volume, so a weighed alcohol uses the
+      // same displaced-volume figure the model uses for everything else.
+      const v = contributionML(ing);
       const pct = Number(ing.abv_percent) || 0;
       if (v !== null) alcoholML += v * (pct / 100);
     });
@@ -311,7 +375,8 @@ window.ABV = (function () {
 
   return {
     ML_PER_UNIT, isVolumeUnit, toML, fromML,
-    ING_TYPES, guessIngredientType, contributionOf, estimateFinalVolumeML,
+    ING_TYPES, guessIngredientType, contributionOf, contributionML,
+    isWeightUnit, toGrams, estimateFinalVolumeML,
     computeABV, computeModeledABV, scaleByFactor, scaleToBatchSize,
     solveForTargetABV, solveAddAlcohol, solveAddDiluent,
     ABV_TOLERANCE, abvCompliance

@@ -17,9 +17,9 @@ vm.runInContext(fs.readFileSync(path.join(root, "apps-script/Code.gs"), "utf8"),
 
 const NAMES = ["Vodka","Fresh Orange Juice","Brown Sugar","Cinnamon Sticks","Cherries","Orange Peel",
   "Apple Cider","Everclear","Honey Syrup","Lemon Zest","Raspberries","Water","Coffee Beans",
-  "Vanilla Bean","Heavy Cream","Blue Curacao","Mango Puree","Sweetener","Rhubarb","Neutral Spirit"];
-const UNITS = ["mL","L","cups","tbsp","tsp","oz","gal","qt","pt","parts"];
-const TYPES = ["", "liquid", "sugar", "fruit", "botanical"];
+  "Vanilla Bean","Heavy Cream","Cocoa Powder","Chocolate Syrup","Malt Powder","Blue Curacao","Mango Puree","Sweetener","Rhubarb","Neutral Spirit"];
+const UNITS = ["mL","L","cups","tbsp","tsp","oz","gal","qt","pt","parts","g","kg","lb","oz wt","each"];
+const TYPES = ["", "liquid", "sugar", "fruit", "powder", "botanical"];
 
 // Deterministic pseudo-random so a failure is reproducible.
 let seed = 12345;
