@@ -17,7 +17,7 @@ vm.runInContext(fs.readFileSync(path.join(root, "apps-script/Code.gs"), "utf8"),
 
 const NAMES = ["Vodka","Fresh Orange Juice","Brown Sugar","Cinnamon Sticks","Cherries","Orange Peel",
   "Apple Cider","Everclear","Honey Syrup","Lemon Zest","Raspberries","Water","Coffee Beans",
-  "Vanilla Bean","Heavy Cream","Cocoa Powder","Chocolate Syrup","Malt Powder","Blue Curacao","Mango Puree","Sweetener","Rhubarb","Neutral Spirit"];
+  "Vanilla Bean","Heavy Cream","Cocoa Powder","Chocolate Syrup","Malt Powder","Instant Coffee","Coffee Beans","Espresso Powder","Instant Tea","Dry Whole Milk","Cranberry Concentrate","Blue Curacao","Mango Puree","Sweetener","Rhubarb","Neutral Spirit"];
 const UNITS = ["mL","L","cups","tbsp","tsp","oz","gal","qt","pt","parts","g","kg","lb","oz wt","each"];
 const TYPES = ["", "liquid", "sugar", "fruit", "powder", "botanical"];
 

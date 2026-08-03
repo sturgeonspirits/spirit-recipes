@@ -75,6 +75,12 @@ window.ABV = (function () {
   // Dry forms of things whose names would otherwise read as liquids — "dried
   // milk" is a powder, "whole milk" is not. Checked BEFORE the liquid pattern.
   const DRY_FORM_RE = /\b(dried|dry|powdered|instant|non-?fat|nonfat|no-?fat|skim(med)?)\b[^,]*\b(milk|cream|buttermilk|whey)\b|\b(milk|cream|buttermilk|whey)\b[^,]*\bpowder\b/i;
+  // Soluble forms of things that are otherwise strained out. Instant coffee
+  // dissolves completely and stays in the bottle; coffee beans and grounds get
+  // filtered off. Same for espresso powder, instant tea and cocoa/malt drink
+  // mixes. Checked BEFORE the botanical pattern, which would otherwise claim
+  // anything with "coffee" or "tea" in the name.
+  const SOLUBLE_RE = /\b(instant|soluble|powdered)\b[^,]*\b(coffee|espresso|tea|chicory)\b|\b(coffee|espresso|tea|chicory)\b[^,]*\b(powder|crystals|granules)\b/i;
   const FRUIT_RE = /cherr|berr|fruit|orange|lemon|lime|grape|apple|peach|plum|apricot|mango|pineapple|banana|melon|pear|\bfig|date|raisin|currant|rhubarb/i;
 
   // Best-guess type from the ingredient's name (order matters: "orange juice"
@@ -85,6 +91,7 @@ window.ABV = (function () {
     // Dry form first: "dry whole milk" is a powder even though "milk" is in the
     // liquid list. "Whole milk" and "coconut milk" still read as liquids.
     if (DRY_FORM_RE.test(n)) return "powder";
+    if (SOLUBLE_RE.test(n)) return "powder";
     if (LIQUID_RE.test(n)) return "liquid";
     if (BOTANICAL_RE.test(n)) return "botanical";
     // Powder before sugar: "cocoa powder" is a powder, but so is "malt sugar

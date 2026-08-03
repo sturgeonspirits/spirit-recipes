@@ -83,7 +83,8 @@
  * contribute nothing, understating volume and overstating ABV on 17 recipes.
  * Strained solids give up only their juice on that path. "Dried milk" reads as
  * a powder rather than a liquid, and concentrates read as liquids rather than
- * strained fruit. Mirrors js/abv.js. See CHANGELOG.md.
+ * strained fruit, and instant coffee/tea as dissolving powders rather than
+ * strained grounds. Mirrors js/abv.js. See CHANGELOG.md.
  */
 
 // The one and only database for this webapp. Bind explicitly by ID so the
@@ -872,6 +873,7 @@ var BOTANICAL_RE_ = /zest|peel|spice|cinnamon|clove|vanilla|anise|ginger|pepper|
 var SUGAR_RE_ = /sugar|sweetener/i;
 var POWDER_RE_ = /cocoa|cacao|chocolate|powder|malt\b|matcha|\bcorn ?starch|caseinate|citrate/i;
 var DRY_FORM_RE_ = /\b(dried|dry|powdered|instant|non-?fat|nonfat|no-?fat|skim(med)?)\b[^,]*\b(milk|cream|buttermilk|whey)\b|\b(milk|cream|buttermilk|whey)\b[^,]*\bpowder\b/i;
+var SOLUBLE_RE_ = /\b(instant|soluble|powdered)\b[^,]*\b(coffee|espresso|tea|chicory)\b|\b(coffee|espresso|tea|chicory)\b[^,]*\b(powder|crystals|granules)\b/i;
 var FRUIT_RE_ = /cherr|berr|fruit|orange|lemon|lime|grape|apple|peach|plum|apricot|mango|pineapple|banana|melon|pear|\bfig|date|raisin|currant|rhubarb/i;
 
 function toGrams_(amount, unit) {
@@ -902,6 +904,7 @@ function guessType_(name) {
   const n = String(name || "");
   if (!n) return "liquid";
   if (DRY_FORM_RE_.test(n)) return "powder";
+  if (SOLUBLE_RE_.test(n)) return "powder";
   if (LIQUID_RE_.test(n)) return "liquid";
   if (BOTANICAL_RE_.test(n)) return "botanical";
   if (POWDER_RE_.test(n)) return "powder";

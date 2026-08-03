@@ -31,6 +31,12 @@ carries a one-line version header at the top pointing back to this file.
   pattern on "berr" and being treated as strained pulp, when it's a liquid that
   stays entirely in the bottle. `concentrate`, `purée` and `nectar` now read as
   liquid.
+- **Instant coffee dissolves — it isn't grounds.** "coffee" sits in the botanical
+  pattern, so `Instant Coffee` was modelled as something strained out and worth
+  almost nothing. A soluble-form check now runs first: instant/soluble/powdered
+  coffee, espresso, tea and chicory read as powders that stay in the liquid,
+  while `Coffee Beans`, `Ground Coffee` and `Tea Leaves` remain botanicals
+  because they really are filtered off.
 - Sodium caseinate and tri-sodium citrate match as powders.
 - Weight units mirror `js/units.js`: a bare `oz` still means fluid ounces, so
   weight ounces must be written `oz wt`.
