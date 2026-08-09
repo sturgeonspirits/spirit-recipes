@@ -3,6 +3,26 @@
 All notable changes to this project are logged here. Each code file also
 carries a one-line version header at the top pointing back to this file.
 
+## v1.20.0 - 2026-08-09
+- **Make mode can scale to a specific finished amount.** The ½×/1×/2×/3× row
+  only answered "how many times the recipe" — but the question at the bench is
+  usually "I need a gallon today." A new **Make** row takes an amount and a
+  unit, works out the multiplier against the recipe's own batch size, and
+  redraws every ingredient at that scale. Like the multiplier and the unit
+  switcher, it is display-only: the saved recipe and its base formula are never
+  written to, so the TTB-approved amounts stay exactly as recorded.
+- The amount, the custom multiplier and the preset buttons all track one
+  number, so entering `1 gal` against a 2 L recipe shows `1.893×`, and pressing
+  `2×` fills the amount back in as `4 L`. Editing just the unit re-reads the
+  amount already typed — switching L to gal means "make a gallon", not a silent
+  rescale.
+- Targets can be given in any unit of the same family as the batch (mL, L, tsp
+  through gal for volume; g, kg, oz wt, lb for weight), reusing the same
+  conversion table as the unit switcher. Recipes whose batch is in something
+  unconvertible ("parts", "each") still scale against that same word, and a
+  mismatch is reported rather than producing a wrong number. Recipes with no
+  batch size disable the row with a note instead.
+
 ## v1.19.0 - 2026-08-02
 - **Weighed ingredients now count toward the modelled volume.** The volume model
   only understood volume units, so anything measured in g/kg/lb contributed

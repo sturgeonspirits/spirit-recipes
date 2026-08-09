@@ -1,4 +1,4 @@
-// v1.16.0 (2026-08-02): TTB/tested ABV reconciliation, dilute solver. Full history: CHANGELOG.md
+// v1.20.0 (2026-08-09): Make mode scales to a target batch size. Full history: CHANGELOG.md
 (async function () {
   const params = new URLSearchParams(location.search);
   const id = params.get("id");
@@ -697,6 +697,10 @@
     const multInput = document.getElementById("make-mult-input");
     const unitBtns = document.getElementById("make-unit-btns");
     const unitsHint = document.getElementById("make-units-hint");
+    const targetRow = document.getElementById("make-target-row");
+    const targetSize = document.getElementById("make-target-size");
+    const targetUnit = document.getElementById("make-target-unit");
+    const targetHint = document.getElementById("make-target-hint");
 
     let factor = 1;
     let unitMode = "as-written"; // display only; never written back to the recipe
@@ -795,30 +799,103 @@
       }
     }
 
-    function setFactor(f) {
+    // ---- scale to a specific finished amount ("make 1 gallon") ----
+    // Everything here is arithmetic on top of `factor`, exactly like the
+    // multiplier buttons: the saved recipe is never touched.
+    //
+    // An amount is reduced to a comparable base (mL or g) so a target can be
+    // given in any unit of the same family as the recipe's batch. Units the
+    // converter doesn't know ("parts", "each", blank) still work, but only
+    // against themselves — hence the synthetic "raw:" family.
+    function baseOf(amount, unit) {
+      const n = Number(amount);
+      if (!isFinite(n) || n <= 0) return null;
+      const u = window.UNITS && window.UNITS.lookup(unit);
+      if (u) return { value: n * u.factor, family: u.family };
+      return { value: n, family: "raw:" + String(unit || "").trim().toLowerCase() };
+    }
+    function recipeBase() { return baseOf(recipe.batch_size, recipe.batch_unit); }
+
+    // The unit the target is expressed in — blank means "same as the recipe".
+    function targetUnitName() {
+      return targetUnit.value.trim() || recipe.batch_unit || "";
+    }
+
+    // factor implied by a target amount, or null when the units can't be compared.
+    function factorForTarget(size, unit) {
+      const want = baseOf(size, unit);
+      const have = recipeBase();
+      if (!want || !have || want.family !== have.family) return null;
+      return want.value / have.value;
+    }
+
+    // Inverse: what the current factor works out to in the chosen target unit.
+    function targetValueFor(f, unit) {
+      const have = recipeBase();
+      if (!have) return null;
+      const u = window.UNITS && window.UNITS.lookup(unit);
+      const step = u
+        ? (u.family === have.family ? u.factor : null)
+        : (have.family === "raw:" + String(unit || "").trim().toLowerCase() ? 1 : null);
+      return step == null ? null : (have.value * f) / step;
+    }
+
+    function renderTargetHint() {
+      const have = recipeBase();
+      if (!have) {
+        targetHint.textContent = "Add a batch size to the recipe to make a set amount.";
+        return;
+      }
+      if (targetSize.value.trim() !== "" && targetValueFor(1, targetUnitName()) == null) {
+        targetHint.textContent =
+          `Can't measure ${targetUnitName() || "that"} against a batch in ${recipe.batch_unit || "no unit"}.`;
+        return;
+      }
+      const pct = Math.round(factor * 1000) / 1000;
+      targetHint.textContent =
+        `${pct}× the recipe — base formula unchanged (${fmtNum(recipe.batch_size)} ${recipe.batch_unit || ""}).`.replace(/\s+\)/, ")");
+    }
+
+    // source: "preset" | "mult" | "target" — whichever control the user touched
+    // keeps its own text, the others are re-synced from the new factor.
+    function setFactor(f, source) {
       factor = f > 0 ? f : 1;
       // reflect active state on preset buttons
       scalerBtns.querySelectorAll("button").forEach(b => {
         b.classList.toggle("active", Number(b.dataset.mult) === factor);
       });
+      if (source !== "mult") multInput.value = "";
+      if (source !== "target") {
+        const v = targetValueFor(factor, targetUnitName());
+        targetSize.value = v == null ? "" : fmtNum(v);
+      }
       renderHero();
       renderList();
+      renderTargetHint();
     }
 
     scalerBtns.addEventListener("click", (e) => {
       const btn = e.target.closest("button");
       if (!btn) return;
-      multInput.value = "";
-      setFactor(Number(btn.dataset.mult));
+      setFactor(Number(btn.dataset.mult), "preset");
     });
     multInput.addEventListener("input", () => {
       const v = Number(multInput.value);
-      if (v > 0) {
-        scalerBtns.querySelectorAll("button").forEach(b => b.classList.remove("active"));
-        factor = v;
-        renderHero();
-        renderList();
-      }
+      if (v > 0) setFactor(v, "mult");
+    });
+
+    targetSize.addEventListener("input", () => {
+      if (targetSize.value.trim() === "") { renderTargetHint(); return; }
+      const f = factorForTarget(targetSize.value, targetUnitName());
+      if (f && f > 0) setFactor(f, "target");
+      else renderTargetHint();
+    });
+    targetUnit.addEventListener("input", () => {
+      // Changing only the unit re-reads the amount already typed, so switching
+      // "L" to "gal" means "make a gallon" rather than silently rescaling.
+      const f = factorForTarget(targetSize.value, targetUnitName());
+      if (f && f > 0) setFactor(f, "target");
+      else renderTargetHint();
     });
 
     function setUnitMode(mode) {
@@ -859,8 +936,12 @@
       document.getElementById("make-title").textContent =
         document.getElementById("f-name").value.trim() || recipe.name || "Recipe";
       // Build fresh from whatever's currently on screen (edits/scaling included).
-      setFactor(1);
-      multInput.value = "";
+      const hasBatch = !!recipeBase();
+      targetUnit.value = recipe.batch_unit || "";
+      targetSize.disabled = !hasBatch;
+      targetUnit.disabled = !hasBatch;
+      targetRow.classList.toggle("disabled", !hasBatch);
+      setFactor(1, "open");
       // Unit preference is sticky between sessions; the scale multiplier isn't.
       let saved = "as-written";
       try { saved = localStorage.getItem("makeUnitMode") || "as-written"; } catch (_) {}

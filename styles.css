@@ -1,4 +1,4 @@
-/* v1.17.0 (2026-08-02): palette rebuilt on the brand guide. Full history: CHANGELOG.md
+/* v1.20.0 (2026-08-09): Make-mode target batch row. Full history: CHANGELOG.md
  *
  * Sturgeon Spirits — mobile-first design system
  *
@@ -736,6 +736,30 @@ body.has-action-bar main { padding-bottom: 96px; }
   font-size: 17px;
   font-weight: 700;
   text-align: center;
+}
+
+/* "Make this much" row: a target batch size that drives the same multiplier.
+   Wider than the × field because it holds a real measurement. */
+.make-target { margin-bottom: 6px; }
+.make-target #make-target-size {
+  max-width: 130px;
+  min-height: 50px;
+  font-size: 17px;
+  font-weight: 700;
+  text-align: center;
+}
+.make-target #make-target-unit {
+  max-width: 100px;
+  min-height: 50px;
+  font-size: 17px;
+  font-weight: 700;
+  text-align: center;
+}
+.make-target.disabled { opacity: 0.55; }
+.make-target-hint {
+  margin: 0 0 16px;
+  font-size: 13px;
+  color: var(--muted);
 }
 
 /* Progress row */
