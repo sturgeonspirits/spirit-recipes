@@ -1,4 +1,4 @@
-<!-- v1.10.0 (2026-07-07): click-through info tooltips on all mash fields; additions/tweaks editor rebuilt as labeled cards (mobile-friendly). v1.9.1: inline field definitions. v1.8.0: + suggested-cuts panel. v1.7.0: + Compare runs table, tweak highlighter & predicted ABV. v1.6.0: + additions/tweaks list. v1.5.0: + per-reading pH. v1.4.0: + fermentation gravity log & Tilt import. v1.3.0: mash detail + run log. Full history: CHANGELOG.md -->
+<!-- v1.21.0 (2026-08-13): fermentation split out of distillation. A Ferments card and its own editor now hold the gravity log, chart, Tilt link, tweaks and notes; the run editor keeps only still work and points at the ferment it distilled. v1.10.0: click-through info tooltips on all mash fields; additions/tweaks editor rebuilt as labeled cards (mobile-friendly). v1.9.1: inline field definitions. v1.8.0: + suggested-cuts panel. v1.7.0: + Compare runs table, tweak highlighter & predicted ABV. v1.6.0: + additions/tweaks list. v1.5.0: + per-reading pH. v1.4.0: + fermentation gravity log & Tilt import. v1.3.0: mash detail + run log. Full history: CHANGELOG.md -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -78,6 +78,30 @@
     </div>
   </details>
 
+  <!-- ===== Fermentation log (v1.21.0) =====
+       A ferment is its own record now. It used to live inside a distillation
+       run, which meant you had to open a still run to look at a wash. -->
+  <div class="card ferments-card">
+    <div class="runs-head">
+      <h2>Ferments <span id="ferments-count" class="muted"></span></h2>
+      <button class="secondary" id="add-ferment">+ Start a ferment</button>
+    </div>
+    <div id="ferments-body"></div>
+  </div>
+
+  <!-- ===== Compare ferments ===== -->
+  <details class="section" id="ferment-compare-section">
+    <summary>Compare ferments <span id="ferment-compare-count" class="muted"></span></summary>
+    <div class="section-body">
+      <div class="compare-controls">
+        <label for="ferment-compare-filter">Highlight a tweak</label>
+        <select id="ferment-compare-filter"><option value="">— show all ferments —</option></select>
+      </div>
+      <div id="ferments-compare" class="compare-scroll"></div>
+      <p class="hint">Every wash of this recipe side by side — OG→FG, attenuation, pH, days, and what you changed. Pick a tweak to highlight the ferments that used it (e.g. SuperFerm) and see which ones finished cleaner.</p>
+    </div>
+  </details>
+
   <!-- ===== Distillation run log ===== -->
   <div class="card runs-card">
     <div class="runs-head">
@@ -91,12 +115,8 @@
   <details class="section" id="compare-section">
     <summary>Compare runs <span id="compare-count" class="muted"></span></summary>
     <div class="section-body">
-      <div class="compare-controls">
-        <label for="compare-filter">Highlight a tweak</label>
-        <select id="compare-filter"><option value="">— show all runs —</option></select>
-      </div>
       <div id="runs-compare" class="compare-scroll"></div>
-      <p class="hint">Every run of this recipe side by side — pH, yield, recovery, and what you changed. Pick a tweak to highlight the runs that used it (e.g. SuperFerm) and compare how they turned out.</p>
+      <p class="hint">Every still run of this recipe side by side — which wash it came from, yield and recovery. Fermentation figures live in Compare ferments above.</p>
     </div>
   </details>
 
@@ -137,34 +157,16 @@
         <div class="field"><label>Volume unit</label><input type="text" id="r-volume-unit" placeholder="L, gal, mL"></div>
       </div>
 
-      <div class="run-subhead">Additions &amp; tweaks (this run)</div>
-      <div id="additions-body" class="additions-list"></div>
-      <button type="button" class="btn-add" id="add-addition">+ Add addition / tweak</button>
-      <p class="hint">Anything you changed from the base recipe this run — nutrients, yeast, acid, enzyme, a different sugar. Logged per run so you can compare batches (e.g. did SuperFerm ferment cleaner than the usual yeast food?).</p>
-
-      <div class="run-subhead">Fermentation (this batch)</div>
+      <div class="run-subhead">Wash distilled</div>
       <div class="grid-2">
-        <div class="field"><label>Original gravity</label><input type="number" step="any" inputmode="decimal" id="r-og"></div>
-        <div class="field"><label>Final gravity</label><input type="number" step="any" inputmode="decimal" id="r-fg"></div>
-        <div class="field"><label>Wash ABV %</label><input type="number" step="any" inputmode="decimal" id="r-wash-abv" placeholder="auto from OG–FG if blank"></div>
-        <div class="field"><label>Wash volume</label><input type="number" step="any" inputmode="decimal" id="r-wash-volume"></div>
+        <div class="field"><label>From ferment <button type="button" class="info-btn" aria-label="About From ferment" aria-expanded="false" data-tip="Which wash went into the still. One ferment can feed more than one run — a stripping run and a spirit run both come off the same wash.">?</button></label>
+          <select id="r-ferment"><option value="">— no ferment linked —</option></select>
+        </div>
+        <div class="field"><label>Wash volume charged <button type="button" class="info-btn" aria-label="About Wash volume charged" aria-expanded="false" data-tip="How much of the wash you actually put in the still this run — not necessarily the whole ferment.">?</button></label><input type="number" step="any" inputmode="decimal" id="r-wash-volume"></div>
       </div>
+      <div id="r-ferment-summary" class="ferment-summary" hidden></div>
       <div id="r-predicted-abv" class="run-predicted" hidden></div>
-
-      <div class="run-subhead">Fermentation gravity log</div>
-      <div id="readings-body" class="readings-list"></div>
-      <div class="reading-btns">
-        <button type="button" class="btn-add" id="add-reading">+ Add gravity reading</button>
-        <button type="button" class="secondary" id="import-tilt">⤒ Upload Tilt file</button>
-        <input type="file" id="tilt-file" accept=".xlsx,.xls,.csv" hidden>
-      </div>
-      <div class="tilt-gsheet">
-        <input type="text" id="r-tilt-url" placeholder="Tilt Google Sheet link (optional — saved with the run)">
-        <button type="button" class="secondary" id="import-gsheet">⟳ Sync from Google Sheet</button>
-      </div>
-      <div id="tilt-status" class="tilt-status" hidden></div>
-      <div id="gravity-chart" class="gravity-chart" hidden></div>
-      <p class="hint">First and last readings auto-fill OG and FG above. Add a pH per reading to track it across the ferment. Log by hand, upload a Tilt export (.xlsx, .xls or .csv), or paste your Tilt Google Sheet link and Sync to pull the whole curve — and re-sync later as it keeps logging.</p>
+      <p class="hint">OG, FG and wash ABV come from the linked ferment — edit them in the Ferments card, not here. Leave the link empty for a run off something you didn't log a ferment for.</p>
 
       <div class="run-subhead">Cuts</div>
       <div id="cut-suggest" class="cut-suggest"></div>
@@ -195,12 +197,81 @@
 
       <div class="run-subhead">Run notes</div>
       <div class="field">
-        <textarea id="r-notes" rows="6" placeholder="Observations for this run — cut timing, aromas, temps, problems, what to change next time…"></textarea>
+        <textarea id="r-notes" rows="6" placeholder="Observations at the still — cut timing, aromas, temps, problems, what to change next time…"></textarea>
       </div>
     </div>
     <footer class="run-modal-foot">
       <button class="secondary" id="run-cancel">Cancel</button>
       <button id="run-save">Save run</button>
+    </footer>
+  </div>
+</div>
+
+<!-- ===== Ferment editor modal (v1.21.0) =====
+     Everything about the wash itself: dates, gravities, the log, the Tilt link,
+     the tweaks and the notes. Nothing here is about the still. -->
+<div id="ferment-modal" class="run-modal" hidden>
+  <div class="run-modal-card">
+    <header class="run-modal-head">
+      <h2 id="ferment-modal-title">Start a ferment</h2>
+      <button id="ferment-close" class="ghost" aria-label="Close">✕</button>
+    </header>
+    <div class="run-modal-body">
+      <div class="grid-2">
+        <div class="field"><label>Batch name / number <button type="button" class="info-btn" aria-label="About Batch name" aria-expanded="false" data-tip="Whatever you call this wash on the tank — a batch number, a date, a nickname. Optional; the start date is used if you leave it blank.">?</button></label><input type="text" id="fm-name" placeholder="e.g. Agave #7"></div>
+        <div class="field"><label>Status <button type="button" class="info-btn" aria-label="About Status" aria-expanded="false" data-tip="Fermenting = still going. Finished = done but not yet distilled. Distilled = it's been run. Dumped = it didn't make it.">?</button></label>
+          <select id="fm-status">
+            <option value="fermenting">Fermenting</option>
+            <option value="finished">Finished</option>
+            <option value="distilled">Distilled</option>
+            <option value="dumped">Dumped</option>
+          </select>
+        </div>
+        <div class="field"><label>Start date <button type="button" class="info-btn" aria-label="About Start date" aria-expanded="false" data-tip="The day you pitched the yeast.">?</button></label><input type="text" id="fm-start-date" placeholder="MM/DD/YYYY"></div>
+        <div class="field"><label>End date <button type="button" class="info-btn" aria-label="About End date" aria-expanded="false" data-tip="The day fermentation finished. Leave blank while it's still working.">?</button></label><input type="text" id="fm-end-date" placeholder="MM/DD/YYYY"></div>
+        <div class="field"><label>Batch volume <button type="button" class="info-btn" aria-label="About Batch volume" aria-expanded="false" data-tip="How much wash this ferment actually made — may differ from the recipe's nominal batch size.">?</button></label><input type="number" step="any" inputmode="decimal" id="fm-batch-volume"></div>
+        <div class="field"><label>Volume unit</label><input type="text" id="fm-volume-unit" placeholder="L, gal, mL"></div>
+      </div>
+
+      <div class="run-subhead">Gravities</div>
+      <div class="grid-2">
+        <div class="field"><label>Original gravity <button type="button" class="info-btn" aria-label="About Original gravity" aria-expanded="false" data-tip="Gravity before fermentation. Auto-filled from the first reading in the log below if you leave it blank.">?</button></label><input type="number" step="any" inputmode="decimal" id="fm-og" placeholder="from the log if blank"></div>
+        <div class="field"><label>Final gravity <button type="button" class="info-btn" aria-label="About Final gravity" aria-expanded="false" data-tip="Gravity when fermentation stopped. Auto-filled from the last reading in the log below if you leave it blank.">?</button></label><input type="number" step="any" inputmode="decimal" id="fm-fg" placeholder="from the log if blank"></div>
+        <div class="field"><label>Wash ABV % <button type="button" class="info-btn" aria-label="About Wash ABV" aria-expanded="false" data-tip="Measured strength of the finished wash. Leave blank and it's calculated from OG–FG.">?</button></label><input type="number" step="any" inputmode="decimal" id="fm-wash-abv" placeholder="auto from OG–FG if blank"></div>
+        <div class="field"><label>Ferment temp (°F)</label><input type="number" step="any" inputmode="decimal" id="fm-ferment-temp"></div>
+        <div class="field"><label>Yeast strain</label><input type="text" id="fm-yeast-strain" placeholder="defaults to the recipe's"></div>
+        <div class="field"><label>Pitch rate</label><input type="text" id="fm-pitch-rate" placeholder="e.g. 1 g/L"></div>
+      </div>
+      <div class="run-calc" id="ferment-calc"></div>
+
+      <div class="run-subhead">Additions &amp; tweaks (this ferment)</div>
+      <div id="additions-body" class="additions-list"></div>
+      <button type="button" class="btn-add" id="add-addition">+ Add addition / tweak</button>
+      <p class="hint">Anything you changed from the base recipe for this wash — nutrients, yeast, acid, enzyme, a different sugar. Logged per ferment so you can compare batches (e.g. did SuperFerm ferment cleaner than the usual yeast food?).</p>
+
+      <div class="run-subhead">Fermentation gravity log</div>
+      <div id="readings-body" class="readings-list"></div>
+      <div class="reading-btns">
+        <button type="button" class="btn-add" id="add-reading">+ Add gravity reading</button>
+        <button type="button" class="secondary" id="import-tilt">⤒ Upload Tilt file</button>
+        <input type="file" id="tilt-file" accept=".xlsx,.xls,.csv" hidden>
+      </div>
+      <div class="tilt-gsheet">
+        <input type="text" id="fm-tilt-url" placeholder="Tilt Google Sheet link (optional — saved with the ferment)">
+        <button type="button" class="secondary" id="import-gsheet">⟳ Sync from Google Sheet</button>
+      </div>
+      <div id="tilt-status" class="tilt-status" hidden></div>
+      <div id="gravity-chart" class="gravity-chart" hidden></div>
+      <p class="hint">First and last readings fill in OG and FG above when you've left them blank. Add a pH per reading to track it across the ferment. Log by hand, upload a Tilt export (.xlsx, .xls or .csv), or paste your Tilt Google Sheet link and Sync to pull the whole curve — and re-sync later as it keeps logging.</p>
+
+      <div class="run-subhead">Ferment notes</div>
+      <div class="field">
+        <textarea id="fm-notes" rows="6" placeholder="How this wash behaved — lag time, krausen, smell, temperature swings, stalls, what to change next time…"></textarea>
+      </div>
+    </div>
+    <footer class="run-modal-foot">
+      <button class="secondary" id="ferment-cancel">Cancel</button>
+      <button id="ferment-save">Save ferment</button>
     </footer>
   </div>
 </div>

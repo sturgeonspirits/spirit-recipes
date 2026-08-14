@@ -3,6 +3,51 @@
 All notable changes to this project are logged here. Each code file also
 carries a one-line version header at the top pointing back to this file.
 
+## v1.21.0 - 2026-08-13
+- **Fermentation is now separate from distillation.** A ferment had no record of
+  its own — the gravity log, OG/FG, Tilt link and the additions/tweaks list were
+  all columns on a `DistillationRun`. The only way to look at a wash was to open
+  a still run, which put a nutrient addition and a barrel entry proof in the same
+  form. They are two different jobs and are now two different records.
+- **New `Ferments` tab**, one row per wash: batch name/number, status
+  (fermenting / finished / distilled / dumped), start and end dates, batch
+  volume, OG, FG, measured wash ABV, yeast strain, pitch rate, ferment temp, the
+  Tilt link and notes. `GravityReadings` and `RunAdditions` are keyed by
+  `ferment_id` instead of `run_id`, and `DistillationRuns` gains a `ferment_id`.
+- **One wash can feed several runs.** A stripping run and a spirit run off the
+  same ferment both point at it — previously impossible, because the wash *was*
+  the run. Deleting a run no longer deletes the fermentation record with it.
+- **The mash page gets a Ferments card** above Distillation runs, showing each
+  wash with its status chip, OG → FG, wash ABV, attenuation, batch volume, days,
+  the curve, its tweaks and which runs came off it. Its editor holds the gravity
+  log, chart, Tilt upload and Sync, tweaks and ferment notes.
+- **The run editor is still work only** — date, still, operator, wash volume
+  charged, cuts, barrel, run notes — plus a **From ferment** picker. It shows the
+  linked ferment's figures read-only rather than asking you to retype them, and
+  defaults to the most recent wash that hasn't been distilled yet. Saving a run
+  marks that ferment "distilled".
+- A run keeps its `ferment_og` / `ferment_fg` / `wash_abv` / `wash_volume`
+  columns as a denormalized copy of the linked ferment, written on save. The
+  ferment is the source of truth; the copy is what `heartsRecovery`,
+  `totalRecovery`, `washABV` and `suggestCuts` read — so none of that math
+  changed, and the yield and recovery figures on old runs are unaffected.
+- **Compare is now two tables.** *Compare ferments* — OG → FG, wash ABV,
+  attenuation, pH, days, batch and tweaks, with the tweak highlighter, so
+  "did SuperFerm ferment cleaner?" is answered where fermentation lives.
+  *Compare runs* — date, still, which wash, wash ABV, hearts, proof gallons and
+  both recovery figures.
+- **Migration:** `SETUP_reportFermentMigration()` for a dry run, then
+  `SETUP_migrateRunsToFerments()`. It adds the `ferment_id` columns to the
+  existing tabs, creates one ferment per run that carries any fermentation data,
+  repoints that run's readings and tweaks, and links the run. Idempotent, and it
+  never deletes a row. `SETUP_auditFerments()` checks the result. Until it runs,
+  the backend synthesizes a read-only stand-in ferment for each un-migrated run,
+  so nothing disappears from the app in the window between deploying and
+  migrating.
+- New `test/smoke_ferment_split.js` drives `mash.html` in a real browser against
+  a stubbed backend — 43 checks covering the split, what gets posted on save, the
+  OG/FG copy onto the run, and the un-migrated fallback path.
+
 ## v1.20.0 - 2026-08-09
 - **Make mode can scale to a specific finished amount.** The ½×/1×/2×/3× row
   only answered "how many times the recipe" — but the question at the bench is

@@ -1,4 +1,7 @@
 // Thin wrapper around the Apps Script API (Google Sheet backend).
+// v1.21.0 (2026-08-13): ferments are their own records — addFerment/
+// updateFerment/deleteFerment, and replaceReadings/replaceAdditions now take a
+// ferment_id where they used to take a run_id.
 // v1.15.0 (2026-08-02): batched updateRecipeFields/updateMashFields (with a
 // fallback to the per-field path if the backend hasn't been redeployed), and
 // getAllRecipes uses the lightweight ?list=1 read.
@@ -151,11 +154,23 @@ window.API = (function () {
   async function deleteRun(runId, mashId) {
     return post({ action: "delete_run", run_id: runId, mash_id: mashId });
   }
-  async function replaceReadings(runId, mashId, readings) {
-    return post({ action: "replace_readings", run_id: runId, mash_id: mashId, readings });
+  // ----- Ferments (v1.21.0) -----
+  async function addFerment(ferment) {
+    return post({ action: "add_ferment", ferment });
   }
-  async function replaceAdditions(runId, mashId, additions) {
-    return post({ action: "replace_additions", run_id: runId, mash_id: mashId, additions });
+  async function updateFerment(ferment) {
+    return post({ action: "update_ferment", ferment });
+  }
+  async function deleteFerment(fermentId, mashId) {
+    return post({ action: "delete_ferment", ferment_id: fermentId, mash_id: mashId });
+  }
+  // v1.21.0: the gravity log and the tweak list hang off a ferment now, not a
+  // run. The run_id argument is gone — pass the ferment's id.
+  async function replaceReadings(fermentId, mashId, readings) {
+    return post({ action: "replace_readings", ferment_id: fermentId, mash_id: mashId, readings });
+  }
+  async function replaceAdditions(fermentId, mashId, additions) {
+    return post({ action: "replace_additions", ferment_id: fermentId, mash_id: mashId, additions });
   }
   async function getTiltSheet(urlOrId) {
     return getJSON(url + "?tilt=" + encodeURIComponent(urlOrId));
@@ -165,6 +180,7 @@ window.API = (function () {
     demoMode, login, logout,
     getAllRecipes, getRecipe, updateRecipeField, updateRecipeFields, replaceIngredients, addRecipe, deleteRecipe,
     getAllMashes, getMash, addMash, updateMashField, updateMashFields, replaceMashComponents, deleteMash,
-    addRun, updateRun, deleteRun, replaceReadings, replaceAdditions, getTiltSheet
+    addRun, updateRun, deleteRun, replaceReadings, replaceAdditions, getTiltSheet,
+    addFerment, updateFerment, deleteFerment
   };
 })();

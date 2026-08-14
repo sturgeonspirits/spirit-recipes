@@ -85,6 +85,28 @@
  * a powder rather than a liquid, and concentrates read as liquids rather than
  * strained fruit, and instant coffee/tea as dissolving powders rather than
  * strained grounds. Mirrors js/abv.js. See CHANGELOG.md.
+ *
+ * v1.21.0 (2026-08-13): fermentation is its own record. A ferment used to have
+ * no existence of its own — the gravity log, OG/FG, Tilt link and the
+ * additions/tweaks list were all fields on a DistillationRun, so the only way
+ * to look at a wash was to open a still run. A new Ferments tab now holds one
+ * row per wash; GravityReadings and RunAdditions are keyed by `ferment_id`
+ * instead of `run_id`; and DistillationRuns gains a `ferment_id` pointing at
+ * the wash that was distilled — so one ferment can feed a stripping run and a
+ * spirit run.
+ *
+ * MIGRATION — run this once, from the Apps Script editor, after deploying:
+ *   1. SETUP_reportFermentMigration()   // dry run: logs exactly what will move
+ *   2. SETUP_migrateRunsToFerments()    // does it
+ * The migration adds the new columns to the existing tabs, creates one ferment
+ * per run that carries any fermentation data, repoints that run's readings and
+ * additions at it, and stamps ferment_id on the run. It is idempotent — running
+ * it twice is harmless — and it never deletes a row.
+ *
+ * A run keeps its ferment_og / ferment_fg / wash_abv / wash_volume columns as a
+ * denormalized copy of the linked ferment, written on save. The ferment is the
+ * source of truth; the copy is what the recovery and cut math reads, so those
+ * calculations were left untouched. See CHANGELOG.md.
  */
 
 // The one and only database for this webapp. Bind explicitly by ID so the
@@ -112,6 +134,7 @@ const MASH_COMPONENTS_SHEET = "MashComponents";
 const DISTILLATION_RUNS_SHEET = "DistillationRuns";
 const GRAVITY_READINGS_SHEET = "GravityReadings"; // v1.4.0
 const RUN_ADDITIONS_SHEET = "RunAdditions";       // v1.6.0
+const FERMENTS_SHEET = "Ferments";                // v1.21.0
 
 // Header rows used when a distilling tab has to be auto-created. Keep in sync
 // with data/*_seed.csv. Columns are resolved by name everywhere else, so the
@@ -119,9 +142,13 @@ const RUN_ADDITIONS_SHEET = "RunAdditions";       // v1.6.0
 const DISTILL_HEADERS = {};
 DISTILL_HEADERS[MASH_RECIPES_SHEET] = ["mash_id","name","spirit_type","linked_recipe_id","batch_volume","volume_unit","mash_water_volume","water_unit","strike_temp","mash_ph","target_og","target_fg","yeast_strain","pitch_rate","ferment_temp","ferment_days","target_yield","yield_unit","notes","created_date"];
 DISTILL_HEADERS[MASH_COMPONENTS_SHEET] = ["mash_id","component","category","amount","unit","timing","notes"];
-DISTILL_HEADERS[DISTILLATION_RUNS_SHEET] = ["run_id","mash_id","run_date","still_used","operator","volume_unit","ferment_og","ferment_fg","wash_abv","wash_volume","foreshots_volume","heads_volume","heads_abv","hearts_volume","hearts_abv","tails_volume","tails_abv","cut_temp_heads","cut_temp_tails","run_duration","barrel_id","barrel_fill_date","entry_proof","char_level","tilt_sheet_url","notes"];
-DISTILL_HEADERS[GRAVITY_READINGS_SHEET] = ["reading_id","run_id","mash_id","reading_date","reading_time","gravity","temp","ph","notes"];
-DISTILL_HEADERS[RUN_ADDITIONS_SHEET] = ["addition_id","run_id","mash_id","item","category","amount","unit","timing","notes"];
+DISTILL_HEADERS[DISTILLATION_RUNS_SHEET] = ["run_id","mash_id","ferment_id","run_date","still_used","operator","volume_unit","ferment_og","ferment_fg","wash_abv","wash_volume","foreshots_volume","heads_volume","heads_abv","hearts_volume","hearts_abv","tails_volume","tails_abv","cut_temp_heads","cut_temp_tails","run_duration","barrel_id","barrel_fill_date","entry_proof","char_level","tilt_sheet_url","notes"];
+DISTILL_HEADERS[GRAVITY_READINGS_SHEET] = ["reading_id","ferment_id","run_id","mash_id","reading_date","reading_time","gravity","temp","ph","notes"];
+DISTILL_HEADERS[RUN_ADDITIONS_SHEET] = ["addition_id","ferment_id","run_id","mash_id","item","category","amount","unit","timing","notes"];
+// v1.21.0 — one row per wash. `og`/`fg`/`wash_abv` are the ferment's own
+// figures; a run copies them into its ferment_og/ferment_fg/wash_abv columns so
+// the recovery math keeps reading one shape.
+DISTILL_HEADERS[FERMENTS_SHEET] = ["ferment_id","mash_id","name","start_date","end_date","status","batch_volume","volume_unit","og","fg","wash_abv","yeast_strain","pitch_rate","ferment_temp","tilt_sheet_url","notes"];
 DISTILL_HEADERS[USERS_SHEET] = ["username","salt","password_hash","display_name","active"];
 
 // Handles are memoized for the life of one execution (v1.15.0). Every
@@ -156,6 +183,20 @@ function getSheet_(name) {
   }
   if (sheet) SHEET_CACHE_[name] = sheet;
   return sheet;
+}
+
+// Append any missing header cells to an existing tab (v1.21.0). DISTILL_HEADERS
+// only applies to a tab being auto-created; a tab that already exists keeps the
+// header row it was made with. The migration uses this to add `ferment_id` to
+// GravityReadings, RunAdditions and DistillationRuns without disturbing the
+// columns already there — everything else resolves columns by name, so where
+// the new one lands doesn't matter.
+function ensureColumns_(sheet, names) {
+  const headers = sheet.getDataRange().getValues()[0] || [];
+  const missing = (names || []).filter(function (n) { return headers.indexOf(n) === -1; });
+  if (!missing.length) return { added: [] };
+  sheet.getRange(1, headers.length + 1, 1, missing.length).setValues([missing]);
+  return { added: missing };
 }
 
 // Generic: find a row by an id column's value. Mirrors findRowByRecipeId_ but
@@ -228,10 +269,16 @@ function extractGid_(input) {
   return m ? m[1] : null;
 }
 
-// Gravity readings for one run, sorted chronologically (date then time).
-function nestReadings_(allReadings, runId) {
+// Gravity readings for one ferment, sorted chronologically (date then time).
+// v1.21.0: keyed on ferment_id. `legacyRunId` lets a not-yet-migrated run still
+// find its own readings by run_id, so redeploying before running the migration
+// shows the log rather than an empty chart.
+function nestReadings_(allReadings, fermentId, legacyRunId) {
   return allReadings
-    .filter(r => String(r.run_id) === String(runId))
+    .filter(function (r) {
+      if (fermentId && String(r.ferment_id) === String(fermentId)) return true;
+      return !!legacyRunId && !r.ferment_id && String(r.run_id) === String(legacyRunId);
+    })
     .sort(function (a, b) {
       const ak = String(a.reading_date) + " " + String(a.reading_time || "");
       const bk = String(b.reading_date) + " " + String(b.reading_time || "");
@@ -239,9 +286,45 @@ function nestReadings_(allReadings, runId) {
     });
 }
 
-// Run additions/tweaks for one run, in sheet order (the order they were added).
-function nestAdditions_(allAdditions, runId) {
-  return allAdditions.filter(a => String(a.run_id) === String(runId));
+// Fermentation additions/tweaks for one ferment, in sheet order (the order they
+// were added). Same legacy fallback as nestReadings_.
+function nestAdditions_(allAdditions, fermentId, legacyRunId) {
+  return allAdditions.filter(function (a) {
+    if (fermentId && String(a.ferment_id) === String(fermentId)) return true;
+    return !!legacyRunId && !a.ferment_id && String(a.run_id) === String(legacyRunId);
+  });
+}
+
+// Build the ferment list for one mash (v1.21.0). Real Ferments rows first, then
+// — for any run that still has no ferment_id — a read-only stand-in built from
+// that run's own columns, so an un-migrated sheet still renders its washes. The
+// stand-ins are marked `synthetic` and are never written back.
+function fermentsForMash_(allFerments, runs, mashId) {
+  const out = allFerments.filter(function (f) { return String(f.mash_id) === String(mashId); });
+  (runs || []).forEach(function (r) {
+    if (r.ferment_id) return;
+    const hasData = ["ferment_og", "ferment_fg", "wash_abv", "wash_volume", "tilt_sheet_url"]
+      .some(function (k) { return r[k] !== "" && r[k] !== null && r[k] !== undefined; });
+    if (!hasData) return;
+    out.push({
+      ferment_id: "", mash_id: mashId, name: "", synthetic: true, legacy_run_id: r.run_id,
+      start_date: r.run_date, end_date: "", status: "distilled",
+      batch_volume: r.wash_volume, volume_unit: r.volume_unit,
+      og: r.ferment_og, fg: r.ferment_fg, wash_abv: r.wash_abv,
+      yeast_strain: "", pitch_rate: "", ferment_temp: "",
+      tilt_sheet_url: r.tilt_sheet_url, notes: ""
+    });
+  });
+  return out;
+}
+
+// Attach readings + additions to every ferment in a list.
+function nestFermentChildren_(ferments, readings, additions) {
+  ferments.forEach(function (f) {
+    f.readings = nestReadings_(readings, f.ferment_id, f.legacy_run_id);
+    f.additions = nestAdditions_(additions, f.ferment_id, f.legacy_run_id);
+  });
+  return ferments;
 }
 
 // Pad/trim a row to the sheet's header width so setValues never rejects it.
@@ -419,14 +502,16 @@ function doGet(e) {
       const runs = sheetToObjects_(getSheet_(DISTILLATION_RUNS_SHEET));
       const readings = sheetToObjects_(getSheet_(GRAVITY_READINGS_SHEET));
       const additions = sheetToObjects_(getSheet_(RUN_ADDITIONS_SHEET));
+      const ferments = sheetToObjects_(getSheet_(FERMENTS_SHEET));
       mash.components = components.filter(c => String(c.mash_id) === String(params.mash));
       mash.runs = runs
         .filter(r => String(r.mash_id) === String(params.mash))
         .sort((a, b) => String(b.run_date).localeCompare(String(a.run_date)));
-      mash.runs.forEach(r => {
-        r.readings = nestReadings_(readings, r.run_id);
-        r.additions = nestAdditions_(additions, r.run_id);
-      });
+      // v1.21.0: the gravity log and the tweak list hang off the ferment now,
+      // not the run. Runs carry only their ferment_id.
+      mash.ferments = nestFermentChildren_(
+        fermentsForMash_(ferments, mash.runs, params.mash), readings, additions
+      ).sort((a, b) => String(b.start_date).localeCompare(String(a.start_date)));
       return jsonOut_(mash);
     }
     if (params.mashes) {
@@ -435,15 +520,15 @@ function doGet(e) {
       const runs = sheetToObjects_(getSheet_(DISTILLATION_RUNS_SHEET));
       const readings = sheetToObjects_(getSheet_(GRAVITY_READINGS_SHEET));
       const additions = sheetToObjects_(getSheet_(RUN_ADDITIONS_SHEET));
+      const allFerments = sheetToObjects_(getSheet_(FERMENTS_SHEET));
       const byId = {};
-      mashes.forEach(m => { byId[m.mash_id] = m; m.components = []; m.runs = []; });
+      mashes.forEach(m => { byId[m.mash_id] = m; m.components = []; m.runs = []; m.ferments = []; });
       components.forEach(c => { if (byId[c.mash_id]) byId[c.mash_id].components.push(c); });
-      runs.forEach(r => {
-        if (byId[r.mash_id]) {
-          r.readings = nestReadings_(readings, r.run_id);
-          r.additions = nestAdditions_(additions, r.run_id);
-          byId[r.mash_id].runs.push(r);
-        }
+      runs.forEach(r => { if (byId[r.mash_id]) byId[r.mash_id].runs.push(r); });
+      Object.keys(byId).forEach(function (mid) {
+        byId[mid].ferments = nestFermentChildren_(
+          fermentsForMash_(allFerments, byId[mid].runs, mid), readings, additions
+        );
       });
       return jsonOut_({ mashes: Object.values(byId) });
     }
@@ -662,6 +747,7 @@ function doPost(e) {
       found.headers.forEach((h, idx) => { old[h] = found.row[idx]; });
       deleteRowsById_(getSheet_(MASH_COMPONENTS_SHEET), body.mash_id, "mash_id");
       deleteRowsById_(getSheet_(DISTILLATION_RUNS_SHEET), body.mash_id, "mash_id");
+      deleteRowsById_(getSheet_(FERMENTS_SHEET), body.mash_id, "mash_id");
       deleteRowsById_(getSheet_(GRAVITY_READINGS_SHEET), body.mash_id, "mash_id");
       deleteRowsById_(getSheet_(RUN_ADDITIONS_SHEET), body.mash_id, "mash_id");
       sheet.deleteRow(found.rowIndex);
@@ -688,41 +774,85 @@ function doPost(e) {
     }
 
     if (action === "delete_run") {
+      // v1.21.0: readings and additions belong to the ferment, so deleting a
+      // run no longer takes the fermentation record down with it. The wash
+      // survives its still run.
       const sheet = getSheet_(DISTILLATION_RUNS_SHEET);
       deleteRowsById_(sheet, body.run_id, "run_id");
-      deleteRowsById_(getSheet_(GRAVITY_READINGS_SHEET), body.run_id, "run_id");
-      deleteRowsById_(getSheet_(RUN_ADDITIONS_SHEET), body.run_id, "run_id");
       logChange_(body.mash_id || "", "*delete run* " + body.run_id, "", "", "delete_run");
       return jsonOut_({ ok: true });
     }
 
+    // ---------- Ferments (v1.21.0) ----------
+
+    if (action === "add_ferment") {
+      const sheet = getSheet_(FERMENTS_SHEET);
+      appendObject_(sheet, body.ferment);
+      logChange_(body.ferment.mash_id, "*new ferment* " + body.ferment.ferment_id, "", JSON.stringify(body.ferment), "add_ferment");
+      return jsonOut_({ ok: true });
+    }
+
+    if (action === "update_ferment") {
+      const sheet = getSheet_(FERMENTS_SHEET);
+      const found = findRowById_(sheet, body.ferment.ferment_id, "ferment_id");
+      if (!found) return jsonOut_({ error: "ferment not found" });
+      const newRow = found.headers.map(h => body.ferment[h] !== undefined && body.ferment[h] !== null ? body.ferment[h] : "");
+      sheet.getRange(found.rowIndex, 1, 1, newRow.length).setValues([newRow]);
+      logChange_(body.ferment.mash_id, "*update ferment* " + body.ferment.ferment_id, "", JSON.stringify(body.ferment), "update_ferment");
+      return jsonOut_({ ok: true });
+    }
+
+    if (action === "delete_ferment") {
+      // Takes its own readings and tweaks with it, and clears the pointer on
+      // any run that was distilled from it (the run itself is left alone).
+      deleteRowsById_(getSheet_(FERMENTS_SHEET), body.ferment_id, "ferment_id");
+      deleteRowsById_(getSheet_(GRAVITY_READINGS_SHEET), body.ferment_id, "ferment_id");
+      deleteRowsById_(getSheet_(RUN_ADDITIONS_SHEET), body.ferment_id, "ferment_id");
+      const runsSheet = getSheet_(DISTILLATION_RUNS_SHEET);
+      const rv = runsSheet.getDataRange().getValues();
+      const fCol = (rv[0] || []).indexOf("ferment_id");
+      if (fCol !== -1) {
+        for (let i = 1; i < rv.length; i++) {
+          if (String(rv[i][fCol]) === String(body.ferment_id)) runsSheet.getRange(i + 1, fCol + 1).setValue("");
+        }
+      }
+      logChange_(body.mash_id || "", "*delete ferment* " + body.ferment_id, "", "", "delete_ferment");
+      return jsonOut_({ ok: true });
+    }
+
     if (action === "replace_readings") {
-      // Wholesale replace a run's fermentation gravity log (like ingredients).
+      // Wholesale replace a ferment's gravity log (like ingredients). v1.21.0:
+      // keyed on ferment_id; a run_id-only payload from an older client still
+      // works and is written against that key.
       const sheet = getSheet_(GRAVITY_READINGS_SHEET);
-      replaceObjectsById_(sheet, body.run_id, "run_id", (body.readings || []).map(function (rd, i) {
+      const key = body.ferment_id ? "ferment_id" : "run_id";
+      const keyVal = body.ferment_id || body.run_id;
+      replaceObjectsById_(sheet, keyVal, key, (body.readings || []).map(function (rd, i) {
         return {
-          reading_id: rd.reading_id || (body.run_id + "_r" + (i + 1)),
-          run_id: body.run_id, mash_id: body.mash_id,
+          reading_id: rd.reading_id || (keyVal + "_r" + (i + 1)),
+          ferment_id: body.ferment_id || "", run_id: body.run_id || "", mash_id: body.mash_id,
           reading_date: rd.reading_date, reading_time: rd.reading_time,
           gravity: rd.gravity, temp: rd.temp, ph: rd.ph, notes: rd.notes
         };
       }));
-      logChange_(body.mash_id || "", "readings " + body.run_id, "", JSON.stringify(body.readings), "replace_readings");
+      logChange_(body.mash_id || "", "readings " + keyVal, "", JSON.stringify(body.readings), "replace_readings");
       return jsonOut_({ ok: true });
     }
 
     if (action === "replace_additions") {
-      // Wholesale replace a run's additions/tweaks list (like readings).
+      // Wholesale replace a ferment's additions/tweaks list (like readings).
       const sheet = getSheet_(RUN_ADDITIONS_SHEET);
-      replaceObjectsById_(sheet, body.run_id, "run_id", (body.additions || []).map(function (ad, i) {
+      const key = body.ferment_id ? "ferment_id" : "run_id";
+      const keyVal = body.ferment_id || body.run_id;
+      replaceObjectsById_(sheet, keyVal, key, (body.additions || []).map(function (ad, i) {
         return {
-          addition_id: ad.addition_id || (body.run_id + "_a" + (i + 1)),
-          run_id: body.run_id, mash_id: body.mash_id,
+          addition_id: ad.addition_id || (keyVal + "_a" + (i + 1)),
+          ferment_id: body.ferment_id || "", run_id: body.run_id || "", mash_id: body.mash_id,
           item: ad.item, category: ad.category, amount: ad.amount,
           unit: ad.unit, timing: ad.timing, notes: ad.notes
         };
       }));
-      logChange_(body.mash_id || "", "additions " + body.run_id, "", JSON.stringify(body.additions), "replace_additions");
+      logChange_(body.mash_id || "", "additions " + keyVal, "", JSON.stringify(body.additions), "replace_additions");
       return jsonOut_({ ok: true });
     }
 
@@ -1083,4 +1213,233 @@ function SETUP_clearAllSessions() {
   const all = props.getProperties();
   Object.keys(all).forEach(function (k) { if (k.indexOf("sess_") === 0) props.deleteProperty(k); });
   return "cleared";
+}
+
+// ============================================================================
+// v1.21.0 migration — give every wash its own record
+// ============================================================================
+//
+// Before v1.21.0 a ferment was just a handful of columns on a DistillationRun:
+// ferment_og, ferment_fg, wash_abv, wash_volume, tilt_sheet_url, plus the
+// GravityReadings and RunAdditions rows keyed by that run_id. This moves each
+// of those into a Ferments row of its own and repoints the children at it.
+//
+// Run SETUP_reportFermentMigration() first — it writes nothing and logs exactly
+// what would move. Then SETUP_migrateRunsToFerments() to do it.
+//
+// Idempotent: a run that already carries a ferment_id is skipped, so running it
+// again after logging more data is safe. Nothing is ever deleted — the run
+// keeps its own ferment_og/ferment_fg/wash_abv/wash_volume copies, which is
+// what the recovery and cut math still reads.
+
+function SETUP_reportFermentMigration() { return migrateRunsToFerments_(true); }
+function SETUP_migrateRunsToFerments() { return migrateRunsToFerments_(false); }
+
+// Deterministic ferment id for a run, so re-running the migration can't create
+// a second ferment for the same wash.
+function fermentIdForRun_(runId) {
+  const s = String(runId || "").trim();
+  if (!s) return "";
+  return /^run_/.test(s) ? s.replace(/^run_/, "ferm_") : "ferm_" + s;
+}
+
+function migrateRunsToFerments_(dryRun) {
+  const out = [];
+  function say(line) { out.push(line); Logger.log(line); }
+  say(dryRun ? "=== DRY RUN — nothing will be written ===" : "=== MIGRATING ===");
+
+  const runsSheet = getSheet_(DISTILLATION_RUNS_SHEET);
+  const readsSheet = getSheet_(GRAVITY_READINGS_SHEET);
+  const addsSheet = getSheet_(RUN_ADDITIONS_SHEET);
+  const fermSheet = getSheet_(FERMENTS_SHEET);   // auto-created with headers
+
+  if (!dryRun) {
+    const a = ensureColumns_(runsSheet, ["ferment_id"]);
+    const b = ensureColumns_(readsSheet, ["ferment_id"]);
+    const c = ensureColumns_(addsSheet, ["ferment_id"]);
+    say("columns added — runs: [" + a.added + "] readings: [" + b.added + "] additions: [" + c.added + "]");
+  } else {
+    ["DistillationRuns", "GravityReadings", "RunAdditions"].forEach(function (n, i) {
+      const sh = [runsSheet, readsSheet, addsSheet][i];
+      const hdr = sh.getDataRange().getValues()[0] || [];
+      if (hdr.indexOf("ferment_id") === -1) say("would add a ferment_id column to " + n);
+    });
+  }
+
+  const runVals = runsSheet.getDataRange().getValues();
+  const runHdr = runVals[0] || [];
+  const rIdx = {};
+  runHdr.forEach(function (h, i) { rIdx[h] = i; });
+  if (rIdx.run_id === undefined) { say("ABORT: DistillationRuns has no run_id column."); return out.join("\n"); }
+
+  const existingFerments = sheetToObjects_(fermSheet);
+  const haveFermentId = {};
+  existingFerments.forEach(function (f) { haveFermentId[String(f.ferment_id)] = true; });
+
+  // Which run_ids actually have children to move?
+  const readVals = readsSheet.getDataRange().getValues();
+  const readHdr = readVals[0] || [];
+  const addVals = addsSheet.getDataRange().getValues();
+  const addHdr = addVals[0] || [];
+  function countByRun(vals, hdr) {
+    const c = {}, col = hdr.indexOf("run_id"), fcol = hdr.indexOf("ferment_id");
+    if (col === -1) return c;
+    for (let i = 1; i < vals.length; i++) {
+      if (fcol !== -1 && String(vals[i][fcol] || "").trim() !== "") continue; // already moved
+      const k = String(vals[i][col] || "");
+      if (k) c[k] = (c[k] || 0) + 1;
+    }
+    return c;
+  }
+  const readCount = countByRun(readVals, readHdr);
+  const addCount = countByRun(addVals, addHdr);
+
+  // Earliest/latest reading date per run, for the ferment's start/end dates.
+  const dateSpan = {};
+  (function () {
+    const rc = readHdr.indexOf("run_id"), dc = readHdr.indexOf("reading_date");
+    if (rc === -1 || dc === -1) return;
+    for (let i = 1; i < readVals.length; i++) {
+      const k = String(readVals[i][rc] || ""); if (!k) continue;
+      const d = readVals[i][dc]; if (d === "" || d === null) continue;
+      const t = (d instanceof Date) ? d.getTime() : Date.parse(String(d));
+      if (isNaN(t)) continue;
+      if (!dateSpan[k]) dateSpan[k] = { min: t, max: t };
+      else { dateSpan[k].min = Math.min(dateSpan[k].min, t); dateSpan[k].max = Math.max(dateSpan[k].max, t); }
+    }
+  })();
+  function fmtDate_(t) {
+    const d = new Date(t), p = function (n) { return String(n).padStart(2, "0"); };
+    return p(d.getMonth() + 1) + "/" + p(d.getDate()) + "/" + d.getFullYear();
+  }
+
+  const FERM_HDR = fermSheet.getDataRange().getValues()[0] || DISTILL_HEADERS[FERMENTS_SHEET];
+  const newFermentRows = [];
+  const runIdToFerment = {};   // run_id -> ferment_id, for repointing children
+  let skippedNoData = 0, skippedAlready = 0;
+
+  for (let i = 1; i < runVals.length; i++) {
+    const row = runVals[i];
+    const runId = String(row[rIdx.run_id] || "");
+    if (!runId) continue;
+    if (rIdx.ferment_id !== undefined && String(row[rIdx.ferment_id] || "").trim() !== "") { skippedAlready++; continue; }
+
+    const get = function (k) { return rIdx[k] === undefined ? "" : row[rIdx[k]]; };
+    const hasFields = ["ferment_og", "ferment_fg", "wash_abv", "wash_volume", "tilt_sheet_url"]
+      .some(function (k) { const v = get(k); return v !== "" && v !== null && v !== undefined; });
+    const nReadings = readCount[runId] || 0;
+    const nAdds = addCount[runId] || 0;
+    if (!hasFields && !nReadings && !nAdds) { skippedNoData++; continue; }
+
+    const fid = fermentIdForRun_(runId);
+    if (haveFermentId[fid]) { runIdToFerment[runId] = fid; skippedAlready++; continue; }
+
+    const span = dateSpan[runId];
+    const obj = {
+      ferment_id: fid,
+      mash_id: get("mash_id"),
+      name: "",
+      start_date: span ? fmtDate_(span.min) : get("run_date"),
+      end_date: span ? fmtDate_(span.max) : get("run_date"),
+      status: "distilled",
+      batch_volume: get("wash_volume"),
+      volume_unit: get("volume_unit"),
+      og: get("ferment_og"),
+      fg: get("ferment_fg"),
+      wash_abv: get("wash_abv"),
+      yeast_strain: "", pitch_rate: "", ferment_temp: "",
+      tilt_sheet_url: get("tilt_sheet_url"),
+      notes: ""
+    };
+    newFermentRows.push(FERM_HDR.map(function (h) { return obj[h] !== undefined ? obj[h] : ""; }));
+    runIdToFerment[runId] = fid;
+    haveFermentId[fid] = true;
+    say("run " + runId + " -> " + fid +
+        " (" + nReadings + " readings, " + nAdds + " tweaks" +
+        (hasFields ? ", OG/FG " + get("ferment_og") + "/" + get("ferment_fg") : "") + ")");
+  }
+
+  say("ferments to create: " + newFermentRows.length +
+      " · runs already linked/skipped: " + skippedAlready +
+      " · runs with no fermentation data: " + skippedNoData);
+
+  if (dryRun) { say("=== dry run complete — nothing written ==="); return out.join("\n"); }
+
+  // 1. Append the new Ferments rows in one write.
+  if (newFermentRows.length) {
+    fermSheet.getRange(fermSheet.getLastRow() + 1, 1, newFermentRows.length, FERM_HDR.length)
+      .setValues(newFermentRows);
+  }
+
+  // 2. Stamp ferment_id on each migrated run — one column write.
+  (function () {
+    const vals = runsSheet.getDataRange().getValues();
+    const hdr = vals[0] || [];
+    const fc = hdr.indexOf("ferment_id"), rc = hdr.indexOf("run_id");
+    if (fc === -1 || rc === -1) return;
+    const col = [];
+    for (let i = 1; i < vals.length; i++) {
+      const cur = String(vals[i][fc] || "");
+      const k = String(vals[i][rc] || "");
+      col.push([cur || runIdToFerment[k] || ""]);
+    }
+    if (col.length) runsSheet.getRange(2, fc + 1, col.length, 1).setValues(col);
+  })();
+
+  // 3. Repoint readings and additions — one column write each.
+  [readsSheet, addsSheet].forEach(function (sh, n) {
+    const vals = sh.getDataRange().getValues();
+    const hdr = vals[0] || [];
+    const fc = hdr.indexOf("ferment_id"), rc = hdr.indexOf("run_id");
+    if (fc === -1 || rc === -1) return;
+    const col = [];
+    let moved = 0;
+    for (let i = 1; i < vals.length; i++) {
+      const cur = String(vals[i][fc] || "");
+      const k = String(vals[i][rc] || "");
+      const next = cur || runIdToFerment[k] || "";
+      if (!cur && next) moved++;
+      col.push([next]);
+    }
+    if (col.length) sh.getRange(2, fc + 1, col.length, 1).setValues(col);
+    say((n === 0 ? "readings" : "additions") + " repointed: " + moved);
+  });
+
+  say("=== migration complete ===");
+  return out.join("\n");
+}
+
+// Read-only sanity check to run after the migration: counts ferments, and
+// flags any reading or addition still left without a ferment_id.
+function SETUP_auditFerments() {
+  const out = [];
+  function say(l) { out.push(l); Logger.log(l); }
+  const ferments = sheetToObjects_(getSheet_(FERMENTS_SHEET));
+  const readings = sheetToObjects_(getSheet_(GRAVITY_READINGS_SHEET));
+  const additions = sheetToObjects_(getSheet_(RUN_ADDITIONS_SHEET));
+  const runs = sheetToObjects_(getSheet_(DISTILLATION_RUNS_SHEET));
+  const known = {};
+  ferments.forEach(function (f) { known[String(f.ferment_id)] = true; });
+
+  say("ferments: " + ferments.length);
+  say("runs: " + runs.length + " · linked to a ferment: " +
+      runs.filter(function (r) { return String(r.ferment_id || "").trim() !== ""; }).length);
+  const orphanReads = readings.filter(function (r) { return !known[String(r.ferment_id)]; });
+  const orphanAdds = additions.filter(function (a) { return !known[String(a.ferment_id)]; });
+  say("readings with no ferment: " + orphanReads.length + " / " + readings.length);
+  say("additions with no ferment: " + orphanAdds.length + " / " + additions.length);
+  orphanReads.slice(0, 20).forEach(function (r) {
+    say("  orphan reading " + r.reading_id + " (run_id " + r.run_id + ")");
+  });
+  orphanAdds.slice(0, 20).forEach(function (a) {
+    say("  orphan addition " + a.addition_id + " (run_id " + a.run_id + ")");
+  });
+  const runsPerFerment = {};
+  runs.forEach(function (r) {
+    const k = String(r.ferment_id || "");
+    if (k) runsPerFerment[k] = (runsPerFerment[k] || 0) + 1;
+  });
+  Object.keys(runsPerFerment).filter(function (k) { return runsPerFerment[k] > 1; })
+    .forEach(function (k) { say("  " + k + " feeds " + runsPerFerment[k] + " runs"); });
+  return out.join("\n");
 }

@@ -1,3 +1,7 @@
+// v1.21.0 (2026-08-13): + ferment helpers (fermentAsRun/fermentABV/
+// fermentGravities/fermentStatus) now that a wash is its own record. They
+// reshape a ferment into the run shape the existing math already reads, so
+// there stays exactly one implementation of each calculation.
 // v1.10.2 (2026-07-09): washABV treats a stored 0 as "not measured" (falls back
 // to OG–FG); recovery calcs use the effective wash ABV; readings sort by full
 // date+time (handles backend-serialized datetime strings).
@@ -149,6 +153,50 @@ window.DISTILL = (function () {
     return abvFromGravity(run.ferment_og, run.ferment_fg);
   }
 
+  // ---- Ferments (v1.21.0) ----
+  // A ferment stores its gravities as og/fg rather than the run's
+  // ferment_og/ferment_fg. Reshape one into what the run-oriented math above
+  // expects, so there is exactly one implementation of each calculation.
+  function fermentAsRun(ferment) {
+    const f = ferment || {};
+    return {
+      ferment_og: f.og, ferment_fg: f.fg, wash_abv: f.wash_abv,
+      wash_volume: f.batch_volume, volume_unit: f.volume_unit
+    };
+  }
+
+  // Effective ABV of a wash: measured if entered, else derived from OG–FG, else
+  // — when the ferment is still running — from the log's latest reading.
+  function fermentABV(ferment) {
+    const direct = washABV(fermentAsRun(ferment));
+    if (direct !== null) return direct;
+    const span = readingSpan((ferment || {}).readings);
+    return span ? abvFromGravity(span.og, span.fg) : null;
+  }
+
+  // OG/FG for a ferment, preferring the typed values and falling back to the
+  // ends of the gravity log. Returns { og, fg, source } with nulls when unknown.
+  function fermentGravities(ferment) {
+    const f = ferment || {};
+    let og = num(f.og), fg = num(f.fg), source = "entered";
+    const span = readingSpan(f.readings);
+    if (span) {
+      if (og === null) { og = span.og; source = "log"; }
+      if (fg === null) { fg = span.fg; source = og === span.og ? "log" : "mixed"; }
+    }
+    return { og: og, fg: fg, source: source, span: span };
+  }
+
+  // Is this wash still going? Explicit status wins; otherwise a ferment with an
+  // end date or a final gravity reads as finished.
+  function fermentStatus(ferment) {
+    const f = ferment || {};
+    const s = String(f.status || "").trim().toLowerCase();
+    if (s) return s;
+    if (f.end_date || num(f.fg) !== null) return "finished";
+    return "fermenting";
+  }
+
   // ---- Fermentation gravity log helpers (v1.4.0) ----
   function toDate(s) {
     if (!s) return null;
@@ -220,6 +268,7 @@ window.DISTILL = (function () {
   return {
     num, toML, abvFromGravity, potentialABV, attenuation, proof, proofGallons, laaLiters,
     alcoholML, heartsRecovery, totalRecovery, washABV, suggestCuts, round,
+    fermentAsRun, fermentABV, fermentGravities, fermentStatus,
     toDate, readingTimestamp, sortedReadings, readingSpan,
     ML_PER_GALLON, ML_PER_LITER
   };

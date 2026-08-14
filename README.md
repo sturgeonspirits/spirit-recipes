@@ -144,6 +144,7 @@ Enabling it requires two one-time steps against your existing Sheet + backend:
    - `DistillationRuns` ← `data/distillation_runs_seed.csv`
    - `GravityReadings` ← `data/gravity_readings_seed.csv`
    - `RunAdditions` ← `data/run_additions_seed.csv`
+   - `Ferments` (v1.21.0) — created automatically; see the migration note below
 2. **Redeploy the site** (git push, Netlify auto-builds) so the new pages and
    scripts (`distilling.html`, `mash.html`, `js/distill.js`,
    `js/distilling-app.js`, `js/mash-app.js`, `js/tilt.js`) go live.
@@ -159,60 +160,89 @@ What it tracks:
   rate, fermentation temp/days, target yield, and notes.
 - **Mash bill & additions**: each grain, sugar, enzyme, nutrient, acid, or yeast
   addition with amount, unit, and when it's added (mash vs fermentation).
-- **Distillation runs** (one per run, over time): date, still, operator, this
-  batch's actual OG/FG and wash ABV/volume, the foreshots/heads/hearts/tails
-  volumes + ABV, cut temperatures, run duration, and where the hearts went
-  (barrel ID, fill date, entry proof, char level) plus notes.
+- **Ferments** (one per wash): batch name/number, status, start and end dates,
+  batch volume, OG/FG, measured wash ABV, yeast strain, pitch rate, ferment
+  temp, the gravity log, the Tilt link, the additions/tweaks and notes.
+- **Distillation runs** (one per run, over time): date, still, operator, which
+  ferment was distilled and how much wash was charged, the
+  foreshots/heads/hearts/tails volumes + ABV, cut temperatures, run duration,
+  and where the hearts went (barrel ID, fill date, entry proof, char level) plus
+  notes.
 
 Auto-calculated (all overridable): estimated ABV from OG–FG, apparent
 attenuation, US **proof gallons** and **liters of absolute alcohol** per run —
 the units TTB production reports and excise tax use — and the alcohol
 **recovery** from wash to hearts.
 
-**Fermentation gravity log & Tilt import.** Each run has a gravity-over-time log
-(date, time, specific gravity, temp, pH, notes). Record a pH alongside any
-reading to track it across the ferment — run cards and the live chart show the
-pH start→end. The first and last readings auto-fill that run's OG and FG, and the
-app draws the fermentation curve. You can
-log readings by hand or import a Tilt hydrometer log two ways:
+**Fermentation is its own record (v1.21.0).** A ferment used to be a handful of
+columns on a distillation run, which meant the only way to look at a wash was to
+open a still run. Fermenting and distilling are separate jobs, so they are now
+separate records:
+
+- **Ferments card** on each mash recipe — one entry per wash, with its batch
+  name/number, status (fermenting / finished / distilled / dumped), start and end
+  dates, batch volume, OG → FG, wash ABV, attenuation, the curve, and notes.
+- **Ferment editor** holds everything about the wash: the gravity log, the Tilt
+  link, the additions & tweaks, and the notes.
+- **Run editor** is still work only — date, still, operator, wash volume charged,
+  cuts, barrel and run notes — plus a **From ferment** picker naming the wash it
+  distilled. One ferment can feed several runs, so a stripping run and a spirit
+  run off the same wash both point at it.
+
+The run keeps its own `ferment_og` / `ferment_fg` / `wash_abv` / `wash_volume`
+columns as a copy of the linked ferment, written on save. The ferment is the
+source of truth; the copy is what the recovery and cut math reads.
+
+> **Migrating an already-deployed sheet.** Paste the current `Code.gs`, deploy a
+> new version, then from the Apps Script editor run:
+> 1. `SETUP_reportFermentMigration()` — dry run, writes nothing, logs exactly
+>    what will move.
+> 2. `SETUP_migrateRunsToFerments()` — adds the `ferment_id` columns, creates one
+>    ferment per run that carries fermentation data, repoints that run's readings
+>    and tweaks at it, and links the run.
+> 3. `SETUP_auditFerments()` — read-only check; should report no orphans.
+>
+> It is idempotent and never deletes a row. Until it's run, the backend
+> synthesizes a read-only stand-in ferment for each un-migrated run so no wash
+> disappears from the app — those show as "from an un-migrated run" and can't be
+> edited or linked.
+
+**Gravity log & Tilt import.** Each ferment has a gravity-over-time log (date,
+time, specific gravity, temp, pH, notes). Record a pH alongside any reading to
+track it across the ferment — the ferment cards and the live chart show the pH
+start→end. OG and FG fall back to the first and last readings when you leave them
+blank, and the app draws the fermentation curve. You can log readings by hand or
+import a Tilt hydrometer log two ways:
 
 - **Upload Tilt file** — a Tilt export as `.xlsx`, `.xls`, or `.csv` (either the
   "Data" or "Report" sheet layout). SheetJS loads on demand from cdnjs the first
   time you import a workbook.
 - **Sync from Google Sheet** — paste the Tilt sheet's normal share/edit link into
-  the run and hit **Sync**. The Apps Script backend reads it server-side (runs as
-  you, so no sharing or CORS needed) and pulls the readings. The link is saved
-  with the run (`tilt_sheet_url`), so you can re-sync later as the Tilt keeps
-  logging. Each batch is its own sheet, so each run remembers its own link; if
-  you instead keep one workbook with a tab per batch, copy the link while viewing
-  that batch's tab (it carries `#gid=…`) and Sync will use that tab.
+  the ferment and hit **Sync**. The Apps Script backend reads it server-side
+  (runs as you, so no sharing or CORS needed) and pulls the readings. The link is
+  saved with the ferment (`tilt_sheet_url`), so you can re-sync later as the Tilt
+  keeps logging. Each batch is its own sheet, so each ferment remembers its own
+  link; if you instead keep one workbook with a tab per batch, copy the link
+  while viewing that batch's tab (it carries `#gid=…`) and Sync will use that tab.
 
 Either way the SG/temp series is de-duplicated, sorted, and downsampled to ~80
 points before the curve is redrawn.
 
-> Adding to an already-deployed sheet: the DistillationRuns tab gains a
-> `tilt_sheet_url` column — add it to the header row (or re-import
-> `data/distillation_runs_seed.csv`). Column lookups are by name, so Sync's save
-> will report "unknown field" until it's present. Likewise, add a `ph` column to
-> the `GravityReadings` tab (after `temp`) so per-reading pH values persist.
+**Additions / tweaks per ferment.** Each ferment has an "Additions & tweaks" list
+for what you changed from the base recipe for that wash — nutrients, yeast, acid,
+a different sugar (item, category, amount, unit, timing, and a why/result note).
+Stored in the `RunAdditions` tab keyed by `ferment_id`, so you can compare washes
+— e.g. which ones used SuperFerm and how they fermented — instead of digging
+through free-text notes. Ferment cards show the tweaks as chips.
 
-**Per-run additions / tweaks.** Each run has an "Additions & tweaks" list for
-what you changed from the base recipe that batch — nutrients, yeast, acid, a
-different sugar (item, category, amount, unit, timing, and a why/result note).
-It's stored per run in the `RunAdditions` tab, so you can compare batches — e.g.
-which runs used SuperFerm as the nutrient and how they fermented — instead of
-digging through free-text notes. Run cards show the tweaks as chips.
-
-> Adding to an already-deployed sheet: the backend auto-creates the
-> `RunAdditions` tab the first time a run's additions are saved (or add it from
-> `data/run_additions_seed.csv`).
-
-**Compare runs.** A "Compare runs" section on each recipe puts all of its runs in
-one table — date, OG → FG, wash ABV, pH, ferment days, hearts yield, proof
-gallons, recovery, and the tweaks used. Pick a tweak from the "Highlight a tweak"
-dropdown to spotlight the runs that used it (and dim the rest), so ingredient
-A/Bs like SuperFerm vs. the usual nutrient are easy to read across batches. It's
-purely front-end — no extra sheet or backend call.
+**Compare ferments / Compare runs.** Two tables, matching the split. *Compare
+ferments* puts every wash of a recipe side by side — OG → FG, wash ABV,
+attenuation, pH, days, batch volume and the tweaks used — with a "Highlight a
+tweak" dropdown that spotlights the ferments that used it (and dims the rest), so
+ingredient A/Bs like SuperFerm vs. the usual nutrient are easy to read across
+batches. *Compare runs* covers the still side — date, still, which wash, wash
+ABV, hearts yield, proof gallons and recovery. Both are purely front-end — no
+extra sheet or backend call.
 
 ## Data notes
 

@@ -1330,3 +1330,58 @@ body.has-action-bar main { padding-bottom: 96px; }
 }
 .login-card button[type="submit"]:hover { background: var(--accent-dark); }
 .login-card button[type="submit"]:disabled { opacity: 0.6; cursor: default; }
+
+/* ===== Ferments (v1.21.0) =====
+   A wash is its own record now, so it needs its own card, status chip and the
+   read-only summary the run editor shows for the ferment it's distilling.
+   Everything else reuses the run-item / compare-table styles above. */
+.ferments-card { margin-bottom: 14px; }
+
+.ferment-item .run-date { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
+
+.ferment-status {
+  display: inline-block;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  background: var(--accent-lighter);
+  white-space: nowrap;
+}
+/* Fermenting is the one that means "something is happening right now". */
+.ferment-status.status-fermenting { color: #fff; background: var(--ok); border-color: var(--ok); }
+.ferment-status.status-finished { color: var(--accent); background: var(--accent-light); border-color: var(--accent-light); }
+.ferment-status.status-distilled { color: var(--muted); background: var(--accent-lighter); }
+.ferment-status.status-dumped { color: var(--danger); background: #fff; border-color: var(--danger); }
+
+.ferment-legacy { font-size: 0.78rem; font-style: italic; }
+
+.ferment-runs {
+  margin-top: 8px;
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+/* Read-only recap of the linked ferment, inside the run editor. */
+.ferment-summary {
+  background: var(--accent-lighter);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 9px 12px;
+  margin: 2px 0 10px;
+  font-size: 0.85rem;
+  color: var(--text);
+}
+.ferment-summary strong { color: var(--accent); }
+
+/* Which wash a run came from, on the run card. */
+.run-from-ferment {
+  margin-top: 8px;
+  font-size: 0.82rem;
+  color: var(--accent);
+}
+.run-from-ferment.muted { color: var(--muted); font-style: italic; }
