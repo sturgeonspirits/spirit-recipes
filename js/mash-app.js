@@ -1,3 +1,6 @@
+// v1.21.1 (2026-08-14): the gravity log drives OG/FG — saving no longer writes
+// derived values back into the row, redundant stored ones are cleared on open,
+// and run cards overlay the linked ferment's current figures.
 // v1.21.0 (2026-08-13): fermentation split out of distillation. A ferment is
 // its own record with its own editor — gravity log, curve, Tilt link, tweaks
 // and notes all live there. The run editor is still work only: it points at the
@@ -594,6 +597,22 @@
     $("fm-wash-abv").placeholder = gravAbv === null
       ? "auto from OG–FG if blank"
       : "auto ≈ " + fmt(gravAbv, 1) + "% from OG–FG";
+    // Once there's a log it decides OG/FG, so say so — and if a typed value
+    // disagrees with the log, show both rather than quietly using one.
+    const note = $("fm-gravity-note");
+    if (span && (g.ogDiffers || g.fgDiffers)) {
+      const parts = [];
+      if (g.ogDiffers) parts.push(`OG typed as ${D.round(g.ogTyped, 3)}, log starts at ${D.round(span.og, 3)}`);
+      if (g.fgDiffers) parts.push(`FG typed as ${D.round(g.fgTyped, 3)}, log ends at ${D.round(span.fg, 3)}`);
+      note.hidden = false;
+      note.innerHTML = `<strong>Using the log.</strong> ${escapeHTML(parts.join("; "))}. Clear the field above to drop the typed value, or add the measurement as a reading.`;
+    } else if (span) {
+      note.hidden = false;
+      note.innerHTML = `<strong>OG and FG follow the gravity log</strong> — ${span.count} reading${span.count === 1 ? "" : "s"}, currently ${D.round(span.og, 3)} → ${D.round(span.fg, 3)}. They update as you add readings.`;
+    } else {
+      note.hidden = true;
+      note.innerHTML = "";
+    }
     // Until there's a final gravity, show what the wash is heading for.
     let predicted = null;
     if (g.og !== null && g.fg === null) {
@@ -708,6 +727,18 @@
     ["fm-start-date", "fm-end-date"].forEach(dom => { $(dom).value = normDate($(dom).value); });
     // A stored wash ABV of 0 means "not measured" — leave blank so OG–FG auto-calcs.
     if (D.num($("fm-wash-abv").value) === 0) $("fm-wash-abv").value = "";
+    // Blank out a stored og/fg that just duplicates the log. The migration
+    // stamps both onto every row, and the first release backfilled them on
+    // save; keeping them would leave the fields looking like deliberate manual
+    // overrides and make the editor warn about a disagreement the moment the
+    // log moved past them. A value that genuinely differs from the log is kept
+    // — that one really was typed.
+    (function () {
+      const span = D.readingSpan(f.readings);
+      if (!span) return;
+      if (D.num($("fm-og").value) === span.og) $("fm-og").value = "";
+      if (D.num($("fm-fg").value) === span.fg) $("fm-fg").value = "";
+    })();
     if (!$("fm-status").value) $("fm-status").value = "fermenting";
 
     // Deep-copy the log and the tweaks so edits can be cancelled cleanly.
@@ -757,16 +788,16 @@
       (r.gravity !== "" && r.gravity != null) || (r.ph !== "" && r.ph != null));
     const additions = currentAdditions.filter(a => a.item && String(a.item).trim() !== "");
 
-    // Write the derived OG/FG back into the row when the fields were left
-    // blank, so the Ferments tab reads sensibly in the spreadsheet too.
-    const g = D.fermentGravities({ og: f.og, fg: f.fg, readings: readings });
+    // og/fg are saved exactly as typed — usually blank. Backfilling them with
+    // values derived from the log was what froze the summary: once the row had
+    // an fg, every later reading was ignored. The log is the running record;
+    // these fields are only the override for a wash with no log.
     const row = {
       ferment_id: editingFermentId, mash_id: mash.mash_id,
       name: f.name, start_date: f.start_date, end_date: f.end_date,
       status: f.status || "fermenting",
       batch_volume: f.batch_volume, volume_unit: f.volume_unit,
-      og: f.og !== "" ? f.og : (g.og != null ? g.og : ""),
-      fg: f.fg !== "" ? f.fg : (g.fg != null ? g.fg : ""),
+      og: f.og, fg: f.fg,
       wash_abv: f.wash_abv, yeast_strain: f.yeast_strain, pitch_rate: f.pitch_rate,
       ferment_temp: f.ferment_temp, tilt_sheet_url: f.tilt_sheet_url, notes: f.notes
     };
@@ -827,6 +858,23 @@
   // ==========================================================================
   const runsBody = $("runs-body");
 
+  // A run's ferment_og/ferment_fg/wash_abv are a copy taken when it was saved.
+  // For display, overlay the linked ferment's current figures so adding a
+  // reading to a wash updates the runs that came off it, without anyone having
+  // to re-open and re-save each run. The copy is still what's stored, and it's
+  // what an un-linked run falls back to.
+  function runLive(run) {
+    const f = fermentById(run.ferment_id);
+    if (!f) return run;
+    const g = D.fermentGravities(f);
+    const measured = D.num(f.wash_abv);
+    return Object.assign({}, run, {
+      ferment_og: g.og != null ? g.og : "",
+      ferment_fg: g.fg != null ? g.fg : "",
+      wash_abv: (measured !== null && measured > 0) ? measured : ""
+    });
+  }
+
   function renderRuns() {
     $("runs-count").textContent = mash.runs.length ? `(${mash.runs.length})` : "";
     if (!mash.runs.length) {
@@ -835,7 +883,8 @@
       return;
     }
     const sorted = mash.runs.slice().sort((a, b) => String(b.run_date).localeCompare(String(a.run_date)));
-    runsBody.innerHTML = sorted.map(run => {
+    runsBody.innerHTML = sorted.map(r0 => {
+      const run = runLive(r0);
       const washAbv = D.washABV(run);
       const pg = D.proofGallons(run.hearts_volume, run.volume_unit, run.hearts_abv);
       const laa = D.laaLiters(run.hearts_volume, run.volume_unit, run.hearts_abv);
@@ -885,7 +934,8 @@
     countEl.textContent = `(${mash.runs.length})`;
 
     const sorted = mash.runs.slice().sort((a, b) => String(b.run_date).localeCompare(String(a.run_date)));
-    const rows = sorted.map(run => {
+    const rows = sorted.map(r0 => {
+      const run = runLive(r0);
       const f = fermentById(run.ferment_id);
       const abv = D.washABV(run);
       const hearts = run.hearts_volume

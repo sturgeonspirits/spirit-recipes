@@ -215,6 +215,36 @@ function check(name, cond, extra) {
   check('log starts empty', await page.locator('#readings-body .reading-card').count() === 0);
   await page.click('#ferment-cancel');
 
+  console.log('\n— a new reading moves every summary (regression: frozen og/fg) —');
+  await page.goto(base + '/mash.html?id=mash_1', { waitUntil: 'networkidle' });
+  const beforeCard = await page.textContent('#ferments-body');
+  check('card starts at the stored FG', beforeCard.includes('1.002'), beforeCard);
+  await page.click('#ferments-body .ferment-edit');
+  await page.waitForSelector('#ferment-modal:not([hidden])');
+  check('editor says the log decides', (await page.textContent('#fm-gravity-note')).includes('follow the gravity log'));
+  check('redundant stored OG blanked on open', await page.inputValue('#fm-og') === '');
+  check('redundant stored FG blanked on open', await page.inputValue('#fm-fg') === '');
+  // Log today's reading: the wash has dropped further.
+  await page.click('#add-reading');
+  const last = page.locator('#readings-body .reading-card').last();
+  await last.locator('[data-f="reading_date"]').fill('08/14/2026');
+  await last.locator('[data-f="gravity"]').fill('0.998');
+  const calcAfter = await page.textContent('#ferment-calc');
+  check('editor FG follows the new reading', /0\.998/.test(calcAfter), calcAfter);
+  await page.click('#ferment-save');
+  await page.waitForSelector('#ferment-modal', { state: 'hidden' });
+
+  const afterCard = await page.textContent('#ferments-body');
+  check('card FG follows the new reading', afterCard.includes('0.998'), afterCard);
+  check('card ABV recalculated', afterCard.includes('9.58%'), afterCard);
+  const afterCompare = await page.textContent('#ferments-compare');
+  check('compare ferments follows too', afterCompare.includes('0.998'));
+  check('run card picks up the live ferment', (await page.textContent('#runs-body')).includes('9.58%'), await page.textContent('#runs-body'));
+
+  const savedFerment = posts.filter(p => p.action === 'update_ferment').pop();
+  check('og/fg are not written back from the log', !!savedFerment && savedFerment.ferment.fg === '' && savedFerment.ferment.og === '',
+    savedFerment && JSON.stringify(savedFerment.ferment));
+
   console.log('\n— un-migrated sheet (synthetic ferment) —');
   await page.goto(base + '/mash.html?id=mash_legacy', { waitUntil: 'networkidle' });
   const legacyBody = await page.textContent('#ferments-body');

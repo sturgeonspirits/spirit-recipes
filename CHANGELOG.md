@@ -3,6 +3,28 @@
 All notable changes to this project are logged here. Each code file also
 carries a one-line version header at the top pointing back to this file.
 
+## v1.21.1 - 2026-08-14
+- **Fix: a ferment's summary ignored new readings.** Adding today's gravity moved
+  the curve and the day count but left OG → FG, wash ABV and attenuation frozen
+  at whatever they were the first time the wash was saved. `fermentGravities()`
+  preferred the row's stored `og`/`fg` over the gravity log, and both the
+  migration and the initial save stamped those columns — so from that moment on
+  every new reading was ignored by the card, the compare table and the linked
+  run.
+- **The log now decides.** Where there are readings, the first and last *are*
+  the OG and FG. The typed fields are only for a wash you aren't logging, and
+  are no longer backfilled on save. If a typed value disagrees with the log, the
+  editor says which one it's using and shows both, instead of silently picking.
+- Stored `og`/`fg` that merely duplicate the log — which is every row the
+  migration touched — are blanked when the ferment is opened, so they stop
+  masquerading as deliberate overrides.
+- **Run cards read the live ferment.** A run stores a copy of its wash's figures
+  at save time; the cards and the compare table now overlay the ferment's
+  current values, so logging a reading updates the runs that came off that wash
+  without reopening each one. What's stored is unchanged.
+- `test/repro_stale_summary.js` reproduces the original bug in isolation; the
+  browser smoke test grew to 53 checks covering the fix end to end.
+
 ## v1.21.0 - 2026-08-13
 - **Fermentation is now separate from distillation.** A ferment had no record of
   its own — the gravity log, OG/FG, Tilt link and the additions/tweaks list were

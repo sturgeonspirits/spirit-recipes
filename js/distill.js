@@ -1,3 +1,6 @@
+// v1.21.1 (2026-08-14): fermentGravities lets the gravity log decide OG/FG when
+// there are readings — it used to prefer the row's stored og/fg, which froze a
+// ferment's summary as soon as the migration or the first save populated them.
 // v1.21.0 (2026-08-13): + ferment helpers (fermentAsRun/fermentABV/
 // fermentGravities/fermentStatus) now that a wash is its own record. They
 // reshape a ferment into the run shape the existing math already reads, so
@@ -159,32 +162,49 @@ window.DISTILL = (function () {
   // expects, so there is exactly one implementation of each calculation.
   function fermentAsRun(ferment) {
     const f = ferment || {};
+    const g = fermentGravities(f);
     return {
-      ferment_og: f.og, ferment_fg: f.fg, wash_abv: f.wash_abv,
+      ferment_og: g.og, ferment_fg: g.fg, wash_abv: f.wash_abv,
       wash_volume: f.batch_volume, volume_unit: f.volume_unit
     };
   }
 
-  // Effective ABV of a wash: measured if entered, else derived from OG–FG, else
-  // — when the ferment is still running — from the log's latest reading.
+  // Effective ABV of a wash: a measured wash ABV if one was entered, otherwise
+  // derived from the effective OG–FG (which follows the log — see below).
   function fermentABV(ferment) {
-    const direct = washABV(fermentAsRun(ferment));
-    if (direct !== null) return direct;
-    const span = readingSpan((ferment || {}).readings);
-    return span ? abvFromGravity(span.og, span.fg) : null;
+    const f = ferment || {};
+    const measured = num(f.wash_abv);
+    if (measured !== null && measured > 0) return measured;
+    const g = fermentGravities(f);
+    return abvFromGravity(g.og, g.fg);
   }
 
-  // OG/FG for a ferment, preferring the typed values and falling back to the
-  // ends of the gravity log. Returns { og, fg, source } with nulls when unknown.
+  // OG/FG for a ferment.
+  //
+  // The gravity log is the running record, so whenever there are readings they
+  // define OG and FG — a wash you're still logging has to keep moving. The
+  // typed og/fg fields fill the gaps: a wash with no log at all, or one you
+  // measured by hand and never logged. Both typed values come back as
+  // ogTyped/fgTyped with a *Differs flag, so the editor can point out a
+  // disagreement instead of silently picking a winner.
+  //
+  // This precedence was the other way round in the first cut of v1.21.0, and it
+  // froze the summary: the migration stamps og/fg onto every row, so from then
+  // on each new reading was ignored everywhere except the curve and the day
+  // count. See test/repro_stale_summary.js.
   function fermentGravities(ferment) {
     const f = ferment || {};
-    let og = num(f.og), fg = num(f.fg), source = "entered";
     const span = readingSpan(f.readings);
-    if (span) {
-      if (og === null) { og = span.og; source = "log"; }
-      if (fg === null) { fg = span.fg; source = og === span.og ? "log" : "mixed"; }
-    }
-    return { og: og, fg: fg, source: source, span: span };
+    const ogTyped = num(f.og), fgTyped = num(f.fg);
+    return {
+      og: span ? span.og : ogTyped,
+      fg: span ? span.fg : fgTyped,
+      span: span,
+      ogTyped: ogTyped, fgTyped: fgTyped,
+      source: span ? "log" : ((ogTyped !== null || fgTyped !== null) ? "entered" : "none"),
+      ogDiffers: !!(span && ogTyped !== null && ogTyped !== span.og),
+      fgDiffers: !!(span && fgTyped !== null && fgTyped !== span.fg)
+    };
   }
 
   // Is this wash still going? Explicit status wins; otherwise a ferment with an

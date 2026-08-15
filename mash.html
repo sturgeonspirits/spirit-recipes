@@ -235,13 +235,14 @@
 
       <div class="run-subhead">Gravities</div>
       <div class="grid-2">
-        <div class="field"><label>Original gravity <button type="button" class="info-btn" aria-label="About Original gravity" aria-expanded="false" data-tip="Gravity before fermentation. Auto-filled from the first reading in the log below if you leave it blank.">?</button></label><input type="number" step="any" inputmode="decimal" id="fm-og" placeholder="from the log if blank"></div>
-        <div class="field"><label>Final gravity <button type="button" class="info-btn" aria-label="About Final gravity" aria-expanded="false" data-tip="Gravity when fermentation stopped. Auto-filled from the last reading in the log below if you leave it blank.">?</button></label><input type="number" step="any" inputmode="decimal" id="fm-fg" placeholder="from the log if blank"></div>
+        <div class="field"><label>Original gravity <button type="button" class="info-btn" aria-label="About Original gravity" aria-expanded="false" data-tip="Only needed for a wash you're not logging. Whenever there are gravity readings below, the first one is the OG and this field is ignored.">?</button></label><input type="number" step="any" inputmode="decimal" id="fm-og" placeholder="the log decides if you have one"></div>
+        <div class="field"><label>Final gravity <button type="button" class="info-btn" aria-label="About Final gravity" aria-expanded="false" data-tip="Only needed for a wash you're not logging. Whenever there are gravity readings below, the last one is the FG and this field is ignored.">?</button></label><input type="number" step="any" inputmode="decimal" id="fm-fg" placeholder="the log decides if you have one"></div>
         <div class="field"><label>Wash ABV % <button type="button" class="info-btn" aria-label="About Wash ABV" aria-expanded="false" data-tip="Measured strength of the finished wash. Leave blank and it's calculated from OG–FG.">?</button></label><input type="number" step="any" inputmode="decimal" id="fm-wash-abv" placeholder="auto from OG–FG if blank"></div>
         <div class="field"><label>Ferment temp (°F)</label><input type="number" step="any" inputmode="decimal" id="fm-ferment-temp"></div>
         <div class="field"><label>Yeast strain</label><input type="text" id="fm-yeast-strain" placeholder="defaults to the recipe's"></div>
         <div class="field"><label>Pitch rate</label><input type="text" id="fm-pitch-rate" placeholder="e.g. 1 g/L"></div>
       </div>
+      <div id="fm-gravity-note" class="run-predicted" hidden></div>
       <div class="run-calc" id="ferment-calc"></div>
 
       <div class="run-subhead">Additions &amp; tweaks (this ferment)</div>
@@ -262,7 +263,7 @@
       </div>
       <div id="tilt-status" class="tilt-status" hidden></div>
       <div id="gravity-chart" class="gravity-chart" hidden></div>
-      <p class="hint">First and last readings fill in OG and FG above when you've left them blank. Add a pH per reading to track it across the ferment. Log by hand, upload a Tilt export (.xlsx, .xls or .csv), or paste your Tilt Google Sheet link and Sync to pull the whole curve — and re-sync later as it keeps logging.</p>
+      <p class="hint">The first and last readings here <em>are</em> the OG and FG shown above — add a reading and every summary updates. Add a pH per reading to track it across the ferment. Log by hand, upload a Tilt export (.xlsx, .xls or .csv), or paste your Tilt Google Sheet link and Sync to pull the whole curve — and re-sync later as it keeps logging.</p>
 
       <div class="run-subhead">Ferment notes</div>
       <div class="field">
