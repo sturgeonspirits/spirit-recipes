@@ -73,6 +73,26 @@ const LEGACY = {
   }]
 };
 
+// Karl's real row on 2026-08-14: a wash still fermenting, with 19 typed into
+// wash_abv. 1.093 -> 1.0573 is 4.7%; fermentation cannot produce 19%.
+const SUSPECT = {
+  mash_id: 'mash_sus', name: 'Revised Agave Wash', volume_unit: 'gal', target_fg: 1.0,
+  components: [], runs: [],
+  ferments: [{
+    ferment_id: 'ferm_sus', mash_id: 'mash_sus', name: 'Revised Agave Wash',
+    start_date: '08/10/2026', end_date: '', status: 'fermenting',
+    batch_volume: 40, volume_unit: 'gal', og: '', fg: '', wash_abv: 19,
+    yeast_strain: 'DADY', pitch_rate: '1.5', tilt_sheet_url: '', notes: '',
+    readings: [
+      { reading_id: 's4', ferment_id: 'ferm_sus', reading_date: '08/10/2026', gravity: 1.093, temp: 80, ph: 3.8, notes: '' },
+      { reading_id: 's3', ferment_id: 'ferm_sus', reading_date: '08/13/2026', gravity: 1.0868, temp: 81, ph: 3.8, notes: 'superferm + calcium carbonate' },
+      { reading_id: 's1', ferment_id: 'ferm_sus', reading_date: '08/14/2026', reading_time: '12:30', gravity: 1.0737, temp: 82.2, ph: 4.5, notes: '' },
+      { reading_id: 's2', ferment_id: 'ferm_sus', reading_date: '08/15/2026', gravity: 1.0573, temp: 83.8, ph: 4.3, notes: 'added 75 g calcium carbonate' }
+    ],
+    additions: []
+  }]
+};
+
 const posts = [];
 
 function serve() {
@@ -94,6 +114,7 @@ function serve() {
         let out = {};
         const mid = u.searchParams.get('mash');
         if (mid === 'mash_legacy') out = LEGACY;
+        else if (mid === 'mash_sus') out = SUSPECT;
         else if (mid) out = MASH;
         else if (u.searchParams.get('list')) out = { recipes: [] };
         res.writeHead(200, { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' });
@@ -256,6 +277,24 @@ function check(name, cond, extra) {
   await page.waitForSelector('#run-modal:not([hidden])');
   check('synthetic ferment is not offered in the picker', await page.locator('#r-ferment option').count() === 1);
   await page.click('#run-cancel');
+
+  console.log('\n— an impossible wash ABV is flagged, not shown as fact —');
+  await page.goto(base + '/mash.html?id=mash_sus', { waitUntil: 'networkidle' });
+  const susCard = await page.textContent('#ferments-body');
+  check('card shows the gravity figure (4.69%)', susCard.includes('4.69%'), susCard);
+  check('card does not present 19% as the ABV', !/ABV so far19%|Wash ABV19%/.test(susCard.replace(/\s+/g, '')), susCard);
+  check('card explains what it ignored', susCard.includes('Ignoring the entered wash ABV of 19%'), susCard);
+  check('in-progress wash is labelled "ABV so far"', susCard.includes('ABV so far'));
+  check('readings out of date order still sort', susCard.includes('1.093 → 1.057'), susCard);
+  const susCompare = await page.textContent('#ferments-compare');
+  check('compare table uses the gravity figure too', susCompare.includes('4.69%'));
+  await page.click('#ferments-body .ferment-edit');
+  await page.waitForSelector('#ferment-modal:not([hidden])');
+  const abvNote = await page.textContent('#fm-abv-note');
+  check('editor names the rejected value', abvNote.includes('Not using the wash ABV of 19%'), abvNote);
+  check('editor gives the gravity figure', abvNote.includes('4.7%'), abvNote);
+  check('the typed value is left in the field to correct', await page.inputValue('#fm-wash-abv') === '19');
+  await page.click('#ferment-cancel');
 
   check('no page or console errors', errors.length === 0, errors.join(' | '));
 

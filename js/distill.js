@@ -1,3 +1,6 @@
+// v1.21.2 (2026-08-14): + fermentABVInfo — a typed wash ABV is sanity-checked
+// against the gravity log, so an impossible or contradicted figure is flagged
+// and the gravity value used, instead of being shown as fact.
 // v1.21.1 (2026-08-14): fermentGravities lets the gravity log decide OG/FG when
 // there are readings — it used to prefer the row's stored og/fg, which froze a
 // ferment's summary as soon as the migration or the first save populated them.
@@ -169,15 +172,54 @@ window.DISTILL = (function () {
     };
   }
 
-  // Effective ABV of a wash: a measured wash ABV if one was entered, otherwise
-  // derived from the effective OG–FG (which follows the log — see below).
-  function fermentABV(ferment) {
+  // Even the most alcohol-tolerant distilling yeast gives out around 20% ABV,
+  // and that's a laboratory-grade result. A wash figure above this isn't a
+  // measurement — it's a typo, or a number that belongs in a different field.
+  const MAX_PLAUSIBLE_WASH_ABV = 25;
+
+  // Effective ABV of a wash, with its provenance.
+  //
+  // A typed wash ABV is a real measurement and normally wins. But it is a bare
+  // number in a spreadsheet cell with nothing stopping a slip of the finger,
+  // and the gravity log is right there to check it against — so a value that
+  // fermentation can't produce, or that the gravities flatly contradict, is
+  // reported as `suspect` and the gravity figure is used instead. The UI shows
+  // both and says which one it took.
+  //
+  // Returns { abv, source: measured|gravity|none, measured, gravity,
+  //           inProgress, suspect, reason }.
+  function fermentABVInfo(ferment) {
     const f = ferment || {};
-    const measured = num(f.wash_abv);
-    if (measured !== null && measured > 0) return measured;
     const g = fermentGravities(f);
-    return abvFromGravity(g.og, g.fg);
+    const gravity = abvFromGravity(g.og, g.fg);
+    const measured = num(f.wash_abv);
+    const inProgress = fermentStatus(f) === "fermenting";
+
+    if (measured === null || measured <= 0) {
+      return {
+        abv: gravity, source: gravity === null ? "none" : "gravity",
+        measured: null, gravity: gravity, inProgress: inProgress,
+        suspect: false, reason: ""
+      };
+    }
+
+    let reason = "";
+    if (measured > MAX_PLAUSIBLE_WASH_ABV) {
+      reason = "Fermentation can't reach " + round(measured, 1) +
+               "% — yeast gives out around 20%.";
+    } else if (gravity !== null && Math.abs(measured - gravity) > Math.max(2, gravity * 0.5)) {
+      reason = "The gravity log works out to " + round(gravity, 1) + "%.";
+    }
+    const suspect = !!reason;
+    const useGravity = suspect && gravity !== null;
+    return {
+      abv: useGravity ? gravity : measured,
+      source: useGravity ? "gravity" : "measured",
+      measured: measured, gravity: gravity, inProgress: inProgress,
+      suspect: suspect, reason: reason
+    };
   }
+  function fermentABV(ferment) { return fermentABVInfo(ferment).abv; }
 
   // OG/FG for a ferment.
   //
@@ -288,7 +330,8 @@ window.DISTILL = (function () {
   return {
     num, toML, abvFromGravity, potentialABV, attenuation, proof, proofGallons, laaLiters,
     alcoholML, heartsRecovery, totalRecovery, washABV, suggestCuts, round,
-    fermentAsRun, fermentABV, fermentGravities, fermentStatus,
+    fermentAsRun, fermentABV, fermentABVInfo, fermentGravities, fermentStatus,
+    MAX_PLAUSIBLE_WASH_ABV,
     toDate, readingTimestamp, sortedReadings, readingSpan,
     ML_PER_GALLON, ML_PER_LITER
   };

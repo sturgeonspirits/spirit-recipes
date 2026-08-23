@@ -237,12 +237,13 @@
       <div class="grid-2">
         <div class="field"><label>Original gravity <button type="button" class="info-btn" aria-label="About Original gravity" aria-expanded="false" data-tip="Only needed for a wash you're not logging. Whenever there are gravity readings below, the first one is the OG and this field is ignored.">?</button></label><input type="number" step="any" inputmode="decimal" id="fm-og" placeholder="the log decides if you have one"></div>
         <div class="field"><label>Final gravity <button type="button" class="info-btn" aria-label="About Final gravity" aria-expanded="false" data-tip="Only needed for a wash you're not logging. Whenever there are gravity readings below, the last one is the FG and this field is ignored.">?</button></label><input type="number" step="any" inputmode="decimal" id="fm-fg" placeholder="the log decides if you have one"></div>
-        <div class="field"><label>Wash ABV % <button type="button" class="info-btn" aria-label="About Wash ABV" aria-expanded="false" data-tip="Measured strength of the finished wash. Leave blank and it's calculated from OG–FG.">?</button></label><input type="number" step="any" inputmode="decimal" id="fm-wash-abv" placeholder="auto from OG–FG if blank"></div>
+        <div class="field"><label>Wash ABV % <button type="button" class="info-btn" aria-label="About Wash ABV" aria-expanded="false" data-tip="Measured strength of the finished wash — from a distillation test or ebulliometer, not a hydrometer. Leave blank and it's calculated from OG–FG. A figure the gravities contradict is flagged rather than used.">?</button></label><input type="number" step="any" inputmode="decimal" id="fm-wash-abv" placeholder="auto from OG–FG if blank"></div>
         <div class="field"><label>Ferment temp (°F)</label><input type="number" step="any" inputmode="decimal" id="fm-ferment-temp"></div>
         <div class="field"><label>Yeast strain</label><input type="text" id="fm-yeast-strain" placeholder="defaults to the recipe's"></div>
         <div class="field"><label>Pitch rate</label><input type="text" id="fm-pitch-rate" placeholder="e.g. 1 g/L"></div>
       </div>
       <div id="fm-gravity-note" class="run-predicted" hidden></div>
+      <div id="fm-abv-note" class="run-predicted warn" hidden></div>
       <div class="run-calc" id="ferment-calc"></div>
 
       <div class="run-subhead">Additions &amp; tweaks (this ferment)</div>

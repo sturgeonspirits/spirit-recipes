@@ -1385,3 +1385,16 @@ body.has-action-bar main { padding-bottom: 96px; }
   color: var(--accent);
 }
 .run-from-ferment.muted { color: var(--muted); font-style: italic; }
+
+/* A figure we're declining to use — a wash ABV the gravities contradict. */
+.run-predicted.warn {
+  background: #fff;
+  border: 1px solid var(--danger);
+}
+.run-predicted.warn strong { color: var(--danger); }
+
+.ferment-warn {
+  margin-top: 8px;
+  font-size: 0.82rem;
+  color: var(--danger);
+}

@@ -1,3 +1,6 @@
+// v1.21.2 (2026-08-14): a typed wash ABV the gravities contradict is flagged
+// and not used — on the card, in the compare table, in the editor, and in what
+// a run copies. In-progress ferments say "ABV so far".
 // v1.21.1 (2026-08-14): the gravity log drives OG/FG — saving no longer writes
 // derived values back into the row, redundant stored ones are cleared on open,
 // and run cards overlay the linked ferment's current figures.
@@ -301,7 +304,8 @@
     fermentsBody.innerHTML = sorted.map(f => {
       const g = D.fermentGravities(f);
       const span = g.span;
-      const abv = D.fermentABV(f);
+      const info = D.fermentABVInfo(f);
+      const abv = info.abv;
       const atten = D.attenuation(g.og, g.fg);
       const status = D.fermentStatus(f);
       const days = span && span.days != null ? span.days : null;
@@ -331,12 +335,13 @@
         </div>
         <div class="run-stats">
           ${runStat("OG → FG", (g.og != null || g.fg != null) ? `${g.og != null ? D.round(g.og, 3) : "—"} → ${g.fg != null ? D.round(g.fg, 3) : "—"}` : "—")}
-          ${runStat("Wash ABV", abv === null ? "—" : fmt(abv) + "%")}
+          ${runStat(info.inProgress ? "ABV so far" : "Wash ABV", abv === null ? "—" : fmt(abv) + "%")}
           ${runStat("Attenuation", atten === null ? "—" : fmt(atten, 0) + "%")}
           ${runStat("Batch", f.batch_volume ? fmt(f.batch_volume) + " " + escapeHTML(f.volume_unit || "") : "—")}
           ${runStat("Days", days == null ? "—" : days + "d")}
         </div>
         ${chart}
+        ${info.suspect ? `<div class="ferment-warn">Ignoring the entered wash ABV of ${escapeHTML(String(info.measured))}%. ${escapeHTML(info.reason)}</div>` : ""}
         ${additionsSummary(f.additions)}
         ${linkedLine}
         ${f.notes ? `<div class="run-note">${escapeHTML(f.notes)}</div>` : ""}
@@ -385,7 +390,8 @@
     const rows = sorted.map(f => {
       const g = D.fermentGravities(f);
       const span = g.span;
-      const abv = D.fermentABV(f);
+      const info = D.fermentABVInfo(f);
+      const abv = info.abv;
       const atten = D.attenuation(g.og, g.fg);
       const ogfg = (g.og != null || g.fg != null)
         ? `${g.og != null ? D.round(g.og, 3) : "—"} → ${g.fg != null ? D.round(g.fg, 3) : "—"}` : "—";
@@ -400,7 +406,7 @@
       return `<tr data-items="${escapeHTML(tweaks.map(i => i.toLowerCase()).join("|"))}">
         <td class="c-date">${escapeHTML(fermentLabel(f))}</td>
         <td>${escapeHTML(ogfg)}</td>
-        <td>${abv === null ? "—" : fmt(abv) + "%"}</td>
+        <td>${abv === null ? "—" : fmt(abv) + "%"}${info.suspect ? ` <span class="muted" title="Entered ${escapeHTML(String(info.measured))}% — ${escapeHTML(info.reason)}">⚠︎</span>` : ""}</td>
         <td>${atten === null ? "—" : fmt(atten, 0) + "%"}</td>
         <td>${escapeHTML(phValue(span))}</td>
         <td>${days == null ? "—" : days + "d"}</td>
@@ -590,7 +596,8 @@
       chart.innerHTML = "";
     }
 
-    const abv = D.fermentABV(f);
+    const info = D.fermentABVInfo(f);
+    const abv = info.abv;
     const atten = D.attenuation(g.og, g.fg);
     const measured = D.num(f.wash_abv);
     const gravAbv = D.abvFromGravity(g.og, g.fg);
@@ -613,6 +620,15 @@
       note.hidden = true;
       note.innerHTML = "";
     }
+
+    const abvNote = $("fm-abv-note");
+    if (info.suspect) {
+      abvNote.hidden = false;
+      abvNote.innerHTML = `<strong>Not using the wash ABV of ${escapeHTML(String(info.measured))}%.</strong> ${escapeHTML(info.reason)} Clear the field to use the gravities, or correct it if the measurement is right.`;
+    } else {
+      abvNote.hidden = true;
+      abvNote.innerHTML = "";
+    }
     // Until there's a final gravity, show what the wash is heading for.
     let predicted = null;
     if (g.og !== null && g.fg === null) {
@@ -622,7 +638,7 @@
     $("ferment-calc").innerHTML = `
       ${runStat("OG", g.og == null ? "—" : String(D.round(g.og, 3)))}
       ${runStat("FG", g.fg == null ? "—" : String(D.round(g.fg, 3)))}
-      ${runStat(measured !== null && measured > 0 ? "Wash ABV (measured)" : "Wash ABV (OG–FG)", abv === null ? "—" : fmt(abv) + "%")}
+      ${runStat(info.source === "measured" ? "Wash ABV (measured)" : (info.inProgress ? "ABV so far (OG–FG)" : "Wash ABV (OG–FG)"), abv === null ? "—" : fmt(abv) + "%")}
       ${runStat("Attenuation", atten === null ? "—" : fmt(atten, 0) + "%")}
       ${runStat("Readings", span ? String(span.count) : "0")}
       ${predicted === null ? "" : runStat("Predicted ABV", "~" + predicted.toFixed(1) + "%")}
@@ -867,11 +883,13 @@
     const f = fermentById(run.ferment_id);
     if (!f) return run;
     const g = D.fermentGravities(f);
-    const measured = D.num(f.wash_abv);
+    const info = D.fermentABVInfo(f);
     return Object.assign({}, run, {
       ferment_og: g.og != null ? g.og : "",
       ferment_fg: g.fg != null ? g.fg : "",
-      wash_abv: (measured !== null && measured > 0) ? measured : ""
+      // Only a wash ABV we actually trust — a suspect one is left blank so
+      // washABV() falls back to the gravities rather than skewing recovery.
+      wash_abv: info.source === "measured" ? info.measured : ""
     });
   }
 
@@ -1005,8 +1023,8 @@
       const g = D.fermentGravities(f);
       run.ferment_og = g.og != null ? g.og : "";
       run.ferment_fg = g.fg != null ? g.fg : "";
-      const measured = D.num(f.wash_abv);
-      run.wash_abv = (measured !== null && measured > 0) ? measured : "";
+      const info = D.fermentABVInfo(f);
+      run.wash_abv = info.source === "measured" ? info.measured : "";
       run.tilt_sheet_url = f.tilt_sheet_url || "";
       if (run.wash_volume === "" && f.batch_volume) run.wash_volume = f.batch_volume;
     } else {
