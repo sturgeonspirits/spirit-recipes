@@ -3,6 +3,50 @@
 All notable changes to this project are logged here. Each code file also
 carries a one-line version header at the top pointing back to this file.
 
+## v1.22.0 - 2026-08-23
+- **You can create a product recipe again — or rather, for the first time.** The
+  recipe list had no way to add one. `recipe.html` refuses to open without an
+  `?id=`, so every product recipe in the app got there through the seed import
+  or a hand-typed row in the Sheet. The distilling side has had
+  "+ New mash recipe" since v1.3.0; this is the missing other half. The backend
+  action (`add_recipe`) and the client wrapper (`API.addRecipe`) were already
+  there and simply had nothing calling them.
+- **"+ New recipe"** on the recipe list asks for a name and a category, then
+  drops you into the editor to fill in ingredients. The category box suggests
+  the categories already in use, so a flavored spirit files in under the
+  existing Liqueur or Infused Gin rather than starting a near-duplicate group on
+  a typo. A name that already exists asks first.
+- New ids keep the convention already in the sheet — category slug then name
+  slug, `liqueur_raspberry_cordial`, no timestamp — with a numeric suffix only
+  if that id is taken.
+- **Category is editable.** It was drawn as a read-only pill in the ingredients
+  header, so a recipe filed under the wrong category could only be fixed in the
+  Sheet. It's now a field beside the recipe name, with the same suggestions.
+- **Fix: recipes with ingredients still claimed to have none.** Nothing kept
+  `has_detailed_recipe` current — `replace_ingredients` writes the ingredient
+  rows without touching the recipe row — so adding ingredients left the card
+  reading "no ingredients yet" and the recipe hidden from the "With ingredients"
+  filter. Saving now derives the flag from what the recipe actually holds, which
+  also corrects existing rows the next time they're saved.
+
+## v1.21.2 - 2026-08-14
+- **Fix: an impossible wash ABV was shown as fact.** A ferment card read "Wash
+  ABV 19%" next to "OG 1.093 → FG 1.057" — figures that work out to 4.7%. The
+  row had `19` typed into `wash_abv`, and a measured value was trusted
+  unconditionally, so it overrode the gravity math without a word.
+- A typed wash ABV is now sanity-checked against the gravity log. Above ~25% —
+  which fermentation cannot reach, yeast gives out around 20% — or more than
+  half off what the gravities say, it's reported as suspect: the gravity figure
+  is used instead, and the card, the compare table and the editor all name the
+  value being ignored and why. The typed number is left in the field to correct;
+  nothing is silently rewritten.
+- A suspect figure no longer leaks into distillation either — a run copies its
+  ferment's wash ABV only when it's trusted, so proof gallons, LAA and recovery
+  fall back to OG–FG rather than being skewed by it.
+- **A wash that's still fermenting says "ABV so far"** instead of "Wash ABV".
+  There is no final figure yet, and labelling a mid-ferment number as the wash
+  strength is what made the wrong value look plausible in the first place.
+
 ## v1.21.1 - 2026-08-14
 - **Fix: a ferment's summary ignored new readings.** Adding today's gravity moved
   the curve and the day count but left OG → FG, wash ABV and attenuation frozen

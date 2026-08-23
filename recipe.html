@@ -1,3 +1,4 @@
+<!-- v1.22.0 (2026-08-23): Category is editable. Full history: CHANGELOG.md -->
 <!-- v1.20.0 (2026-08-09): Make mode scales to a target batch size. Full history: CHANGELOG.md -->
 <!DOCTYPE html>
 <html lang="en">
@@ -26,6 +27,10 @@
 
   <div class="card">
     <div class="field"><label>Recipe name</label><input type="text" id="f-name" autocomplete="off"></div>
+    <div class="field"><label>Category</label>
+      <input type="text" id="f-category" list="f-category-options" autocomplete="off" placeholder="Liqueur, Infused Gin, Vodka…">
+      <datalist id="f-category-options"></datalist>
+    </div>
   </div>
 
   <div class="abv-hero">
@@ -43,7 +48,7 @@
   <div id="abv-reconcile" class="abv-reconcile" hidden></div>
 
   <div class="card">
-    <h2>Ingredients <span id="f-category" class="category-pill" style="float:right"></span></h2>
+    <h2>Ingredients</h2>
     <div id="ingredients-body" class="ing-list"></div>
     <button class="btn-add" id="add-ingredient">+ Add ingredient</button>
     <p class="hint">Type &amp; Vol.&nbsp;% control how much of each ingredient's measured volume counts toward the finished liquid — dry sugar dissolves to ~53%, strained fruit contributes ~55% (its juice/water), dry powders that stay suspended like cocoa ~25%, herbs and zest ~5%. Leave Vol.&nbsp;% blank to use the type's default. Ingredients measured by weight (g, kg, lb) use a per-gram figure for the type instead, since a weight says nothing about how loosely the stuff was packed.</p>

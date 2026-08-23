@@ -1,3 +1,4 @@
+<!-- v1.22.0 (2026-08-23): Create product recipes from the list. Full history: CHANGELOG.md -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -45,6 +46,7 @@
       <span class="dot"></span>
       Without ingredients
     </label>
+    <button id="new-recipe">+ New recipe</button>
     <button class="secondary" id="export-all">Export CSV</button>
   </div>
 
@@ -54,6 +56,34 @@
     <div class="empty-state">Loading…</div>
   </div>
 </main>
+<!-- New recipe — name + category, then straight into the recipe editor.
+     Reuses the .run-modal styles from the distilling run editor. -->
+<div id="new-recipe-modal" class="run-modal" hidden>
+  <div class="run-modal-card">
+    <div class="run-modal-head">
+      <h2>New recipe</h2>
+      <button type="button" class="ghost" id="new-recipe-close" aria-label="Cancel">&times;</button>
+    </div>
+    <div class="run-modal-body">
+      <div class="field">
+        <label for="new-recipe-name">Recipe name</label>
+        <input type="text" id="new-recipe-name" autocomplete="off" placeholder="e.g. Raspberry Infused Vodka">
+      </div>
+      <div class="field">
+        <label for="new-recipe-category">Category</label>
+        <input type="text" id="new-recipe-category" list="category-options" autocomplete="off" placeholder="Start typing, or pick one">
+        <datalist id="category-options"></datalist>
+      </div>
+      <p class="hint">Pick an existing category so the recipe files in with the rest &mdash; Liqueur, Infused Gin, Vodka. Typing something new starts a new group, so watch the spelling.</p>
+      <p id="new-recipe-error" class="hint" style="color:#b3261e" hidden></p>
+    </div>
+    <div class="run-modal-foot">
+      <button type="button" class="secondary" id="new-recipe-cancel">Cancel</button>
+      <button type="button" id="new-recipe-create">Create recipe</button>
+    </div>
+  </div>
+</div>
+
 <script src="js/config.js"></script>
 <script src="js/auth.js"></script>
 <script src="js/api.js"></script>

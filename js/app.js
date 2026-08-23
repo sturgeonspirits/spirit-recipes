@@ -1,3 +1,4 @@
+// v1.22.0 (2026-08-23): "+ New recipe" — name + category, then into the editor.
 // v1.16.0 (2026-08-02): card ABV badge reads ttb_abv + backend-computed abv_calc. Full history: CHANGELOG.md
 (async function () {
   const listEl = document.getElementById("recipe-rows");
@@ -9,6 +10,13 @@
   const exportAllBtn = document.getElementById("export-all");
   const ingredientsToggle = document.getElementById("ingredients-toggle");
   const noIngredientsToggle = document.getElementById("no-ingredients-toggle");
+  const newBtn = document.getElementById("new-recipe");
+  const newModal = document.getElementById("new-recipe-modal");
+  const newName = document.getElementById("new-recipe-name");
+  const newCategory = document.getElementById("new-recipe-category");
+  const newError = document.getElementById("new-recipe-error");
+  const newCreate = document.getElementById("new-recipe-create");
+  const categoryOptions = document.getElementById("category-options");
 
   if (window.API.demoMode) {
     banner.style.display = "block";
@@ -27,6 +35,9 @@
     const opt = document.createElement("option");
     opt.value = c; opt.textContent = c;
     categoryFilter.appendChild(opt);
+    const dOpt = document.createElement("option");
+    dOpt.value = c;
+    categoryOptions.appendChild(dOpt);
   });
 
   function num(v) {
@@ -114,6 +125,81 @@
   function escapeHTML(s) {
     return String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   }
+
+  // ----- New recipe -----
+  // recipe_id follows the convention already in the sheet: category slug,
+  // then name slug, no timestamp — bitters_lemon, cans_fat_golfer. Readable
+  // ids are worth the collision check, which the loaded list can do for free.
+  function slugify(s) {
+    return String(s).toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_+|_+$/g, "");
+  }
+
+  function makeRecipeId(name, category) {
+    const base = [slugify(category), slugify(name)].filter(Boolean).join("_") || "recipe";
+    const taken = new Set(recipes.map(r => String(r.recipe_id)));
+    if (!taken.has(base)) return base;
+    let n = 2;
+    while (taken.has(base + "_" + n)) n++;
+    return base + "_" + n;
+  }
+
+  function openNewModal() {
+    if (window.API.demoMode) { alert("Demo mode — configure the API URL to add recipes."); return; }
+    newName.value = "";
+    newCategory.value = categoryFilter.value || "";  // carry the active filter through
+    newError.hidden = true;
+    newModal.hidden = false;
+    newName.focus();
+  }
+
+  function closeNewModal() {
+    newModal.hidden = true;
+  }
+
+  async function createRecipe() {
+    const name = newName.value.trim();
+    const category = newCategory.value.trim();
+    if (!name) {
+      newError.textContent = "Give the recipe a name first.";
+      newError.hidden = false;
+      newName.focus();
+      return;
+    }
+    // A duplicate name isn't fatal — the id is made unique either way — but it
+    // is nearly always a second copy of something that already exists.
+    const clash = recipes.find(r => String(r.name).trim().toLowerCase() === name.toLowerCase());
+    if (clash && !confirm('"' + clash.name + '" already exists. Create a second recipe with that name?')) return;
+
+    newCreate.disabled = true;
+    newCreate.textContent = "Creating…";
+    try {
+      const recipeId = makeRecipeId(name, category);
+      const res = await window.API.addRecipe({
+        recipe_id: recipeId,
+        name: name,
+        category: category,
+        has_detailed_recipe: "no"
+      });
+      if (res && res.error) throw new Error(res.error);
+      location.href = "recipe.html?id=" + encodeURIComponent(recipeId);
+    } catch (err) {
+      newError.textContent = "Could not create: " + err.message;
+      newError.hidden = false;
+      newCreate.disabled = false;
+      newCreate.textContent = "Create recipe";
+    }
+  }
+
+  newBtn.addEventListener("click", openNewModal);
+  document.getElementById("new-recipe-close").addEventListener("click", closeNewModal);
+  document.getElementById("new-recipe-cancel").addEventListener("click", closeNewModal);
+  newCreate.addEventListener("click", createRecipe);
+  // Tapping the dimmed backdrop closes it; tapping inside the card must not.
+  newModal.addEventListener("click", e => { if (e.target === newModal) closeNewModal(); });
+  newModal.addEventListener("keydown", e => {
+    if (e.key === "Escape") closeNewModal();
+    if (e.key === "Enter" && !newCreate.disabled) { e.preventDefault(); createRecipe(); }
+  });
 
   search.addEventListener("input", render);
   categoryFilter.addEventListener("change", render);

@@ -1,3 +1,5 @@
+// v1.22.0 (2026-08-23): Category is an editable field, and saving keeps
+// has_detailed_recipe in step with whether the recipe has ingredients.
 // v1.20.0 (2026-08-09): Make mode scales to a target batch size. Full history: CHANGELOG.md
 (async function () {
   const params = new URLSearchParams(location.search);
@@ -42,7 +44,31 @@
     document.getElementById("recipe-title").textContent = v;
     document.title = v + " — Sturgeon Spirits";
   });
-  document.getElementById("f-category").textContent = recipe.category || "";
+  const categoryField = document.getElementById("f-category");
+  categoryField.value = recipe.category || "";
+  // Keep the in-memory recipe in step — the PDF/Word export reads it, not the DOM.
+  categoryField.addEventListener("input", () => { recipe.category = categoryField.value.trim(); });
+
+  // The category suggestions are the categories already in use, fetched the
+  // first time the field is touched. Most visits to this page never edit the
+  // category, and there's no reason to make them all pay for a second read.
+  let categoriesLoaded = false;
+  categoryField.addEventListener("focus", async () => {
+    if (categoriesLoaded) return;
+    categoriesLoaded = true;
+    try {
+      const all = await window.API.getAllRecipes();
+      const list = document.getElementById("f-category-options");
+      Array.from(new Set(all.map(r => r.category).filter(Boolean))).sort().forEach(c => {
+        const opt = document.createElement("option");
+        opt.value = c;
+        list.appendChild(opt);
+      });
+    } catch (err) {
+      // Suggestions are a convenience; typing the category still works without them.
+      categoriesLoaded = false;
+    }
+  });
   document.getElementById("f-batch-size").value = recipe.batch_size || "";
   document.getElementById("f-batch-unit").value = recipe.batch_unit || "";
   document.getElementById("f-notes").value = recipe.notes || "";
@@ -599,6 +625,7 @@
   saveBtn.addEventListener("click", async () => {
     const fields = {
       name: document.getElementById("f-name").value,
+      category: document.getElementById("f-category").value.trim(),
       notes: document.getElementById("f-notes").value,
       batch_size: document.getElementById("f-batch-size").value,
       batch_unit: document.getElementById("f-batch-unit").value,
@@ -615,6 +642,11 @@
       ttb_abv_source: document.getElementById("f-ttb-abv-source").value,
       tested_abv: document.getElementById("f-tested-abv").value,
       tested_date: document.getElementById("f-tested-date").value,
+      // Nothing else keeps this column honest: replace_ingredients writes the
+      // ingredient rows without touching the recipe row, so a recipe that had
+      // ingredients added went on reporting "no ingredients yet" in the list
+      // and hid from the "With ingredients" filter. Derive it on every save.
+      has_detailed_recipe: recipe.ingredients.length ? "yes" : "no",
     };
     saveBtn.disabled = true;
     saveBtn.textContent = "Saving…";
