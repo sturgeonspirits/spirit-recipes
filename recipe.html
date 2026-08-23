@@ -62,7 +62,14 @@
         <div class="grow"><label>New batch size</label>
           <input type="number" id="scale-size" step="any" inputmode="decimal"></div>
         <div class="grow"><label>Unit</label>
-          <input type="text" id="scale-unit" placeholder="same as recipe"></div>
+          <input type="text" id="scale-unit" list="scale-unit-list" autocomplete="off" placeholder="same as recipe">
+          <datalist id="scale-unit-list">
+            <option value="mL"></option><option value="L"></option>
+            <option value="tsp"></option><option value="tbsp"></option>
+            <option value="fl oz"></option><option value="cup"></option>
+            <option value="pt"></option><option value="qt"></option>
+            <option value="gal"></option>
+          </datalist></div>
       </div>
       <div class="tool-divider">or by ingredient</div>
       <div class="tool-row">
@@ -76,6 +83,16 @@
           <span id="scale-factor-label"></span>
           <button type="button" class="secondary" id="scale-clear">Clear</button>
         </div>
+        <div class="make-scaler make-units" id="scale-units-row">
+          <span class="make-scaler-label">Units</span>
+          <div class="make-scaler-btns" id="scale-unit-btns" role="group" aria-label="Display units">
+            <button type="button" data-unit-mode="as-written" class="active">As written</button>
+            <button type="button" data-unit-mode="auto">Auto</button>
+            <button type="button" data-unit-mode="metric">Metric</button>
+            <button type="button" data-unit-mode="us">US</button>
+          </div>
+        </div>
+        <p class="make-units-hint" id="scale-units-hint" hidden>Display only — overwriting keeps the recipe's original units.</p>
         <div id="scale-output" class="scaled-list"></div>
         <div class="scale-apply-row">
           <button type="button" class="secondary" id="scale-write-back">Overwrite recipe with these amounts</button>

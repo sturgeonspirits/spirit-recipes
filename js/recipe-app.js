@@ -1,3 +1,6 @@
+// v1.22.2 (2026-08-23): Scale calculator — a missing batch size no longer
+// reads as a unit problem, a recipe with no batch unit can be given one, and
+// the preview has the same As written/Auto/Metric/US toggle as Make mode.
 // v1.22.0 (2026-08-23): Category is an editable field, and saving keeps
 // has_detailed_recipe in step with whether the recipe has ingredients.
 // v1.20.0 (2026-08-09): Make mode scales to a target batch size. Full history: CHANGELOG.md
@@ -302,7 +305,12 @@
     output: document.getElementById("scale-output"),
     clear: document.getElementById("scale-clear"),
     writeBack: document.getElementById("scale-write-back"),
+    unitBtns: document.getElementById("scale-unit-btns"),
+    unitsHint: document.getElementById("scale-units-hint"),
   };
+  // Display units for the preview list only. Never written back — "Overwrite
+  // recipe" copies the recipe's own units, same rule as Make mode.
+  let scaleUnitMode = "as-written";
   let scaleMode = null;        // "size" | "ingredient" | null
   let lastScaled = null;       // last previewed result, for optional write-back
 
@@ -333,15 +341,41 @@
     if (scaleMode === "size") {
       const size = Number(scaleUI.size.value);
       if (!size || size <= 0) return null;
-      const unit = scaleUI.unit.value.trim() || recipe.batch_unit || "";
-      const cur = window.ABV.toML(recipe.batch_size, recipe.batch_unit);
+      const typedUnit = String(scaleUI.unit.value || "").trim();
+      const recipeUnit = String(recipe.batch_unit || "").trim();
+      const unit = typedUnit || recipeUnit;
+      const curSize = Number(recipe.batch_size);
+
+      // No batch size means there is no ratio to take — nothing about units can
+      // rescue that. The old message blamed units here, which sent you looking
+      // in the wrong place: 8 of the recipes with ingredients have no batch size.
+      if (!curSize) {
+        return { error: "This recipe has no batch size to scale from — set one at the top, or scale by an ingredient below." };
+      }
+
+      // Both sides are real volumes: convert properly. Handles cups → mL, L →
+      // gal and so on.
+      const cur = window.ABV.toML(curSize, recipeUnit);
       const tgt = window.ABV.toML(size, unit);
       if (cur && tgt) return { factor: tgt / cur, size, unit };
-      if (Number(recipe.batch_size) &&
-          String(unit).trim().toLowerCase() === String(recipe.batch_unit || "").trim().toLowerCase()) {
-        return { factor: size / Number(recipe.batch_size), size, unit };
+
+      // The recipe carries no unit of its own (141 recipes don't). Typing one
+      // used to fail outright; read it as naming the unit the recipe was always
+      // in, take the plain ratio, and say so rather than assuming silently.
+      if (!recipeUnit) {
+        return {
+          factor: size / curSize, size, unit,
+          note: typedUnit ? `Taking the recipe's ${fmtAmt(curSize)} as ${typedUnit}.` : ""
+        };
       }
-      return { error: "Units must match the recipe's batch unit or both be convertible volumes (mL, oz, gal…)." };
+
+      // Same unit on both sides, including one that isn't a volume ("each",
+      // "parts") — a plain ratio is still right.
+      if (!typedUnit || recipeUnit.toLowerCase() === typedUnit.toLowerCase()) {
+        return { factor: size / curSize, size, unit };
+      }
+
+      return { error: `Can't convert ${typedUnit} to the recipe's ${recipeUnit}. Use the same unit, or a volume unit on both sides (mL, L, cups, fl oz, qt, gal).` };
     }
     if (scaleMode === "ingredient") {
       const ing = recipe.ingredients[Number(scaleUI.ingSel.value)];
@@ -371,7 +405,7 @@
     const batchStr = scaled.batch_size
       ? `${fmtAmt(scaled.batch_size)}${scaled.batch_unit ? " " + scaled.batch_unit : ""}` : "—";
     scaleUI.factorLabel.textContent =
-      `×${fmtAmt(res.factor)} — batch: ${batchStr}`;
+      `×${fmtAmt(res.factor)} — batch: ${batchStr}` + (res.note ? ` · ${res.note}` : "");
 
     scaleUI.output.innerHTML = "";
     scaled.ingredients.forEach(ing => {
@@ -381,13 +415,36 @@
       name.textContent = ing.name || "—";
       const amt = document.createElement("span");
       amt.className = "amt";
-      amt.textContent = `${fmtAmt(ing.amount)}${ing.unit ? " " + ing.unit : ""}`;
+      amt.textContent = scaledAmountText(ing.amount, ing.unit);
       row.append(name, amt);
       scaleUI.output.appendChild(row);
     });
+    scaleUI.unitsHint.hidden = scaleUnitMode === "as-written";
     scaleUI.writeBack.disabled = false;
     scaleUI.result.hidden = false;
   }
+
+  // One scaled amount as text, in whichever display units are selected. A
+  // weight (g, lb) or a countable ("each") isn't a volume, so UNITS leaves it
+  // alone and it shows as written — the toggle only moves what can move.
+  function scaledAmountText(amount, unit) {
+    const asWritten = `${fmtAmt(amount)}${unit ? " " + unit : ""}`;
+    if (scaleUnitMode === "as-written" || !window.UNITS || !window.UNITS.isConvertible(unit)) {
+      return asWritten;
+    }
+    const r = window.UNITS.convert(amount, unit, scaleUnitMode);
+    if (!r || r.text === "") return asWritten;
+    return r.unit ? `${r.text} ${r.unit}` : r.text;
+  }
+
+  scaleUI.unitBtns.addEventListener("click", e => {
+    const btn = e.target.closest("button[data-unit-mode]");
+    if (!btn) return;
+    scaleUnitMode = btn.dataset.unitMode;
+    Array.from(scaleUI.unitBtns.querySelectorAll("button")).forEach(b =>
+      b.classList.toggle("active", b.dataset.unitMode === scaleUnitMode));
+    renderScalePreview();
+  });
 
   function clearScaleCalc() {
     scaleMode = null;

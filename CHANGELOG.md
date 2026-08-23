@@ -3,6 +3,25 @@
 All notable changes to this project are logged here. Each code file also
 carries a one-line version header at the top pointing back to this file.
 
+## v1.22.2 - 2026-08-23
+- **Fix: the scale calculator returned nothing on recipes with no batch size.**
+  Typing a target size produced an empty list and the message "Units must match
+  the recipe's batch unit…" — which was never the problem. Without a batch size
+  there is no ratio to take, and no unit fixes that. It now says so, and points
+  at the by-ingredient mode, which works with no batch size at all.
+- **Fix: a recipe with no batch unit couldn't be given one.** 141 recipes carry
+  a batch size with no unit. Typing a unit into the scale box failed outright,
+  because the conversion needed a unit on both sides. A typed unit is now read
+  as naming the unit the recipe was always in — the preview takes the plain
+  ratio and says "Taking the recipe's 1000 as mL" rather than assuming silently.
+- A wrong pairing names both sides: "Can't convert lb to the recipe's mL"
+  instead of a generic complaint.
+- **The unit box suggests units** (mL, L, tsp, tbsp, fl oz, cup, pt, qt, gal),
+  the same list Make mode offers.
+- **The preview has Make mode's As written / Auto / Metric / US toggle.**
+  Display only — "Overwrite recipe with these amounts" still writes the
+  recipe's own units, so previewing in metric can't quietly re-unit the recipe.
+
 ## v1.22.1 - 2026-08-23
 - **Dried fruit is its own ingredient type.** Dried figs typed as "Fruit
   (strained)" — 0.60 mL/g — because `fig` is in the fruit pattern and nothing
