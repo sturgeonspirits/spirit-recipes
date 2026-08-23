@@ -3,6 +3,23 @@
 All notable changes to this project are logged here. Each code file also
 carries a one-line version header at the top pointing back to this file.
 
+## v1.22.1 - 2026-08-23
+- **Dried fruit is its own ingredient type.** Dried figs typed as "Fruit
+  (strained)" — 0.60 mL/g — because `fig` is in the fruit pattern and nothing
+  looked at the word "dried". That factor describes fresh fruit giving up its
+  juice: fresh figs are ~79% water, dried are ~30%, and in a maceration they
+  rehydrate and soak up spirit that leaves with the solids. The new type uses
+  0.10 mL/g (6% by volume) — the conservative side of "contributes nothing".
+  500 g of figs now counts for 50 mL instead of 300 mL.
+- `dried`, `dehydrated`, `sun-dried` and `freeze-dried` in front of a fruit
+  select it automatically, as do raisins, sultanas, prunes and dates, which are
+  never sold any other way. Currants are deliberately left as fresh fruit —
+  blackcurrant is a real liqueur ingredient.
+- The test sits **after** the botanical test, so "Dried Lemon Peel" and
+  "Oranges (peeled, dehydrated)" stay herb/zest. A peel is a peel however it
+  was dried, and those are the bitters ingredients this would otherwise have
+  re-typed.
+
 ## v1.22.0 - 2026-08-23
 - **You can create a product recipe again — or rather, for the first time.** The
   recipe list had no way to add one. `recipe.html` refuses to open without an

@@ -1,3 +1,5 @@
+// v1.22.1 (2026-08-23): + a "Dried fruit" type — dried fruit has no juice to
+// give and soaks up spirit instead, so the strained-fruit factor overstated it.
 // v1.19.0 (2026-08-02): weighed ingredients count toward volume (mL/gram per type).
 // v1.16.0: + solveAddDiluent and the 27 CFR 5.37(b) label tolerance check.
 //
@@ -60,6 +62,7 @@ window.ABV = (function () {
     liquid:    { label: "Liquid",              factor: 1,    mlPerGram: 1.00 },
     sugar:     { label: "Sugar (dry)",         factor: 0.53, mlPerGram: 0.63 },
     fruit:     { label: "Fruit (strained)",    factor: 0.55, mlPerGram: 0.60 },
+    driedfruit:{ label: "Dried fruit",          factor: 0.06, mlPerGram: 0.10 },
     powder:    { label: "Dry powder",          factor: 0.25, mlPerGram: 0.71 },
     botanical: { label: "Herb / spice / zest", factor: 0.05, mlPerGram: 0.02 },
   };
@@ -82,6 +85,19 @@ window.ABV = (function () {
   // anything with "coffee" or "tea" in the name.
   const SOLUBLE_RE = /\b(instant|soluble|powdered)\b[^,]*\b(coffee|espresso|tea|chicory)\b|\b(coffee|espresso|tea|chicory)\b[^,]*\b(powder|crystals|granules)\b/i;
   const FRUIT_RE = /cherr|berr|fruit|orange|lemon|lime|grape|apple|peach|plum|apricot|mango|pineapple|banana|melon|pear|\bfig|date|raisin|currant|rhubarb/i;
+  // Dried fruit is not strained fruit. Fresh figs are ~79% water and give it up
+  // as juice; dried figs are ~30% water, and in a maceration they rehydrate —
+  // soaking up spirit that then leaves with the solids. Net contribution to the
+  // finished volume is near nothing, and arguably negative. 0.10 mL/g is the
+  // conservative side of that: a little leached sugar and water, roughly
+  // cancelled by what the fruit keeps. By volume that's 149 g/cup of dried figs
+  // x 0.10 = ~15 mL of the 237 mL measured, i.e. 6% — same arithmetic as
+  // sugar's 53% and cocoa's 25%.
+  const DRIED_RE = /\b(dried|dehydrated|sun-?dried|freeze-?dried)\b/i;
+  // Fruit that is sold dried by default, where the name never says "dried".
+  // Currants are left out on purpose — fresh blackcurrant is a real liqueur
+  // ingredient, so that one stays ambiguous and reads as fresh fruit.
+  const ALWAYS_DRIED_FRUIT_RE = /\braisins?\b|\bsultanas?\b|\bprunes?\b|\bdates?\b/i;
 
   // Best-guess type from the ingredient's name (order matters: "orange juice"
   // is a liquid and "orange peel" a botanical before "orange" reads as fruit).
@@ -98,6 +114,12 @@ window.ABV = (function () {
     // powder" — the powder form is what decides how much volume it contributes.
     if (POWDER_RE.test(n)) return "powder";
     if (SUGAR_RE.test(n)) return "sugar";
+    // Dried fruit sits AFTER the botanical test on purpose: "dried lemon peel"
+    // and "oranges (peeled, dehydrated)" are botanicals, because a peel is a
+    // peel however it was dried. Only something that reads as the fruit itself
+    // gets here.
+    if (ALWAYS_DRIED_FRUIT_RE.test(n)) return "driedfruit";
+    if (DRIED_RE.test(n) && FRUIT_RE.test(n)) return "driedfruit";
     if (FRUIT_RE.test(n)) return "fruit";
     return "liquid";
   }
